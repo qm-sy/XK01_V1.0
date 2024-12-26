@@ -60,8 +60,7 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, TFT_RESET_Pin|IR2_Pin|LEVEL_L_Pin|LEVEL_H_Pin
                           |LED4_Pin|LED3_Pin|LED2_Pin|LED1_Pin
-                          |AC_OUT1_Pin|AC_OUT2_Pin|AC_OUT3_Pin|AC_OUT4_Pin
-                          |PWM1_Pin|PWM2_Pin|PWM3_Pin, GPIO_PIN_RESET);
+                          |AC_OUT1_Pin|AC_OUT2_Pin|AC_OUT3_Pin|AC_OUT4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin */
   GPIO_InitStruct.Pin = DR_485_Pin|OUT_24V_Pin|BUZZER_Pin|LED_Pin;
@@ -81,12 +80,10 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : PBPin PBPin PBPin PBPin
                            PBPin PBPin PBPin PBPin
-                           PBPin PBPin PBPin PBPin
-                           PBPin PBPin PBPin */
+                           PBPin PBPin PBPin PBPin */
   GPIO_InitStruct.Pin = TFT_RESET_Pin|IR2_Pin|LEVEL_L_Pin|LEVEL_H_Pin
                           |LED4_Pin|LED3_Pin|LED2_Pin|LED1_Pin
-                          |AC_OUT1_Pin|AC_OUT2_Pin|AC_OUT3_Pin|AC_OUT4_Pin
-                          |PWM1_Pin|PWM2_Pin|PWM3_Pin;
+                          |AC_OUT1_Pin|AC_OUT2_Pin|AC_OUT3_Pin|AC_OUT4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

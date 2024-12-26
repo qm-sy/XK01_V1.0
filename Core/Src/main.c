@@ -20,6 +20,7 @@
 #include "main.h"
 #include "adc.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -93,8 +94,12 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI1_Init();
   MX_USART2_UART_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
+  htim4.Instance->CCR2 = 500;
+  htim4.Instance->CCR3 = 500;
+  htim4.Instance->CCR4 = 500;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,7 +107,20 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    for(int i = 0;i<3;i++)
+      {
+        HAL_ADC_Start(&hadc1);     //启动ADC转换
+        HAL_ADC_PollForConversion(&hadc1, 50);   //等待转换完成，50为最大等待时间，单位为ms
+        if(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC))
+        {
+            ADC_VAL[i] = HAL_ADC_GetValue(&hadc1);   //获取AD值
+            printf("PA%d Reading : %d \r\n",i+1,ADC_VAL[i]);
+            printf("PA%d  True Voltage value : %.4f \r\n",i+1,ADC_VAL[i]*3.3f/4096);
+        }   
+      }
+      printf("------------\r\n");
+      
+      HAL_Delay(1500);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

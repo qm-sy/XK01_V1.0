@@ -4,6 +4,7 @@
 "..\output\gpio.o"
 "..\output\adc.o"
 "..\output\spi.o"
+"..\output\tim.o"
 "..\output\usart.o"
 "..\output\stm32f1xx_it.o"
 "..\output\stm32f1xx_hal_msp.o"
