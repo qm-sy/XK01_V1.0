@@ -106,9 +106,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-  temp_crl();
-  pwm_crl(500,500,500);
-  HAL_Delay(1500);
+//  temp_crl();
+//  pwm_crl(500,500,500);
+//  HAL_Delay(1500);
+//    HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_11);
+//    HAL_Delay(1500);
+      
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
