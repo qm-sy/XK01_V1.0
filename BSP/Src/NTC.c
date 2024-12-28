@@ -1,6 +1,6 @@
 #include "NTC.h"
 
-uint16_t MF5D_NTC[166] = {
+uint16_t MF52E_tab[166] = {
 3952,/*-40*/    3945,/*-39*/    3938,/*-38*/    3929,/*-37*/    3920,/*-36*/
 3910,/*-35*/    3900,/*-34*/    3888,/*-33*/    3876,/*-32*/    3864,/*-31*/
 3850,/*-30*/    3836,/*-29*/    3821,/*-28*/    3805,/*-27*/    3789,/*-26*/
@@ -35,4 +35,48 @@ uint16_t MF5D_NTC[166] = {
 173,/*115*/    	168,/*116*/    	164,/*117*/    	160,/*118*/    	155,/*119*/
 151,/*120*/    	147,/*121*/    	143,/*122*/    	140,/*123*/    	136,/*124*/
 132 /*125*/    												
+};
+
+uint8_t *get_temp( void )
+{
+    static uint8_t temp[4];
+    uint16_t adc_val[7] = {0};
+    uint16_t temp1_adc = 0;
+    uint16_t temp2_adc = 0;
+    uint16_t temp3_adc = 0;
+    uint16_t temp4_adc = 0;
+
+    /* 1, 取10次adc_val                           */
+    for( uint8_t t = 0; t < 10; t++ )
+		{
+			Get_ADC12bitResult(adc_val);
+            temp1_adc = temp1_adc + adc_val[3];
+            temp2_adc = temp2_adc + adc_val[4];
+            temp3_adc = temp3_adc + adc_val[5];
+            temp4_adc = temp4_adc + adc_val[6];
+		}	       
+    temp1_adc = temp1_adc / 10;
+    temp2_adc = temp2_adc / 10;
+    temp3_adc = temp3_adc / 10;
+    temp4_adc = temp4_adc / 10;
+
+    /* 2, 查表，找到对应温度值                     */
+    temp[0] = LookupTable( MF52E_tab, 166, temp1_adc );
+    temp[1] = LookupTable( MF52E_tab, 166, temp2_adc );
+    temp[2] = LookupTable( MF52E_tab, 166, temp3_adc );
+    temp[3] = LookupTable( MF52E_tab, 166, temp4_adc );
+
+    return temp;
+}
+    
+uint8_t LookupTable( uint16_t *temp_tab, uint8_t tab_num, uint16_t adc_val )
+{
+    uint8_t	temp_val = 0;
+
+    for( uint8_t i = 0; i < (tab_num-1); i++ )
+    {
+        if(( adc_val >= temp_tab[i] ) && ( adc_val < temp_tab[i+1]) )
+        temp_val = i;	
+    }
+    return temp_val;
 }

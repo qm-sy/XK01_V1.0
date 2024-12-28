@@ -28,7 +28,11 @@
 "..\output\system_stm32f1xx.o"
 "..\output\gui.o"
 "..\output\st7789v2.o"
+"..\output\ntc.o"
+"..\output\pwm_crl.o"
+"..\output\rs485.o"
 "..\output\display.o"
+"..\output\temp.o"
 --library_type=microlib --strict --scatter "..\Output\XK01_V1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -3,6 +3,11 @@
         "main.h": "c",
         "stm32f1xx_hal.h": "c",
         "ntc.h": "c",
-        "adc.h": "c"
+        "adc.h": "c",
+        "sys.h": "c",
+        "temp.h": "c",
+        "pwm_crl.h": "c",
+        "spi.h": "c",
+        "st7789v2.h": "c"
     }
 }
