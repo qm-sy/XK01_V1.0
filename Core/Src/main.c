@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -95,6 +96,7 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   MX_TIM4_Init();
+  MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
   
@@ -109,10 +111,28 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
- 
+
     /* USER CODE BEGIN 3 */
-    LCD_Clear(BROWN);
-    HAL_Delay(2000);
+	LCD_Clear(YELLOW);
+	LCD_Clear(GREEN);
+	LCD_Clear(YELLOW);
+	LCD_Clear(GREEN);
+	LCD_Clear(YELLOW);
+	LCD_Clear(GREEN);
+	LCD_Clear(YELLOW);
+	LCD_Clear(GREEN);
+	LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!");
+	LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!");		
+	LCD_ShowString(5, 50+32, 240, 32, 32, "Baifeng");		
+	HAL_Delay(1500);
+	LCD_Clear(YELLOW);		
+	LCD_Draw_Circle(120, 120, 100);
+	LCD_Draw_Circle(120, 120, 80);		
+	LCD_Draw_Circle(120, 120, 60);
+	LCD_Draw_Circle(120, 120, 40);			
+	LCD_Draw_Circle(120, 120, 20);
+	LCD_Draw_Circle(120, 120, 1);	
+	HAL_Delay(1500);
 
   } 
   /* USER CODE END 3 */

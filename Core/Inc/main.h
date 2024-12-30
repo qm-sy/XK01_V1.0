@@ -28,8 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
-
-/* Private includes ----------------------------------------------------------*/
+#include "sys.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -75,10 +74,10 @@ void Error_Handler(void);
 #define TEMP_GPIO_Port GPIOA
 #define TFT_SCK_Pin GPIO_PIN_5
 #define TFT_SCK_GPIO_Port GPIOA
-#define TFT_SDI_Pin GPIO_PIN_6
-#define TFT_SDI_GPIO_Port GPIOA
-#define IN_24V_Pin GPIO_PIN_7
+#define IN_24V_Pin GPIO_PIN_6
 #define IN_24V_GPIO_Port GPIOA
+#define TFT_SDI_Pin GPIO_PIN_7
+#define TFT_SDI_GPIO_Port GPIOA
 #define TFT_DC_Pin GPIO_PIN_4
 #define TFT_DC_GPIO_Port GPIOC
 #define TFT_CS_Pin GPIO_PIN_5

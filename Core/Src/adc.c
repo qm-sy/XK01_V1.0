@@ -67,7 +67,7 @@ void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_7;
+  sConfig.Channel = ADC_CHANNEL_6;
   sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -145,7 +145,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     PC2     ------> ADC1_IN12
     PC3     ------> ADC1_IN13
     PA4     ------> ADC1_IN4
-    PA7     ------> ADC1_IN7
+    PA6     ------> ADC1_IN6
     PB1     ------> ADC1_IN9
     */
     GPIO_InitStruct.Pin = NTC1_Pin|NTC2_Pin|NTC3_Pin|NTC4_Pin;
@@ -186,7 +186,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     PC2     ------> ADC1_IN12
     PC3     ------> ADC1_IN13
     PA4     ------> ADC1_IN4
-    PA7     ------> ADC1_IN7
+    PA6     ------> ADC1_IN6
     PB1     ------> ADC1_IN9
     */
     HAL_GPIO_DeInit(GPIOC, NTC1_Pin|NTC2_Pin|NTC3_Pin|NTC4_Pin);
@@ -210,10 +210,10 @@ void Get_ADC12bitResult( uint16_t *adc_val )
         {
             HAL_ADC_Start(&hadc1);     //启动ADC转换
 
-            HAL_ADC_PollForConversion(&hadc1, 50);   //等待转换完成�?50为最大等待时间，单位为ms
+            HAL_ADC_PollForConversion(&hadc1, 50);   //等待转换完成�?50为最大等待时间，单位为ms
             if(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC))
             {
-                adc_val[i] = HAL_ADC_GetValue(&hadc1);   //获取AD�?
+                adc_val[i] = HAL_ADC_GetValue(&hadc1);   //获取AD�?
             }   
         }
 }
