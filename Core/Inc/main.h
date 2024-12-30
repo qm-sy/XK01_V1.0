@@ -73,10 +73,10 @@ void Error_Handler(void);
 #define RX_485_GPIO_Port GPIOA
 #define TEMP_Pin GPIO_PIN_4
 #define TEMP_GPIO_Port GPIOA
-#define SPI1_SCK_Pin GPIO_PIN_5
-#define SPI1_SCK_GPIO_Port GPIOA
-#define SPI1_SDI_Pin GPIO_PIN_6
-#define SPI1_SDI_GPIO_Port GPIOA
+#define TFT_SCK_Pin GPIO_PIN_5
+#define TFT_SCK_GPIO_Port GPIOA
+#define TFT_SDI_Pin GPIO_PIN_6
+#define TFT_SDI_GPIO_Port GPIOA
 #define IN_24V_Pin GPIO_PIN_7
 #define IN_24V_GPIO_Port GPIOA
 #define TFT_DC_Pin GPIO_PIN_4

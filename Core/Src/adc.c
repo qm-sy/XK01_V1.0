@@ -210,10 +210,10 @@ void Get_ADC12bitResult( uint16_t *adc_val )
         {
             HAL_ADC_Start(&hadc1);     //启动ADC转换
 
-            HAL_ADC_PollForConversion(&hadc1, 50);   //等待转换完成，50为最大等待时间，单位为ms
+            HAL_ADC_PollForConversion(&hadc1, 50);   //等待转换完成�?50为最大等待时间，单位为ms
             if(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC))
             {
-                adc_val[i] = HAL_ADC_GetValue(&hadc1);   //获取AD值
+                adc_val[i] = HAL_ADC_GetValue(&hadc1);   //获取AD�?
             }   
         }
 }

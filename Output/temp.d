@@ -1,6 +1,6 @@
 ..\output\temp.o: ..\Emembed\Src\temp.c
-..\output\temp.o: ..\Emembed\Inc\temp.h
-..\output\temp.o: ..\BSP\Inc\NTC.h
+..\output\temp.o: ../Emembed/Inc/temp.h
+..\output\temp.o: ../BSP/Inc/NTC.h
 ..\output\temp.o: ../Core/Inc/adc.h
 ..\output\temp.o: ../Core/Inc/main.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
@@ -30,10 +30,9 @@
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\temp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-..\output\temp.o: ..\SYSTEM\sys.h
+..\output\temp.o: ../SYSTEM/sys.h
 ..\output\temp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\temp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

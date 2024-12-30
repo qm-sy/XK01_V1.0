@@ -19,15 +19,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#include "temp.h"
-#include "PWM_CRL.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "temp.h"
+#include "PWM_CRL.h"
+#include "ST7789V2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -93,12 +93,15 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
-  MX_SPI1_Init();
   MX_USART2_UART_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
+  
+  LCD_Init();
 
+  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
+	HAL_Delay(1500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,14 +109,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-//  temp_crl();
-//  pwm_crl(500,500,500);
-//  HAL_Delay(1500);
-//    HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_11);
-//    HAL_Delay(1500);
-      
+ 
     /* USER CODE BEGIN 3 */
-  }
+    LCD_Clear(BROWN);
+    HAL_Delay(2000);
+
+  } 
   /* USER CODE END 3 */
 }
 
@@ -164,7 +165,26 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+/*
+  * @brief 重定向c库函数printf到USARTx
+  * @retval None
+*/
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+    return ch;
+}
 
+/**
+  * @brief 重定向c库函数getchar,scanf到USARTx
+  * @retval None
+  */
+int fgetc(FILE *f)
+{
+    uint8_t ch = 0;
+    HAL_UART_Receive(&huart1, &ch, 1, 0xffff);
+    return ch;
+}
 /* USER CODE END 4 */
 
 /**

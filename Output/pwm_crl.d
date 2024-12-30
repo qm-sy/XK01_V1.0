@@ -1,5 +1,5 @@
 ..\output\pwm_crl.o: ..\BSP\Src\PWM_CRL.c
-..\output\pwm_crl.o: ..\BSP\Inc\PWM_CRL.h
+..\output\pwm_crl.o: ../BSP/Inc/PWM_CRL.h
 ..\output\pwm_crl.o: ../Core/Inc/tim.h
 ..\output\pwm_crl.o: ../Core/Inc/main.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
@@ -29,10 +29,9 @@
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\pwm_crl.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-..\output\pwm_crl.o: ..\SYSTEM\sys.h
+..\output\pwm_crl.o: ../SYSTEM/sys.h
 ..\output\pwm_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\pwm_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

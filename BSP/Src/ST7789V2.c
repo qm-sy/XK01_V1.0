@@ -1,5 +1,5 @@
 #include "ST7789V2.h" 
-#include "spi.h"
+
    
 //管理LCD重要参数
 //默认为竖屏
@@ -8,6 +8,22 @@ _lcd_dev lcddev;
 //画笔颜色,背景颜色
 uint16_t POINT_COLOR = 0x0000,BACK_COLOR = 0xFFFF;  
 uint16_t DeviceCode;	 
+
+void SPIv_WriteData(uint8_t Data)
+{
+    uint8_t i=0;
+    for( i = 8; i > 0; i-- ) 
+    { 
+		if( Data & 0x80 )        
+			LCD_SDA_SET; //输出数据
+		else 
+			LCD_SDA_CLR;
+
+		LCD_SCL_CLR;       
+		LCD_SCL_SET;
+		Data<<=1; 
+    }
+}
 
 /*****************************************************************************
  * @name       :void LCD_WR_REG(uint8_t data)
@@ -18,10 +34,10 @@ uint16_t DeviceCode;
 ******************************************************************************/
 void LCD_WR_REG(uint8_t data)
 { 
-   LCD_CS_CLR;     
-	 LCD_RS_CLR;	  
-   SPIv_WriteData(data);
-   LCD_CS_SET;	
+	LCD_CS_CLR;     
+	LCD_RS_CLR;	  
+	SPIv_WriteData(data);
+	LCD_CS_SET;	
 }
 
 /*****************************************************************************
@@ -33,10 +49,10 @@ void LCD_WR_REG(uint8_t data)
 ******************************************************************************/
 void LCD_WR_DATA(uint8_t data)
 {
-   LCD_CS_CLR;
-	 LCD_RS_SET;
-   SPIv_WriteData(data);
-   LCD_CS_SET;
+	LCD_CS_CLR;
+	LCD_RS_SET;
+	SPIv_WriteData(data);
+	LCD_CS_SET;
 }
 
 /*****************************************************************************
@@ -90,7 +106,7 @@ void Lcd_WriteData_16Bit(uint16_t Data)
 ******************************************************************************/	
 void LCD_DrawPoint(uint16_t x,uint16_t y)
 {
-	LCD_SetCursor(x,y);//���ù��λ�� 
+	LCD_SetCursor(x,y);		//设置光标位置 
 	Lcd_WriteData_16Bit(POINT_COLOR); 
 }
 
@@ -117,28 +133,28 @@ void LCD_Clear(uint16_t Color)
 	 LCD_CS_SET;
 } 
 
-/*****************************************************************************
- * @name       :void LCD_GPIOInit(void)
- * @date       :2018-08-09 
- * @function   :Initialization LCD screen GPIO
- * @parameters :None
- * @retvalue   :None
-******************************************************************************/	
-void LCD_GPIOInit(void)
-{
-    GPIO_InitTypeDef  GPIO_InitStructure;
+// /*****************************************************************************
+//  * @name       :void LCD_GPIOInit(void)
+//  * @date       :2018-08-09 
+//  * @function   :Initialization LCD screen GPIO
+//  * @parameters :None
+//  * @retvalue   :None
+// ******************************************************************************/	
+// void LCD_GPIOInit(void)
+// {
+//     GPIO_InitTypeDef  GPIO_InitStructure;
           
-    RCC_APB2PeriphClockCmd(RCC_LCD1|RCC_LCD2 ,ENABLE);
+//     RCC_APB2PeriphClockCmd(RCC_LCD1|RCC_LCD2 ,ENABLE);
     
-    GPIO_InitStructure.GPIO_Pin =   GPIO_LCD_SCL|GPIO_LCD_SDA|GPIO_LCD_BLK;
-    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;//�������ģʽ
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+//     GPIO_InitStructure.GPIO_Pin =   SPI1_SCK_Pin|SPI1_SDI_Pin|GPIO_LCD_BLK;
+//     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_PP;		//推挽输出模式
+//     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//     GPIO_Init(GPIOA, &GPIO_InitStructure);
     
-    GPIO_InitStructure.GPIO_Pin = GPIO_LCD_DC|GPIO_LCD_RES|GPIO_LCD_CS;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;//�������ģʽ
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-}
+//     GPIO_InitStructure.GPIO_Pin = GPIO_LCD_DC|GPIO_LCD_RES|GPIO_LCD_CS;
+//     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		//推挽输出模式
+//     GPIO_Init(GPIOB, &GPIO_InitStructure);
+// }
 
 /*****************************************************************************
  * @name       :void LCD_RESET(void)
@@ -150,9 +166,9 @@ void LCD_GPIOInit(void)
 void LCD_RESET(void)
 {
 	LCD_RST_CLR;
-	delay_ms(100);	
+	HAL_Delay(100);	
 	LCD_RST_SET;
-	delay_ms(50);
+	HAL_Delay(50);
 }
 
 /*****************************************************************************
@@ -164,80 +180,10 @@ void LCD_RESET(void)
 ******************************************************************************/	 	 
 void LCD_Init(void)
 {  
-	LCD_GPIOInit();//LCD GPIO��ʼ��	
- 	LCD_RESET(); //LCD ��λ
-//************* ILI9488��ʼ��**********//	
-//	LCD_WR_REG(0XF7);
-//	LCD_WR_DATA(0xA9);
-//	LCD_WR_DATA(0x51);
-//	LCD_WR_DATA(0x2C);
-//	LCD_WR_DATA(0x82);
-//	LCD_WR_REG(0xC0);
-//	LCD_WR_DATA(0x11);
-//	LCD_WR_DATA(0x09);
-//	LCD_WR_REG(0xC1);
-//	LCD_WR_DATA(0x41);
-//	LCD_WR_REG(0XC5);
-//	LCD_WR_DATA(0x00);
-//	LCD_WR_DATA(0x0A);
-//	LCD_WR_DATA(0x80);
-//	LCD_WR_REG(0xB1);
-//	LCD_WR_DATA(0xB0);
-//	LCD_WR_DATA(0x11);
-//	LCD_WR_REG(0xB4);
-//	LCD_WR_DATA(0x02);
-//	LCD_WR_REG(0xB6);
-//	LCD_WR_DATA(0x02);
-//	LCD_WR_DATA(0x42);
-//	LCD_WR_REG(0xB7);
-//	LCD_WR_DATA(0xc6);
-//	LCD_WR_REG(0xBE);
-//	LCD_WR_DATA(0x00);
-//	LCD_WR_DATA(0x04);
-//	LCD_WR_REG(0xE9);
-//	LCD_WR_DATA(0x00);
-//	LCD_WR_REG(0x36);
-//	LCD_WR_DATA((1<<3)|(0<<7)|(1<<6)|(1<<5));
-//	LCD_WR_REG(0x3A);
-//	LCD_WR_DATA(0x66);
-//	LCD_WR_REG(0xE0);
-//	LCD_WR_DATA(0x00);
-//	LCD_WR_DATA(0x07);
-//	LCD_WR_DATA(0x10);
-//	LCD_WR_DATA(0x09);
-//	LCD_WR_DATA(0x17);
-//	LCD_WR_DATA(0x0B);
-//	LCD_WR_DATA(0x41);
-//	LCD_WR_DATA(0x89);
-//	LCD_WR_DATA(0x4B);
-//	LCD_WR_DATA(0x0A);
-//	LCD_WR_DATA(0x0C);
-//	LCD_WR_DATA(0x0E);
-//	LCD_WR_DATA(0x18);
-//	LCD_WR_DATA(0x1B);
-//	LCD_WR_DATA(0x0F);
-//	LCD_WR_REG(0XE1);
-//	LCD_WR_DATA(0x00);
-//	LCD_WR_DATA(0x17);
-//	LCD_WR_DATA(0x1A);
-//	LCD_WR_DATA(0x04);
-//	LCD_WR_DATA(0x0E);
-//	LCD_WR_DATA(0x06);
-//	LCD_WR_DATA(0x2F);
-//	LCD_WR_DATA(0x45);
-//	LCD_WR_DATA(0x43);
-//	LCD_WR_DATA(0x02);
-//	LCD_WR_DATA(0x0A);
-//	LCD_WR_DATA(0x09);
-//	LCD_WR_DATA(0x32);
-//	LCD_WR_DATA(0x36);
-//	LCD_WR_DATA(0x0F);
-//	LCD_WR_REG(0x11);
-//	delay_ms(120);
-//	LCD_WR_REG(0x29);
-	
-    
-    	LCD_WR_REG(0x36); 
+	// LCD_GPIOInit();//LCD GPIO初始化	
+ 	LCD_RESET(); //LCD 复位
+//************* ST7789V2初始化 **********//	
+	LCD_WR_REG(0x36); 
 	LCD_WR_DATA(0x00);
 
 	LCD_WR_REG(0x3A); 
@@ -268,7 +214,7 @@ void LCD_Init(void)
 	LCD_WR_REG(0xC4);
 	LCD_WR_DATA(0x20);  
 
-	LCD_WR_REG(0xC6);//ˢ����
+	LCD_WR_REG(0xC6);	//刷新率
 	LCD_WR_DATA(0x0F);    
 
 	LCD_WR_REG(0xD0); 
@@ -310,14 +256,13 @@ void LCD_Init(void)
 	LCD_WR_REG(0x21); 
 
 	LCD_WR_REG(0x11); 
-	for(int i =0;i<5000;i++)__NOP();//��ʱ
+	for(int i =0;i<5000;i++)__NOP();	//延时
 
 	LCD_WR_REG(0x29); 
 
 
-    LCD_direction(USE_HORIZONTAL);//����LCD��ʾ����
-	LCD_LED_SET;//��������	 
-	LCD_Clear(BLUE);//��ȫ����ɫ
+    LCD_direction(USE_HORIZONTAL);//设置LCD显示方向
+	LCD_Clear(BLUE);//清全屏白色
 }
  
 /*****************************************************************************

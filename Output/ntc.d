@@ -1,5 +1,5 @@
 ..\output\ntc.o: ..\BSP\Src\NTC.c
-..\output\ntc.o: ..\BSP\Inc\NTC.h
+..\output\ntc.o: ../BSP/Inc/NTC.h
 ..\output\ntc.o: ../Core/Inc/adc.h
 ..\output\ntc.o: ../Core/Inc/main.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
@@ -29,10 +29,9 @@
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
-..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\ntc.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-..\output\ntc.o: ..\SYSTEM\sys.h
+..\output\ntc.o: ../SYSTEM/sys.h
 ..\output\ntc.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\ntc.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
