@@ -177,7 +177,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 /* USER CODE BEGIN 1 */
 void Get_ADC12bitResult( uint16_t *adc_val )	
 {
-    for(int i = 0;i<7;i++)
+    for(int i = 0;i<5;i++)
         {
             HAL_ADC_Start(&hadc1);     //启动ADC转换
 
