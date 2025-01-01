@@ -36,4 +36,3 @@
 ..\output\ntc.o: ../SYSTEM/sys.h
 ..\output\ntc.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\ntc.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\ntc.o: ../SYSTEM/sys.h

@@ -35,4 +35,3 @@
 ..\output\adc.o: ../SYSTEM/sys.h
 ..\output\adc.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\adc.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\adc.o: ../SYSTEM/sys.h

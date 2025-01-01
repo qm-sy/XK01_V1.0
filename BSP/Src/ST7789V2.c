@@ -16,7 +16,7 @@
 #include "Hzlib.h" 
 
 #include "stm32f1xx_hal.h"
-
+#include "SPI_Flash_w25q64.h"
 
 
 
@@ -88,6 +88,11 @@ uint16_t	BACK_COLOR 	= BLACK;	//背景颜色	默认为白色
 static void LCD_SPI_Send(uint8_t *data, uint16_t size)
 {
 	SPI1_WriteByte(data, size);
+}
+
+static void LCD_SPI2_Send(uint8_t *data, uint16_t size)
+{
+	SPI2_WriteByte(data, size);
 }
 
 
@@ -665,6 +670,8 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
  */
 void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *p)
 {
+    
+
     if(x + width > LCD_Width || y + height > LCD_Height)
     {
         return;
@@ -675,7 +682,7 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, con
     LCD_DC(1);
 
 	if(width * height*2>65535)
-	{
+	{   
 		LCD_SPI_Send((uint8_t *)p, 65535);
 		LCD_SPI_Send((uint8_t *)(p+65535), width*height*2-65535);
 	}

@@ -31,11 +31,10 @@
 ..\output\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+..\output\main.o: ../Core/Inc/adc.h
 ..\output\main.o: ../SYSTEM/sys.h
 ..\output\main.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\main.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\main.o: ../Core/Inc/adc.h
-..\output\main.o: ../SYSTEM/sys.h
 ..\output\main.o: ../Core/Inc/spi.h
 ..\output\main.o: ../Core/Inc/tim.h
 ..\output\main.o: ../Core/Inc/usart.h
@@ -46,3 +45,6 @@
 ..\output\main.o: ../SYSTEM/sys.h
 ..\output\main.o: ../BSP/Inc/ST7789V2.h
 ..\output\main.o: ../SYSTEM/sys.h
+..\output\main.o: ../BSP/Inc/SPI_Flash_w25q64.h
+..\output\main.o: ../SYSTEM/sys.h
+..\output\main.o: ../BSP/Inc/pic.h

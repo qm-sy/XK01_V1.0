@@ -9,6 +9,8 @@
         "pwm_crl.h": "c",
         "spi.h": "c",
         "st7789v2.h": "c",
-        "font.h": "c"
+        "font.h": "c",
+        "W25Q64.C": "cpp",
+        "spi_flash_w25q64.h": "c"
     }
 }

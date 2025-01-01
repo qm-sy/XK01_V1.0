@@ -29,6 +29,8 @@
 #include "temp.h"
 #include "PWM_CRL.h"
 #include "ST7789V2.h"
+#include "SPI_Flash_w25q64.h"
+#include "pic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -77,33 +79,37 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+	SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART1_UART_Init();
-  MX_ADC1_Init();
-  MX_USART2_UART_Init();
-  MX_TIM4_Init();
-  MX_SPI1_Init();
+	MX_GPIO_Init();
+	MX_USART1_UART_Init();
+	MX_ADC1_Init();
+	MX_USART2_UART_Init();
+	MX_TIM4_Init();
+	MX_SPI1_Init();
+	MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
+  // HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
   
-  LCD_Init();
+	LCD_Init();
 
-  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
-	HAL_Delay(1500);
+  // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
+	// HAL_Delay(1500);
+
+ // W25Q64_Test();
+    printf("========= code start ========= \r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -133,7 +139,7 @@ int main(void)
 	LCD_Draw_Circle(120, 120, 20);
 	LCD_Draw_Circle(120, 120, 1);	
 	HAL_Delay(1500);
-
+  
   } 
   /* USER CODE END 3 */
 }
@@ -162,6 +168,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  
 
   /** Initializes the CPU, AHB and APB buses clocks
   */

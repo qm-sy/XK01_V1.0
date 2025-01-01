@@ -36,4 +36,3 @@
 ..\output\pwm_crl.o: ../SYSTEM/sys.h
 ..\output\pwm_crl.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\pwm_crl.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\pwm_crl.o: ../SYSTEM/sys.h

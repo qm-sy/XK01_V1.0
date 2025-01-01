@@ -37,7 +37,8 @@
 ..\output\st7789v2.o: ../BSP/Inc/font.h
 ..\output\st7789v2.o: ../Core/Inc/spi.h
 ..\output\st7789v2.o: ../Core/Inc/main.h
-..\output\st7789v2.o: ../SYSTEM/sys.h
 ..\output\st7789v2.o: ../Core/Inc/gpio.h
 ..\output\st7789v2.o: ../BSP/Inc/Hzlib.h
 ..\output\st7789v2.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\string.h
+..\output\st7789v2.o: ../BSP/Inc/SPI_Flash_w25q64.h
+..\output\st7789v2.o: ../SYSTEM/sys.h

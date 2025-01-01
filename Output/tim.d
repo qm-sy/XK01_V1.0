@@ -32,6 +32,3 @@
 ..\output\tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-..\output\tim.o: ../SYSTEM/sys.h
-..\output\tim.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
-..\output\tim.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
