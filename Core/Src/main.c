@@ -31,6 +31,7 @@
 #include "ST7789V2.h"
 #include "SPI_Flash_w25q64.h"
 #include "pic.h"
+#include "sys.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,7 +74,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	uint16_t chip_id;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -101,9 +102,11 @@ int main(void)
 	MX_SPI1_Init();
 	MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-   HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
+	HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
   
 	LCD_Init();
+
+	chip_id = W25X_ReadID();
 
   // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
 	// HAL_Delay(1500);
@@ -119,6 +122,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//	LCD_Show_Image(0, 0, 120, 160,1);
+//	LCD_Show_Image(120, 0, 120, 160,2);
+//	LCD_Show_Image(0, 160, 120, 160,3);
+//	LCD_Show_Image(120, 160, 120, 160,4);
     LCD_Clear(YELLOW);
     LCD_Clear(GREEN);
     LCD_Clear(YELLOW);
@@ -129,7 +136,7 @@ int main(void)
     LCD_Clear(GREEN);
     LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!");
     LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!");		
-    LCD_ShowString(5, 50+32, 240, 32, 32, "Baifeng");		
+    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!");		
     HAL_Delay(1500);
     LCD_Clear(YELLOW);		
     LCD_Draw_Circle(120, 120, 100);

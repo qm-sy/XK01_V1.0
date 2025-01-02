@@ -60,14 +60,14 @@ uint8_t *get_temp( void )
     temp3_adc = (uint16_t)(temp3_adc / 10);
     temp4_adc = (uint16_t)(temp4_adc / 10);
 
-    printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp1_adc,temp2_adc,temp3_adc,temp4_adc);
+    //printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp1_adc,temp2_adc,temp3_adc,temp4_adc);
     /* 2, 查表，找到对应温度值                     */
     temp[0] = LookupTable( MF52E_tab, 166, temp1_adc );
     temp[1] = LookupTable( MF52E_tab, 166, temp2_adc );
     temp[2] = LookupTable( MF52E_tab, 166, temp3_adc );
     temp[3] = LookupTable( MF52E_tab, 166, temp4_adc );
 
-    printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp[0],temp[1],temp[2],temp[3]);
+    //printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp[0],temp[1],temp[2],temp[3]);
     return temp;
 }
     
@@ -83,7 +83,7 @@ uint8_t LookupTable( uint16_t *temp_tab, uint8_t tab_num, uint16_t adc_val )
             if( adc_val < temp_tab[i+1]) 
             {
                 temp_val = i;
-                printf("here \r\n");
+                //printf("here \r\n");
             }
         } 	
     }

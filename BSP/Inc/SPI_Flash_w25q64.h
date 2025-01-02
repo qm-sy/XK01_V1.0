@@ -8,6 +8,20 @@
 #define pic_2           (uint32_t)pic_1+pic_size
 #define pic_3           (uint32_t)pic_2+pic_size
 #define pic_4           (uint32_t)pic_3+pic_size
+
+/**
+ * @brief 读取芯片ID
+ *
+ * @param 
+ * 
+ * @return : 0XEF13 - 表示芯片型号为W25Q80
+ *           0XEF14 - 表示芯片型号为W25Q16    
+ *           0XEF15 - 表示芯片型号为W25Q32  
+ *           0XEF16 - 表示芯片型号为W25Q64 
+ * 
+**/  
+uint16_t W25X_ReadID(void);
+
 /**
  * @brief W25Q64的初始化函数
  *

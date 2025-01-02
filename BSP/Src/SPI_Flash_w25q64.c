@@ -21,7 +21,7 @@ static SPI_HandleTypeDef *g_HSPI_Flash = &hspi2;
 /**
  * @brief 选中W25Q64
  *
- * @param[in]  
+ * @param  
  * 
  * @return  
  * 
@@ -34,7 +34,7 @@ static void W25Q64_Select(void)
 /**
  * @brief 不选中W25Q64
  *
- * @param[in]  
+ * @param  
  * 
  * @return  
  * 
@@ -47,10 +47,10 @@ static void W25Q64_Deselect(void)
 /**
  * @brief 使用SPI发送/接收数据(注意这个函数没有设置片选信号)
  *
- * @param[in] pTxData: 要发送的数据
- * @param[in] pRxData: 接收缓冲区
- * @param[in] Size:    数据长度
- * @param[in] Timeout: 超时时间(单位ms)
+ * @param pTxData: 要发送的数据
+ * @param pRxData: 接收缓冲区
+ * @param Size:    数据长度
+ * @param Timeout: 超时时间(单位ms)
  * 
  * @return : 0 - 成功, 1 - 失败
  * 
@@ -66,9 +66,9 @@ static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint3
 /**
  * @brief 使用SPI发送数据(注意这个函数没有设置片选信号)
  *
- * @param[in] pTxData: 要发送的数据
- * @param[in] Size:    数据长度
- * @param[in] Timeout: 超时时间(单位ms)
+ * @param pTxData: 要发送的数据
+ * @param Size:    数据长度
+ * @param Timeout: 超时时间(单位ms)
  * 
  * @return : 0 - 成功, 1 - 失败
  * 
@@ -84,9 +84,9 @@ static int  W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
 /**
  * @brief 使用SPI读取数据(注意这个函数没有设置片选信号)
  *
- * @param[in] pRxData: 接收缓冲区
- * @param[in] Size:    数据长度
- * @param[in] Timeout: 超时时间(单位ms)
+ * @param pRxData: 接收缓冲区
+ * @param Size:    数据长度
+ * @param Timeout: 超时时间(单位ms)
  * 
  * @return : 0 - 成功, 1 - 失败
  * 
@@ -100,9 +100,42 @@ static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
 }
 
 /**
+ * @brief 读取芯片ID
+ *
+ * @param 
+ * 
+ * @return : 0XEF13 - 表示芯片型号为W25Q80
+ *           0XEF14 - 表示芯片型号为W25Q16    
+ *           0XEF15 - 表示芯片型号为W25Q32  
+ *           0XEF16 - 表示芯片型号为W25Q64 
+ * 
+**/  
+uint16_t W25X_ReadID(void)
+{
+    uint16_t Temp = 0;
+    unsigned char tx_buf[4] = {0x90,0x00,0x00,0x00};
+    unsigned char rx_buf[4] = {0};
+    W25Q64_Select();      
+    W25Q64_TxRx(tx_buf,rx_buf,4,W25Q64_TIMEOUT);  
+    //W25Q64_WaitReady(); 
+    W25Q64_Deselect();
+
+    printf("chip_id is 0x%02x \r\n",rx_buf[0]);
+    printf("chip_id is 0x%02x \r\n",rx_buf[1]);
+    printf("chip_id is 0x%02x \r\n",rx_buf[2]);
+    printf("chip_id is 0x%02x \r\n",rx_buf[3]);
+
+    Temp|= rx_buf[1]<<8;  
+    Temp|= rx_buf[0];  
+
+    return Temp;
+}
+
+
+/**
  * @brief 等待W25Q64就绪
  *
- * @param[in] 
+ * @param 
  * 
  * @return : 0 - 成功, 1 - 失败
  * 
@@ -122,6 +155,8 @@ static int W25Q64_WaitReady(void)
         W25Q64_Select();
 		W25Q64_TxRx(tx_buf, rx_buf, 2, W25Q64_TIMEOUT);
         W25Q64_Deselect();
+        printf("chip_id2 is 0x%02x \r\n",rx_buf[0]);
+        printf("chip_id2 is 0x%02x \r\n",rx_buf[1]);
 		if ((rx_buf[1] & 1) == 0)
 			return 0;
         HAL_Delay(1);
@@ -137,7 +172,7 @@ static int W25Q64_WaitReady(void)
 /**
  * @brief 写使能
  *
- * @param[in] 
+ * @param 
  * 
  * @return : 0 - 成功, 1 - 失败
  * 
@@ -158,7 +193,7 @@ static int W25Q64_WriteEnable(void)
 /**
  * @brief W25Q64的初始化函数
  *
- * @param[in] 
+ * @param 
  * 
  * @return :
  * 
@@ -172,9 +207,9 @@ void W25Q64_Init(void)
 /**
  * @brief W25Q64读函数
  *
- * @param[in] offset:读哪个地址
- * @param[in] buf   :用于保存数据
- * @param[in] len   :读多少字节
+ * @param offset:读哪个地址
+ * @param buf   :用于保存数据
+ * @param len   :读多少字节
  * 
  * @return : 非负数 - 读取了多少字节的数据, (-1) - 失败
  * 
@@ -215,9 +250,9 @@ int W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len)
 /**
  * @brief W25Q64写函数(需要先擦除)
  *
- * @param[in] offset:写哪个地址
- * @param[in] buf   :数据buffer
- * @param[in] len   :写多少字节
+ * @param offset:写哪个地址
+ * @param buf   :数据buffer
+ * @param len   :写多少字节
  * 
  * @return : 非负数 - 读取了多少字节的数据, (-1) - 失败
  * 
@@ -291,8 +326,8 @@ int W25Q64_Write(uint32_t offset, uint8_t *buf, uint32_t len)
 /**
  * @brief W25Q64擦除函数
  *
- * @param[in] offset:擦除哪个地址(4096对齐)
- * @param[in] len   :擦除多少字节(4096对齐)
+ * @param offset:擦除哪个地址(4096对齐)
+ * @param len   :擦除多少字节(4096对齐)
  * 
  * @return : 非负数 - 读取了多少字节的数据, (-1) - 失败
  * 

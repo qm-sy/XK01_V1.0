@@ -15,6 +15,6 @@ void temp_crl( void )
     temp3 = temp[2];
     temp4 = temp[3];
 
-    printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp1,temp2,temp3,temp4);
+    //printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp1,temp2,temp3,temp4);
 
 }

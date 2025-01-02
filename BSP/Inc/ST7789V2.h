@@ -1,14 +1,3 @@
-/********************************************************************************
-    * 文件名称 ：lcd.c
-    * 作     者：LiBaifeng，13104312598（微信同）
-    * 版     本：V1.0
-    * 编写日期 ：2021-8-9
-    * 功     能：LCD屏幕驱动
-*********************************************************************************
-    * 说    明 ：本例程配套基于STM32F072的多功能掌中仪器使用
-    *
-    * 电子森林：https://www.eetree.cn/project/detail/421/
-*********************************************************************************/
 #ifndef __LCD_H
 #define __LCD_H
 #include "stm32f1xx_hal.h"
@@ -71,7 +60,7 @@ void LCD_ShowChar(uint16_t x, uint16_t y, char chr, uint8_t size);										//Di
 void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size);									//Display a number
 void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode);							//Display number
 void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,char *p);					//display string
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *p);					//display picture
+void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,uint8_t pic_num);					//display picture
 void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint8_t mode);
 void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint8_t mode);
 void LCD_ShowMenuOSC(void);

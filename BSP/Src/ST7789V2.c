@@ -1,14 +1,3 @@
-/********************************************************************************
-    * 文件名称 ：lcd.c
-    * 作     者：LiBaifeng，13104312598（微信同）
-    * 版     本：V1.0
-    * 编写日期 ：2021-8-9
-    * 功     能：LCD屏幕驱动
-*********************************************************************************
-    * 说    明 ：本例程配套基于STM32F072的多功能掌中仪器使用
-    *
-    * 电子森林：https://www.eetree.cn/project/detail/421/
-*********************************************************************************/
 #include "ST7789V2.h"
 #include "font.h"
 #include "spi.h"
@@ -29,54 +18,6 @@ uint16_t	BACK_COLOR 	= BLACK;	//背景颜色	默认为白色
 
 
 /**
- * @brief	LCD控制接口初始化
- *
- * @param   void
- *
- * @return  void
- */
-//static void LCD_Gpio_Init(void)
-//{
-//    GPIO_InitTypeDef GPIO_InitStruct;
-
-//    __HAL_RCC_GPIOB_CLK_ENABLE();
-//    __HAL_RCC_GPIOA_CLK_ENABLE();
-
-//    /*
-
-//	LCD_RST:	PB4
-//	LCD_DC:		PA15	
-//    */
-
-//	  GPIO_InitStruct.Pin = GPIO_PIN_4;
-//    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull = GPIO_PULLUP;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-//    HAL_GPIO_WritePin(GPIOB ,GPIO_PIN_4, GPIO_PIN_RESET);
-//	
-//    GPIO_InitStruct.Pin = GPIO_PIN_15;
-//    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//    GPIO_InitStruct.Pull = GPIO_PULLUP;
-//    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-//    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET);
-
-
-
-
-
-
-
-//    LCD_RST(0);
-//    HAL_Delay(12);
-//    LCD_RST(1);
-
-//    //MX_SPI2_Init();	//初始化SPI2接口
-//}
-
-
-/**
  * @brief	LCD底层SPI发送数据函数
  *
  * @param   data	数据的起始地址
@@ -90,10 +31,10 @@ static void LCD_SPI_Send(uint8_t *data, uint16_t size)
 	SPI1_WriteByte(data, size);
 }
 
-static void LCD_SPI2_Send(uint8_t *data, uint16_t size)
-{
-	SPI2_WriteByte(data, size);
-}
+//static void LCD_SPI2_Send(uint8_t *data, uint16_t size)
+//{
+//	SPI2_WriteByte(data, size);
+//}
 
 
 /**
@@ -668,10 +609,10 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
  *
  * @return  void
  */
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *p)
+void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,uint8_t pic_num)
 {
     
-
+    uint8_t buf[4];
     if(x + width > LCD_Width || y + height > LCD_Height)
     {
         return;
@@ -681,15 +622,49 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height, con
 
     LCD_DC(1);
 
-	if(width * height*2>65535)
-	{   
-		LCD_SPI_Send((uint8_t *)p, 65535);
-		LCD_SPI_Send((uint8_t *)(p+65535), width*height*2-65535);
-	}
-	else
-	{
-		LCD_SPI_Send((uint8_t *)p, width * height * 2);
-	}
+	// if(width * height*2>65535)
+	// {   
+	// 	LCD_SPI_Send((uint8_t *)p, 65535);
+	// 	LCD_SPI_Send((uint8_t *)(p+65535), width*height*2-65535);
+	// }
+	// else
+	//{
+    switch (pic_num)
+    {
+    case 1:
+        for(uint32_t i = 0;i<38400;i+=4)
+        {
+            W25Q64_Read(i, buf, 4);
+            LCD_SPI_Send(buf, 4);
+        }
+        break;
+    case 2:
+        for(uint32_t i = 38400;i<76800;i+=4)
+        {
+            W25Q64_Read(i, buf, 4);
+            LCD_SPI_Send(buf, 4);
+        }
+        break;
+    case 3:
+        for(uint32_t i = 76800;i<115200;i+=4)
+        {
+            W25Q64_Read(i, buf, 4);
+            LCD_SPI_Send(buf, 4);
+        }
+        break;
+    case 4:
+        for(uint32_t i = 115200;i<153600;i+=4)
+        {
+            W25Q64_Read(i, buf, 4);
+            LCD_SPI_Send(buf, 4);
+        }
+        break;
+    default:
+        break;
+    }
+
+    
+	//}
 }
 
 
