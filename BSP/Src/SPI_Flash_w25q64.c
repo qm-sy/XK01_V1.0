@@ -52,7 +52,7 @@ static void W25Q64_Deselect(void)
  * @param Size:    数据长度
  * @param Timeout: 超时时间(单位ms)
  * 
- * @return : 0 - 成功, 1 - 失败
+ * @return : 0 - 成功, -1 - 失败
  * 
 **/
 static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
@@ -60,7 +60,7 @@ static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint3
     if (HAL_OK == HAL_SPI_TransmitReceive(g_HSPI_Flash, pTxData, pRxData, Size, Timeout))
         return 0;
     else
-        return 1;
+        return -1;
 }
 
 /**
@@ -70,7 +70,7 @@ static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint3
  * @param Size:    数据长度
  * @param Timeout: 超时时间(单位ms)
  * 
- * @return : 0 - 成功, 1 - 失败
+ * @return : 0 - 成功, -1 - 失败
  * 
 **/
 static int  W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
@@ -78,7 +78,7 @@ static int  W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
     if (HAL_OK == HAL_SPI_Transmit(g_HSPI_Flash, pTxData, Size, Timeout))
         return 0;
     else
-        return 1;
+        return -1;
 }
 
 /**
@@ -88,7 +88,7 @@ static int  W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
  * @param Size:    数据长度
  * @param Timeout: 超时时间(单位ms)
  * 
- * @return : 0 - 成功, 1 - 失败
+ * @return : 0 - 成功, -1 - 失败
  * 
 **/
 static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
@@ -96,7 +96,7 @@ static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
     if (HAL_OK == HAL_SPI_Receive(g_HSPI_Flash, pRxData, Size, Timeout))
         return 0;
     else
-        return 1;
+        return -1;
 }
 
 /**
@@ -113,7 +113,7 @@ static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
 uint16_t W25X_ReadID(void)
 {
     uint16_t Temp = 0;
-    unsigned char tx_buf[4] = {0x90,0x00,0x00,0x00};
+    unsigned char tx_buf[4] = {0x90,0xFF,0xFF,0xFF};
     unsigned char rx_buf[4] = {0};
     W25Q64_Select();      
     W25Q64_TxRx(tx_buf,rx_buf,4,W25Q64_TIMEOUT);  
@@ -137,7 +137,7 @@ uint16_t W25X_ReadID(void)
  *
  * @param 
  * 
- * @return : 0 - 成功, 1 - 失败
+ * @return : 0 - 成功, -1 - 失败
  * 
 **/
 static int W25Q64_WaitReady(void)
@@ -155,8 +155,6 @@ static int W25Q64_WaitReady(void)
         W25Q64_Select();
 		W25Q64_TxRx(tx_buf, rx_buf, 2, W25Q64_TIMEOUT);
         W25Q64_Deselect();
-        printf("chip_id2 is 0x%02x \r\n",rx_buf[0]);
-        printf("chip_id2 is 0x%02x \r\n",rx_buf[1]);
 		if ((rx_buf[1] & 1) == 0)
 			return 0;
         HAL_Delay(1);
@@ -164,7 +162,7 @@ static int W25Q64_WaitReady(void)
 
     if (!timeout)
     {
-    	return 1;
+    	return -1;
     }
 	return 0;
 }
@@ -174,7 +172,7 @@ static int W25Q64_WaitReady(void)
  *
  * @param 
  * 
- * @return : 0 - 成功, 1 - 失败
+ * @return : 0 - 成功, -1 - 失败
  * 
 **/
 static int W25Q64_WriteEnable(void)
@@ -281,6 +279,7 @@ int W25Q64_Write(uint32_t offset, uint8_t *buf, uint32_t len)
         err = W25Q64_WriteEnable();
         if (err)
         {
+            printf("WriteEnable error2 \r\n");
             return -1;
         }
         
@@ -295,6 +294,7 @@ int W25Q64_Write(uint32_t offset, uint8_t *buf, uint32_t len)
         if (err)
         {
             W25Q64_Deselect();
+            printf("send page program error \r\n");
             return -1;
         }
         
@@ -303,6 +303,7 @@ int W25Q64_Write(uint32_t offset, uint8_t *buf, uint32_t len)
         if (err)
         {
             W25Q64_Deselect();
+            printf("send data error \r\n");
             return -1;
         }
         W25Q64_Deselect();
@@ -311,6 +312,7 @@ int W25Q64_Write(uint32_t offset, uint8_t *buf, uint32_t len)
         err = W25Q64_WaitReady();
         if (err)
         {
+            printf("read status error2 \r\n");
             return -1;
         }
 
@@ -347,6 +349,7 @@ int W25Q64_Erase(uint32_t offset, uint32_t len)
         err = W25Q64_WriteEnable();
         if (err)
         {
+            printf("WriteEnable error1 \r\n");
             return -1;
         }
         
@@ -359,6 +362,7 @@ int W25Q64_Erase(uint32_t offset, uint32_t len)
         W25Q64_Tx(tmpbuf, 4, W25Q64_TIMEOUT);
         if (err)
         {
+            printf("Erase cmd error \r\n");
             W25Q64_Deselect();
             return -1;
         }
@@ -370,6 +374,7 @@ int W25Q64_Erase(uint32_t offset, uint32_t len)
         err = W25Q64_WaitReady();
         if (err)
         {
+            printf("read status error1 \r\n");
             return -1;
         }
     }

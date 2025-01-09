@@ -75,38 +75,49 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
 	uint16_t chip_id;
+	uint8_t buf[5] = {0xaa,0xaa,0xaa,0xaa,0xaa};
+	uint8_t buf1[5];
+    uint8_t buf2[1];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-	SystemClock_Config();
+  SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_USART1_UART_Init();
-	MX_ADC1_Init();
-	MX_USART2_UART_Init();
-	MX_TIM4_Init();
-	MX_SPI1_Init();
-	MX_SPI2_Init();
+  MX_GPIO_Init();
+  MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_USART2_UART_Init();
+  MX_TIM4_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
   
 	LCD_Init();
-
-	chip_id = W25X_ReadID();
+    // W25Q64_Read(0x00,buf2,sizeof(buf2));
+	// W25Q64_Erase(0x00,5);
+	// W25Q64_Write(0X00,buf,sizeof(buf));
+	W25Q64_Read(38400,buf1,sizeof(buf1));
+	printf("buf1 is %02x \r\n",buf1[0]);
+	printf("buf1 is %02x \r\n",buf1[1]);
+	printf("buf1 is %02x \r\n",buf1[2]);
+	printf("buf1 is %02x \r\n",buf1[3]);
+	printf("buf1 is %02x \r\n",buf1[4]);
+	//chip_id = W25X_ReadID();
 
   // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
 	// HAL_Delay(1500);
@@ -145,7 +156,7 @@ int main(void)
     LCD_Draw_Circle(120, 120, 40);			
     LCD_Draw_Circle(120, 120, 20);
     LCD_Draw_Circle(120, 120, 1);	
-    temp_crl();
+    //temp_crl();
     HAL_Delay(1500);
   
   } 
@@ -176,7 +187,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  
 
   /** Initializes the CPU, AHB and APB buses clocks
   */
