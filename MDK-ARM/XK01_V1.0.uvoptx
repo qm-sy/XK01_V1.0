@@ -598,8 +598,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\RS485.c</PathWithFileName>
-      <FilenameWithoutPath>RS485.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\HzLib.c</PathWithFileName>
+      <FilenameWithoutPath>HzLib.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -610,8 +610,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\HzLib.c</PathWithFileName>
-      <FilenameWithoutPath>HzLib.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\SPI_Flash_w25q64.c</PathWithFileName>
+      <FilenameWithoutPath>SPI_Flash_w25q64.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -622,8 +622,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\SPI_Flash_w25q64.c</PathWithFileName>
-      <FilenameWithoutPath>SPI_Flash_w25q64.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\Modbus_RTU.c</PathWithFileName>
+      <FilenameWithoutPath>Modbus_RTU.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

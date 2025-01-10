@@ -866,11 +866,6 @@
               <FilePath>..\BSP\Src\PWM_CRL.c</FilePath>
             </File>
             <File>
-              <FileName>RS485.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Src\RS485.c</FilePath>
-            </File>
-            <File>
               <FileName>HzLib.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\HzLib.c</FilePath>
@@ -879,6 +874,11 @@
               <FileName>SPI_Flash_w25q64.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\SPI_Flash_w25q64.c</FilePath>
+            </File>
+            <File>
+              <FileName>Modbus_RTU.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\Modbus_RTU.c</FilePath>
             </File>
           </Files>
         </Group>

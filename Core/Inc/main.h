@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "sys.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -67,6 +67,7 @@ void Error_Handler(void);
 #define NTC4_GPIO_Port GPIOC
 #define DR_485_Pin GPIO_PIN_1
 #define DR_485_GPIO_Port GPIOA
+
 #define TX_485_Pin GPIO_PIN_2
 #define TX_485_GPIO_Port GPIOA
 #define RX_485_Pin GPIO_PIN_3
@@ -139,6 +140,9 @@ void Error_Handler(void);
 #define PWM3_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+
+#define RS485_TX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_RESET)
+#define RS485_RX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_SET)
 
 /* USER CODE END Private defines */
 

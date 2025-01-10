@@ -31,3 +31,6 @@
 ..\output\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+..\output\stm32f1xx_hal_msp.o: ../SYSTEM/sys.h
+..\output\stm32f1xx_hal_msp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\stm32f1xx_hal_msp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

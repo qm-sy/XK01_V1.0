@@ -35,3 +35,4 @@
 ..\output\spi.o: ../SYSTEM/sys.h
 ..\output\spi.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\spi.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\spi.o: ../SYSTEM/sys.h

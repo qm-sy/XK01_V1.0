@@ -32,6 +32,8 @@
 #include "SPI_Flash_w25q64.h"
 #include "pic.h"
 #include "sys.h"
+#include "Modbus_RTU.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,7 +65,41 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if ( htim->Instance == htim6.Instance ) 
+	{
+		if( modbus.timrun != 0 )//运�?�时间�????=0表明
+		{
+			modbus.timout++;
+			if( modbus.timout >=8 )
+			{
+				modbus.timrun = 0;
 
+				modbus.reflag = 1;	//接收标志清零
+			}
+		}
+	}
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if( huart->Instance == USART2)
+    {
+        if ( modbus.reflag == 1 )
+        {
+            return;
+        }
+		modbus.rcbuf[modbus.recount++] = (uint8_t)(huart2.Instance->DR & 0x00FF);
+		modbus.timout = 0;
+		if( modbus.recount == 1 )
+		{
+			modbus.timrun = 1;
+		}
+
+		HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
+    }
+}
 /* USER CODE END 0 */
 
 /**
@@ -74,10 +110,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	uint16_t chip_id;
-	uint8_t buf[5] = {0xaa,0xaa,0xaa,0xaa,0xaa};
-	uint8_t buf1[5];
-    uint8_t buf2[1];
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -104,19 +137,19 @@ int main(void)
   MX_TIM4_Init();
   MX_SPI1_Init();
   MX_SPI2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
-  
+	HAL_TIM_Base_Start_IT(&htim6);
+	RS485_RX;
+	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
-    // W25Q64_Read(0x00,buf2,sizeof(buf2));
+    modbus.myaddr =  0X32; 
+	modbus.reflag = 0;
+	modbus.recount = 0;
+	// W25Q64_Read(0x00,buf2,sizeof(buf2));
 	// W25Q64_Erase(0x00,5);
 	// W25Q64_Write(0X00,buf,sizeof(buf));
-	W25Q64_Read(38400,buf1,sizeof(buf1));
-	printf("buf1 is %02x \r\n",buf1[0]);
-	printf("buf1 is %02x \r\n",buf1[1]);
-	printf("buf1 is %02x \r\n",buf1[2]);
-	printf("buf1 is %02x \r\n",buf1[3]);
-	printf("buf1 is %02x \r\n",buf1[4]);
 	//chip_id = W25X_ReadID();
 
   // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
@@ -124,6 +157,7 @@ int main(void)
 
  // W25Q64_Test();
     printf("========= code start ========= \r\n");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -133,31 +167,38 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	Modbus_Event();
 //	LCD_Show_Image(0, 0, 120, 160,1);
 //	LCD_Show_Image(120, 0, 120, 160,2);
 //	LCD_Show_Image(0, 160, 120, 160,3);
 //	LCD_Show_Image(120, 160, 120, 160,4);
-    LCD_Clear(YELLOW);
-    LCD_Clear(GREEN);
-    LCD_Clear(YELLOW);
-    LCD_Clear(GREEN);
-    LCD_Clear(YELLOW);
-    LCD_Clear(GREEN);
-    LCD_Clear(YELLOW);
-    LCD_Clear(GREEN);
-    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!");
-    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!");		
-    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!");		
-    HAL_Delay(1500);
-    LCD_Clear(YELLOW);		
-    LCD_Draw_Circle(120, 120, 100);
-    LCD_Draw_Circle(120, 120, 80);		
-    LCD_Draw_Circle(120, 120, 60);
-    LCD_Draw_Circle(120, 120, 40);			
-    LCD_Draw_Circle(120, 120, 20);
-    LCD_Draw_Circle(120, 120, 1);	
+//    LCD_Clear(YELLOW);
+//    LCD_Clear(GREEN);
+//    LCD_Clear(YELLOW);
+//    LCD_Clear(GREEN);
+//    LCD_Clear(YELLOW);
+//    LCD_Clear(GREEN);
+//    LCD_Clear(YELLOW);
+//    LCD_Clear(GREEN);
+//    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!");
+//    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!");		
+//    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!");		
+//    HAL_Delay(1500);
+//    LCD_Clear(YELLOW);		
+//    LCD_Draw_Circle(120, 120, 100);
+//    LCD_Draw_Circle(120, 120, 80);		
+//    LCD_Draw_Circle(120, 120, 60);
+//    LCD_Draw_Circle(120, 120, 40);			
+//    LCD_Draw_Circle(120, 120, 20);
+//    LCD_Draw_Circle(120, 120, 1);	
     //temp_crl();
-    HAL_Delay(1500);
+    printf("======================\r\n");
+    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);
+    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[1]);
+    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[2]);
+    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[3]);
+	printf(" ===The value1 is %d  ===\r\n",modbus.recount);
+    HAL_Delay(2500);
   
   } 
   /* USER CODE END 3 */
@@ -216,7 +257,7 @@ void SystemClock_Config(void)
 */
 int fputc(int ch, FILE *f)
 {
-    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+    HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xffff);
     return ch;
 }
 
@@ -227,7 +268,7 @@ int fputc(int ch, FILE *f)
 int fgetc(FILE *f)
 {
     uint8_t ch = 0;
-    HAL_UART_Receive(&huart1, &ch, 1, 0xffff);
+    HAL_UART_Receive(&huart2, &ch, 1, 0xffff);
     return ch;
 }
 /* USER CODE END 4 */

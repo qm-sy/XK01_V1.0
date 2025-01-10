@@ -36,5 +36,6 @@
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 ..\output\spi_flash_w25q64.o: ../Core/Inc/tim.h
 ..\output\spi_flash_w25q64.o: ../Core/Inc/main.h
+..\output\spi_flash_w25q64.o: ../SYSTEM/sys.h
 ..\output\spi_flash_w25q64.o: ../Core/Inc/adc.h
 ..\output\spi_flash_w25q64.o: ../SYSTEM/sys.h

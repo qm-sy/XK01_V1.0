@@ -32,3 +32,6 @@
 ..\output\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ..\output\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ..\output\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+..\output\gpio.o: ../SYSTEM/sys.h
+..\output\gpio.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\gpio.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

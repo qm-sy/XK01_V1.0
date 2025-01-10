@@ -37,3 +37,4 @@
 ..\output\temp.o: ../SYSTEM/sys.h
 ..\output\temp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\temp.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\temp.o: ../SYSTEM/sys.h
