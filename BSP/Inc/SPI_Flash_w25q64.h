@@ -3,6 +3,19 @@
 
 #include "sys.h"
 
+/* CS:        PB12
+ * SPI1_MISO: PB14
+ * SPI1_MOSI: PB15
+ * SPI1_SCK:  PB13
+ */
+
+#define W25Q64_CS_GPIO_GROUP GPIOB
+#define W25Q64_CS_GPIO_PIN   GPIO_PIN_12
+#define W25Q64_TIMEOUT       500
+
+#define W25Q64_Select   HAL_GPIO_WritePin(W25Q64_CS_GPIO_GROUP, W25Q64_CS_GPIO_PIN, GPIO_PIN_RESET)
+#define W25Q64_Deselect HAL_GPIO_WritePin(W25Q64_CS_GPIO_GROUP, W25Q64_CS_GPIO_PIN, GPIO_PIN_SET)
+
 #define pic_size        (uint32_t)38400
 #define pic_1           (uint32_t)   0
 #define pic_2           (uint32_t)pic_1+pic_size

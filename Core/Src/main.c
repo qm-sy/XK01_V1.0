@@ -110,7 +110,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	uint8_t buf1[5] = {0xcc,0xcc,0xcc,0xcc,0xcc};
+	uint8_t buf2[5];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -144,12 +145,21 @@ int main(void)
 	RS485_RX;
 	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
-    modbus.myaddr =  0X32; 
+  modbus.myaddr =  0X32; 
 	modbus.reflag = 0;
 	modbus.recount = 0;
-	// W25Q64_Read(0x00,buf2,sizeof(buf2));
-	// W25Q64_Erase(0x00,5);
-	// W25Q64_Write(0X00,buf,sizeof(buf));
+    
+	 W25Q64_Erase(0x00,38400);
+	 W25Q64_Write(0X10,buf1,5);
+
+	 W25Q64_Read(0x10,buf2,5);
+	 W25X_ReadID();
+	 printf(" The value1 is 0x%02x  \r\n",buf2[0]);
+	 printf(" The value1 is 0x%02x  \r\n",buf2[1]);
+	 printf(" The value1 is 0x%02x  \r\n",buf2[2]);
+	 printf(" The value1 is 0x%02x  \r\n",buf2[3]);
+	 printf(" The value1 is 0x%02x  \r\n",buf2[4]);
+
 	//chip_id = W25X_ReadID();
 
   // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
@@ -209,9 +219,9 @@ int main(void)
 	LCD_ShowxNum(80, 280, 001, 3, 32,1,POINT_COLOR,GREEN);	
 	LCD_ShowString(80,200,24,16,16,"qqq",POINT_COLOR,GREEN);
 	//LCD_Show_Image(0,0,240,320,gImage_pic);
-	PutChinese(120,120,"ÇÇ",GREEN,POINT_COLOR);
-	PutChinese_strings(20,180,"ÇÇÃú",GREEN,POINT_COLOR);
-	PutChinese_strings(20,196,"ÉòÑÞ",GREEN,POINT_COLOR);
+	PutChinese(120,120,"ï¿½ï¿½",GREEN,POINT_COLOR);
+	PutChinese_strings(20,180,"ï¿½ï¿½ï¿½ï¿½",GREEN,POINT_COLOR);
+	PutChinese_strings(20,196,"ï¿½ï¿½ï¿½ï¿½",GREEN,POINT_COLOR);
     //temp_crl();
 //    printf("======================\r\n");
 //    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);
