@@ -14,6 +14,7 @@
         "spi_flash_w25q64.h": "c",
         "modbus_rtu.h": "c",
         "usart.h": "c",
-        "stm32f1xx_hal_conf.h": "c"
+        "stm32f1xx_hal_conf.h": "c",
+        "hzlib.h": "c"
     }
 }

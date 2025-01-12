@@ -1,9 +1,9 @@
 ..\output\spi_flash_w25q64.o: ..\BSP\Src\SPI_Flash_w25q64.c
 ..\output\spi_flash_w25q64.o: ../BSP/Inc/SPI_Flash_w25q64.h
 ..\output\spi_flash_w25q64.o: ../SYSTEM/sys.h
-..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\spi_flash_w25q64.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\spi_flash_w25q64.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\spi_flash_w25q64.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\spi_flash_w25q64.o: ../Core/Inc/stm32f1xx_hal_conf.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
@@ -17,7 +17,7 @@
 ..\output\spi_flash_w25q64.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+..\output\spi_flash_w25q64.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stddef.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 ..\output\spi_flash_w25q64.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

@@ -167,7 +167,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	Modbus_Event();
+	//Modbus_Event();
 //	LCD_Show_Image(0, 0, 120, 160,1);
 //	LCD_Show_Image(120, 0, 120, 160,2);
 //	LCD_Show_Image(0, 160, 120, 160,3);
@@ -179,25 +179,46 @@ int main(void)
 //    LCD_Clear(YELLOW);
 //    LCD_Clear(GREEN);
 //    LCD_Clear(YELLOW);
-//    LCD_Clear(GREEN);
-//    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!");
-//    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!");		
-//    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!");		
+    LCD_Clear(GREEN);
+    LCD_DrawLine(0,33,200,33,RED);
+    LCD_DrawLine(0,66,200,66,RED);
+	LCD_DrawLine(0,99,200,99,RED);
+    LCD_DrawLine(0,0,200,33,RED);
+	LCD_DrawLine(0,0,200,66,RED);
+    LCD_DrawLine(0,0,200,99,RED);
+	LCD_DrawRectangle(0,0,200,200,RED);
+//    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!",POINT_COLOR,GREEN);
+    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!",POINT_COLOR,GREEN);		
+//    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!",POINT_COLOR,GREEN);		
 //    HAL_Delay(1500);
 //    LCD_Clear(YELLOW);		
-//    LCD_Draw_Circle(120, 120, 100);
-//    LCD_Draw_Circle(120, 120, 80);		
-//    LCD_Draw_Circle(120, 120, 60);
-//    LCD_Draw_Circle(120, 120, 40);			
-//    LCD_Draw_Circle(120, 120, 20);
-//    LCD_Draw_Circle(120, 120, 1);	
+    LCD_Draw_Circle(120, 120, 100,RED);
+    LCD_Draw_Circle(120, 120, 80,RED);		
+    LCD_Draw_Circle(120, 120, 60,RED);
+    LCD_Draw_Circle(120, 120, 40,RED);			
+    LCD_Draw_Circle(120, 120, 20,RED);
+    LCD_Draw_Circle(120, 120, 1,RED);
+    LCD_ShowChar(220, 50, 'q',12,POINT_COLOR,GREEN);
+	LCD_ShowChar(220, 80, 'm',16,POINT_COLOR,GREEN);
+	LCD_ShowChar(220, 110, 's',24,POINT_COLOR,GREEN);
+	LCD_ShowChar(220, 140, 'y',32,POINT_COLOR,GREEN);
+	LCD_ShowNum(10, 220, 123, 3, 12,POINT_COLOR,GREEN);
+	LCD_ShowNum(10, 240, 456, 3, 16,POINT_COLOR,GREEN);
+	LCD_ShowNum(10, 260, 789, 3, 24,POINT_COLOR,GREEN);
+	LCD_ShowxNum(10, 280, 001, 3, 32,0,POINT_COLOR,GREEN);
+	LCD_ShowxNum(80, 280, 001, 3, 32,1,POINT_COLOR,GREEN);	
+	LCD_ShowString(80,200,24,16,16,"qqq",POINT_COLOR,GREEN);
+	//LCD_Show_Image(0,0,240,320,gImage_pic);
+	PutChinese(120,120,"««",GREEN,POINT_COLOR);
+	PutChinese_strings(20,180,"««√˙",GREEN,POINT_COLOR);
+	PutChinese_strings(20,196,"…Ú—ﬁ",GREEN,POINT_COLOR);
     //temp_crl();
-    printf("======================\r\n");
-    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);
-    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[1]);
-    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[2]);
-    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[3]);
-	printf(" ===The value1 is %d  ===\r\n",modbus.recount);
+//    printf("======================\r\n");
+//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);
+//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[1]);
+//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[2]);
+//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[3]);
+//	printf(" ===The value1 is %d  ===\r\n",modbus.recount);
     HAL_Delay(2500);
   
   } 

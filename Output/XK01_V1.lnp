@@ -30,7 +30,6 @@
 "..\output\st7789v2.o"
 "..\output\ntc.o"
 "..\output\pwm_crl.o"
-"..\output\hzlib.o"
 "..\output\spi_flash_w25q64.o"
 "..\output\modbus_rtu.o"
 "..\output\display.o"

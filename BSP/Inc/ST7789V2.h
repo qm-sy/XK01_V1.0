@@ -2,6 +2,7 @@
 #define __LCD_H
 #include "stm32f1xx_hal.h"
 #include "sys.h"
+
 extern uint16_t	POINT_COLOR;		//Default brush color
 extern uint16_t	BACK_COLOR;		//Default background color
 
@@ -33,41 +34,34 @@ extern uint16_t	BACK_COLOR;		//Default background color
 #define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
 
 
-
 /*
-	
-	LCD_RST:	PB4
-	LCD_DC:		PA15	
+	LCD_RST:	PC4
+	LCD_DC:		PA6	
 */
 
 #define	LCD_RST(n)		(n?HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_RESET))
 #define	LCD_DC(n)		(n?HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,GPIO_PIN_RESET))
 
 
-void LCD_Init(void);																	//Init
-void LCD_DisplayOn(void);																//Open display
-void LCD_DisplayOff(void);																//Close display
-void LCD_Write_HalfWord(const uint16_t da);												//Write half a byte of data to LCD
-void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);				//Setting up the data display area
-void LCD_Clear(uint16_t color);															//Clean screen
-void LCD_Fill(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color);				//Filled monochrome
-void LCD_Draw_Point(uint16_t x, uint16_t y);														//Draw points
-void LCD_Draw_ColorPoint(uint16_t x, uint16_t y,uint16_t color);										//Painting with color dots
-void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);										//Draw line
-void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);									//Draw rectangle
-void LCD_Draw_Circle(uint16_t x0, uint16_t y0, uint8_t r);												//Circle drawing
-void LCD_ShowChar(uint16_t x, uint16_t y, char chr, uint8_t size);										//Display a character
-void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size);									//Display a number
-void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode);							//Display number
-void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,char *p);					//display string
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,uint8_t pic_num);					//display picture
-void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint8_t mode);
-void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint8_t mode);
-void LCD_ShowMenuOSC(void);
-void LCD_ShowMenuSpectrum(void);
-void LCD_ShowMenuPWM(void);
-void LCD_ShowMenuDC(void);
-void LCD_ShowMenuFG(void);
+void LCD_Init(void);																	
+void LCD_DisplayOn(void);																
+void LCD_DisplayOff(void);																
+void LCD_Write_Data_16bit(const uint16_t data);												
+void LCD_Address_Set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);				
+void LCD_Clear(uint16_t color);															
+void LCD_Fill(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color);				
+void LCD_Draw_Point(uint16_t x, uint16_t y);														
+void LCD_Draw_ColorPoint(uint16_t x, uint16_t y,uint16_t color);										
+void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,uint16_t color);								
+void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,uint16_t color);								
+void LCD_Draw_Circle(uint16_t x0, uint16_t y0, uint8_t r,uint16_t color);											
+void LCD_ShowChar(uint16_t x, uint16_t y, char chr, uint8_t size,uint16_t back_color,uint16_t char_color);		
+void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint16_t back_color,uint16_t char_color);		
+void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode,uint16_t back_color,uint16_t char_color);		
+void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,char *p,uint16_t back_color,uint16_t char_color);		
+void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t *p);					
+void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
+void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 
 #endif
 

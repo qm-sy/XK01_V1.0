@@ -67,7 +67,6 @@ void Error_Handler(void);
 #define NTC4_GPIO_Port GPIOC
 #define DR_485_Pin GPIO_PIN_1
 #define DR_485_GPIO_Port GPIOA
-
 #define TX_485_Pin GPIO_PIN_2
 #define TX_485_GPIO_Port GPIOA
 #define RX_485_Pin GPIO_PIN_3
