@@ -6,6 +6,19 @@
 
 extern SPI_HandleTypeDef hspi2;
 static SPI_HandleTypeDef *g_HSPI_Flash = &hspi2;
+volatile uint8_t receive_complete_flag2 = 0;
+
+/******************************************************************************
+function:wait transmit
+******************************************************************************/
+void wait_spi2_dma_receive(void)
+{
+	while(receive_complete_flag2 == 0)
+    {
+
+    }
+	receive_complete_flag2 = 0;
+}
 
 /**
  * @brief 使用SPI发送/接收数据(注意这个函数没有设置片选信号)
@@ -50,6 +63,7 @@ static int W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
     }
 }
 
+
 /**
  * @brief 使用SPI读取数据(注意这个函数没有设置片选信号)
  *
@@ -70,6 +84,28 @@ static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
         return -1;
     }
 }
+
+/**
+ * @brief 使用SPI读取数据(注意这个函数没有设置片选信号)
+ *
+ * @param pRxData: 接收缓冲区
+ * @param Size:    数据长度
+ * @param Timeout: 超时时间(单位ms)
+ * 
+ * @return : 0 - 成功, -1 - 失败
+ * 
+**/
+static int  W25Q64_Rx_DMA(uint8_t *pRxData, uint16_t Size)
+{
+    if (HAL_OK == HAL_SPI_Receive_DMA(&hspi2, pRxData, Size))
+    {
+        return 0;
+    }else
+    {
+        return -1;
+    }
+}
+
 
 /**
  * @brief 读取芯片ID
@@ -187,7 +223,7 @@ void W25Q64_Init(void)
  * @return : 非负数 - 读取了多少字节的数据, (-1) - 失败
  * 
 **/
-int W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len)
+uint32_t W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len)
 {
     unsigned char tmpbuf[4];
     int err;
@@ -205,17 +241,18 @@ int W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len)
     if (err)
     {
         W25Q64_Deselect;
-        return -1;
+        return 1;
     }
 
     /* 读数据 */
-    err = W25Q64_Rx(buf, len, W25Q64_TIMEOUT);
+    err = W25Q64_Rx_DMA(buf, len);
+    wait_spi2_dma_receive();
+    //err = W25Q64_Rx(buf, len, W25Q64_TIMEOUT);
     if (err)
     {
         W25Q64_Deselect;
-        return -1;
+        return 1;
     }
-
     W25Q64_Deselect;    
     return len;
 }

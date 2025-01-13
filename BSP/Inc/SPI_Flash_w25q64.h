@@ -22,6 +22,8 @@
 #define pic_3           (uint32_t)pic_2+pic_size
 #define pic_4           (uint32_t)pic_3+pic_size
 
+extern volatile uint8_t receive_complete_flag2;
+void wait_spi2_dma_receive(void);
 /**
  * @brief 读取芯片ID
  *
@@ -55,7 +57,7 @@ void W25Q64_Init(void);
  * @return : 非负数 - 读取了多少字节的数据, (-1) - 失败
  * 
 **/
-int W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len);
+uint32_t W25Q64_Read(uint32_t offset, uint8_t *buf, uint32_t len);
 
 /**
  * @brief W25Q64写函数(需要先擦除)

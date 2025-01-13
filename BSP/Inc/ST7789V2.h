@@ -5,7 +5,7 @@
 
 extern uint16_t	POINT_COLOR;		//Default brush color
 extern uint16_t	BACK_COLOR;		//Default background color
-
+extern volatile uint8_t transmit_complete_flag1;
 //Width and height definitions of LCD
 #define LCD_Width 	240
 #define LCD_Height 	320
@@ -42,7 +42,7 @@ extern uint16_t	BACK_COLOR;		//Default background color
 #define	LCD_RST(n)		(n?HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOC,GPIO_PIN_4,GPIO_PIN_RESET))
 #define	LCD_DC(n)		(n?HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,GPIO_PIN_RESET))
 
-
+void wait_dma_transmit(void);
 void LCD_Init(void);																	
 void LCD_DisplayOn(void);																
 void LCD_DisplayOff(void);																
@@ -59,7 +59,7 @@ void LCD_ShowChar(uint16_t x, uint16_t y, char chr, uint8_t size,uint16_t back_c
 void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint16_t back_color,uint16_t char_color);		
 void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode,uint16_t back_color,uint16_t char_color);		
 void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,char *p,uint16_t back_color,uint16_t char_color);		
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t *p);					
+void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height);					
 void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 

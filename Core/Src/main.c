@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -100,6 +101,26 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
     }
 }
+
+/******************************************************************************
+function:transmit_complete_callback
+******************************************************************************/
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if( hspi->Instance == SPI1 )
+	{
+		transmit_complete_flag1 = 1;
+	}
+}
+
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if( hspi->Instance == SPI2)
+	{
+		receive_complete_flag2 = 1;
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -110,8 +131,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	uint8_t buf1[5] = {0xcc,0xcc,0xcc,0xcc,0xcc};
-	uint8_t buf2[5];
+//	uint8_t buf1[5] = {0xcc,0xcc,0xcc,0xcc,0xcc};
+//	uint8_t buf2[5];
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -132,6 +153,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
   MX_USART2_UART_Init();
@@ -149,16 +171,17 @@ int main(void)
 	modbus.reflag = 0;
 	modbus.recount = 0;
     
-	 W25Q64_Erase(0x00,38400);
-	 W25Q64_Write(0X10,buf1,5);
+	//W25Q64_Erase(0x00,153600);
+	W25Q64_Write(115200,pic4,38400);
 
-	 W25Q64_Read(0x10,buf2,5);
+	 //W25Q64_Read(0x00,buf2,5);
+   //HAL_UART_Transmit_DMA(&huart2,buf2,5);
 	 W25X_ReadID();
-	 printf(" The value1 is 0x%02x  \r\n",buf2[0]);
-	 printf(" The value1 is 0x%02x  \r\n",buf2[1]);
-	 printf(" The value1 is 0x%02x  \r\n",buf2[2]);
-	 printf(" The value1 is 0x%02x  \r\n",buf2[3]);
-	 printf(" The value1 is 0x%02x  \r\n",buf2[4]);
+//	 printf(" The value1 is 0x%02x  \r\n",buf2[0]);
+//	 printf(" The value1 is 0x%02x  \r\n",buf2[1]);
+//	 printf(" The value1 is 0x%02x  \r\n",buf2[2]);
+//	 printf(" The value1 is 0x%02x  \r\n",buf2[3]);
+//	 printf(" The value1 is 0x%02x  \r\n",buf2[4]);
 
 	//chip_id = W25X_ReadID();
 
@@ -198,7 +221,7 @@ int main(void)
     LCD_DrawLine(0,0,200,99,RED);
 	LCD_DrawRectangle(0,0,200,200,RED);
 //    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!",POINT_COLOR,GREEN);
-    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!",POINT_COLOR,GREEN);		
+//    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!",POINT_COLOR,GREEN);		
 //    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!",POINT_COLOR,GREEN);		
 //    HAL_Delay(1500);
 //    LCD_Clear(YELLOW);		
@@ -208,20 +231,20 @@ int main(void)
     LCD_Draw_Circle(120, 120, 40,RED);			
     LCD_Draw_Circle(120, 120, 20,RED);
     LCD_Draw_Circle(120, 120, 1,RED);
-    LCD_ShowChar(220, 50, 'q',12,POINT_COLOR,GREEN);
-	LCD_ShowChar(220, 80, 'm',16,POINT_COLOR,GREEN);
-	LCD_ShowChar(220, 110, 's',24,POINT_COLOR,GREEN);
-	LCD_ShowChar(220, 140, 'y',32,POINT_COLOR,GREEN);
-	LCD_ShowNum(10, 220, 123, 3, 12,POINT_COLOR,GREEN);
-	LCD_ShowNum(10, 240, 456, 3, 16,POINT_COLOR,GREEN);
-	LCD_ShowNum(10, 260, 789, 3, 24,POINT_COLOR,GREEN);
-	LCD_ShowxNum(10, 280, 001, 3, 32,0,POINT_COLOR,GREEN);
-	LCD_ShowxNum(80, 280, 001, 3, 32,1,POINT_COLOR,GREEN);	
-	LCD_ShowString(80,200,24,16,16,"qqq",POINT_COLOR,GREEN);
-	//LCD_Show_Image(0,0,240,320,gImage_pic);
-	PutChinese(120,120,"��",GREEN,POINT_COLOR);
-	PutChinese_strings(20,180,"����",GREEN,POINT_COLOR);
-	PutChinese_strings(20,196,"����",GREEN,POINT_COLOR);
+  //   LCD_ShowChar(220, 50, 'q',12,POINT_COLOR,GREEN);
+	// LCD_ShowChar(220, 80, 'm',16,POINT_COLOR,GREEN);
+	// LCD_ShowChar(220, 110, 's',24,POINT_COLOR,GREEN);
+	// LCD_ShowChar(220, 140, 'y',32,POINT_COLOR,GREEN);
+	// LCD_ShowNum(10, 220, 123, 3, 12,POINT_COLOR,GREEN);
+	// LCD_ShowNum(10, 240, 456, 3, 16,POINT_COLOR,GREEN);
+	// LCD_ShowNum(10, 260, 789, 3, 24,POINT_COLOR,GREEN);
+	// LCD_ShowxNum(10, 280, 001, 3, 32,0,POINT_COLOR,GREEN);
+	// LCD_ShowxNum(80, 280, 001, 3, 32,1,POINT_COLOR,GREEN);	
+	// LCD_ShowString(80,200,24,16,16,"qqq",POINT_COLOR,GREEN);
+  	LCD_Show_Image(0,0,240,320);
+	// PutChinese(120,120,"��",GREEN,POINT_COLOR);
+	// PutChinese_strings(20,180,"��",GREEN,POINT_COLOR);
+	// PutChinese_strings(20,196,"��",GREEN,POINT_COLOR);
     //temp_crl();
 //    printf("======================\r\n");
 //    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);

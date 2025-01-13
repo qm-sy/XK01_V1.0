@@ -11,11 +11,26 @@
 
 #define LCD_TOTAL_BUF_SIZE	(240*320*2)
 #define LCD_Buf_Size 1536
+
 static uint8_t lcd_buf[LCD_Buf_Size];
+volatile uint8_t transmit_complete_flag1 = 0;
 
 uint16_t	POINT_COLOR = WHITE;	//画笔颜色	默认为黑色
 uint16_t	BACK_COLOR 	= BLACK;	//背景颜色	默认为白色
 
+
+
+/******************************************************************************
+function:wait transmit
+******************************************************************************/
+void wait_spi1_dma_transmit(void)
+{
+	while(transmit_complete_flag1 == 0)
+    {
+
+    }
+	transmit_complete_flag1 = 0;
+}
 
 /**
  * @brief	LCD底层SPI发送数据函数
@@ -29,6 +44,20 @@ uint16_t	BACK_COLOR 	= BLACK;	//背景颜色	默认为白色
 static void LCD_SPI_Send(uint8_t *data, uint16_t size)
 {
 	SPI1_WriteByte(data, size);
+}
+
+/**
+ * @brief	LCD底层SPI发送数据函数--DMA
+ *
+ * @param   data	数据的起始地址
+ * @param   size	发送数据大小
+ *
+ * @return  void
+ */
+
+static void LCD_SPI_Send_DMA(uint8_t *data, uint16_t size)
+{
+	SPI1_WriteByte_DMA(data, size);
 }
 
 //static void LCD_SPI2_Send(uint8_t *data, uint16_t size)
@@ -662,10 +691,11 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
  *
  * @return  void
  */
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t *p)
+void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
     
-    //uint8_t buf[4];
+    uint8_t buf[255];
+    //HAL_StatusTypeDef status ;
     if(x + width > LCD_Width || y + height > LCD_Height)
     {
         return;
@@ -674,52 +704,29 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height,cons
     LCD_Address_Set(x, y, x + width - 1, y + height - 1);
 
     LCD_DC(1);
-
-	if(width * height*2>65535)
-	{   
-		LCD_SPI_Send((uint8_t *)p, 65535);
-        LCD_SPI_Send((uint8_t *)(p+65535), 65535);
-		LCD_SPI_Send((uint8_t *)(p+65535*2), width*height*2-65535);
-	}
-	else
-	{
-        LCD_SPI_Send((uint8_t *)p, width * height*2);
+	// if(width * height*2>65535)
+	// {   
+	// 	LCD_SPI_Send_DMA((uint8_t *)p, 65535);
+    //     wait_spi1_dma_transmit();
+    //     //status = HAL_SPI_Receive_DMA(&hspi, p, sizeof(rxBuffer), HAL_MAX_DELAY);
+    //     LCD_SPI_Send_DMA((uint8_t *)(p+65535), 65535);
+    //     wait_spi1_dma_transmit();
+	// 	LCD_SPI_Send_DMA((uint8_t *)(p+65535*2), width*height*2-65535);
+    //     wait_spi1_dma_transmit();
+	// }
+	// else
+	// {
+        //LCD_SPI_Send_DMA((uint8_t *)p, width * height*2);
     // switch (pic_num)
     // {
     // case 1:
-    //     for(uint32_t i = 0;i<38400;i+=4)
-    //     {
-    //         W25Q64_Read(i, buf, 4);
-    //         LCD_SPI_Send(buf, 4);
-    //     }
-    //     break;
-    // case 2:
-    //     for(uint32_t i = 38400;i<76800;i+=4)
-    //     {
-    //         W25Q64_Read(i, buf, 4);
-    //         LCD_SPI_Send(buf, 4);
-    //     }
-    //     break;
-    // case 3:
-    //     for(uint32_t i = 76800;i<115200;i+=4)
-    //     {
-    //         W25Q64_Read(i, buf, 4);
-    //         LCD_SPI_Send(buf, 4);
-    //     }
-    //     break;
-    // case 4:
-    //     for(uint32_t i = 115200;i<153600;i+=4)
-    //     {
-    //         W25Q64_Read(i, buf, 4);
-    //         LCD_SPI_Send(buf, 4);
-    //     }
-    //     break;
-    // default:
-    //     break;
-    // }
 
-    
-	}
+    for (uint32_t i = 0; i < 153600; i+=255)
+    {
+        W25Q64_Read(i, buf, 255);
+        LCD_SPI_Send_DMA(buf, 255);
+    }
+
 }
 
 
