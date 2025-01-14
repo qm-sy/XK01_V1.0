@@ -694,7 +694,7 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
 void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 {
     
-    uint8_t buf[255];
+    uint8_t buf[240];
     //HAL_StatusTypeDef status ;
     if(x + width > LCD_Width || y + height > LCD_Height)
     {
@@ -721,10 +721,10 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
     // {
     // case 1:
 
-    for (uint32_t i = 0; i < 153600; i+=255)
+    for (uint32_t i = 0; i < 38400; i+=240)
     {
-        W25Q64_Read(i, buf, 255);
-        LCD_SPI_Send_DMA(buf, 255);
+        W25Q64_Read(i, buf, 240);
+        LCD_SPI_Send_DMA(buf, 240);
     }
 
 }

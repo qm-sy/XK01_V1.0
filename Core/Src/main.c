@@ -131,52 +131,64 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-//	uint8_t buf1[5] = {0xcc,0xcc,0xcc,0xcc,0xcc};
-//	uint8_t buf2[5];
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+	/* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+	/* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_USART1_UART_Init();
-  MX_ADC1_Init();
-  MX_USART2_UART_Init();
-  MX_TIM4_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
-  MX_TIM6_Init();
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_DMA_Init();
+	MX_USART1_UART_Init();
+	MX_ADC1_Init();
+	MX_USART2_UART_Init();
+	MX_TIM4_Init();
+	MX_SPI1_Init();
+	MX_SPI2_Init();
+	MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
 	HAL_TIM_Base_Start_IT(&htim6);
 	RS485_RX;
 	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
-  modbus.myaddr =  0X32; 
+  	modbus.myaddr =  0X32; 
 	modbus.reflag = 0;
 	modbus.recount = 0;
     
-	//W25Q64_Erase(0x00,153600);
-	W25Q64_Write(115200,pic4,38400);
+	W25Q64_Erase(0,38402);
 
-	 //W25Q64_Read(0x00,buf2,5);
-   //HAL_UART_Transmit_DMA(&huart2,buf2,5);
-	 W25X_ReadID();
+	W25Q64_Write(0,power_on1,38400);
+
+
+	
+	 //W25Q64_Write(0,power_on1,38400);
+	// W25Q64_Write(38400,power_on2,38400);
+	// W25Q64_Write(76800,power_on3,38400);
+	// W25Q64_Write(115200,power_on4,38400);	 
+
+	// W25Q64_Write(153600,pic1,38400);
+	// W25Q64_Write(192000,pic2,38400);
+	// W25Q64_Write(230400,pic3,38400);
+	// W25Q64_Write(268800,pic4,38400);
+
+	//W25Q64_Read(0x00,buf2,5);
+	//HAL_UART_Transmit_DMA(&huart2,buf2,5);
+//	 W25X_ReadID();
 //	 printf(" The value1 is 0x%02x  \r\n",buf2[0]);
 //	 printf(" The value1 is 0x%02x  \r\n",buf2[1]);
 //	 printf(" The value1 is 0x%02x  \r\n",buf2[2]);
@@ -189,6 +201,7 @@ int main(void)
 	// HAL_Delay(1500);
 
  // W25Q64_Test();
+ 	pwm_crl(500,500,500);
     printf("========= code start ========= \r\n");
 
   /* USER CODE END 2 */
