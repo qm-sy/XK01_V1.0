@@ -63,6 +63,7 @@ void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t
 void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height);					
 void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
+void ST7789_test(void);
 
 #endif
 

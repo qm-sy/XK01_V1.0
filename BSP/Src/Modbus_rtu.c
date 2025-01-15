@@ -4,6 +4,14 @@ MODBUS modbus;
 
 uint16_t USART_RX_STA = 0;
 
+/**
+ * @brief	发送1byte数据
+ * 
+ * @param   buf：待发送数组首地址           
+ * @param   len：数组长度           
+ * 
+  @return  void
+ */
 void modbus_send_data( uint8_t *buf , uint8_t len )
 {
     HAL_UART_Transmit(&huart2,(uint8_t*)buf,len,1000);
@@ -11,7 +19,14 @@ void modbus_send_data( uint8_t *buf , uint8_t len )
     while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
 }
 
-
+/**
+ * @brief	modbus接收函数，接收并判断Function后转到相应Function函数进行处理
+ * 
+ * @param   buf：待发送数组首地址           
+ * @param   len：数组长度           
+ * 
+  @return  void
+ */
 void Modbus_Event( void )
 {
     uint16_t crc,rccrc;
@@ -55,7 +70,7 @@ void Modbus_Fun1()
 	//发送回应数据包
 	modbus.sendbuf[0] = modbus.myaddr;     
 	modbus.sendbuf[1] = 0x01;  //功能码  01          
-    modbus.sendbuf[2] = 0x01; //1个字节数（返回8个继电器状态1个字节8位表示） 
+    modbus.sendbuf[2] = 0x01; //1个字节数
     modbus.sendbuf[3] = 0xFF; //
 
 	crc = MODBUS_CRC16(modbus.sendbuf,4);    
@@ -91,23 +106,42 @@ void Modbus_Fun16()
 	
 }
 
-//buf内的值为 地址区+功能区+数据区
+/**
+ * @brief	crc校验函数
+ * 
+ * @param   buf：  Address(1 byte) +Funtion(1 byte) ）+Data(n byte)   
+ * @param   length:数据长度           
+ * 
+  @return  crc16:crc校验的值 2byte
+ */
+//buf内的值为 
 uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length)
 {
 	uint8_t	i;
 	uint16_t	crc16;
 
-	crc16 = 0xffff;	//预置16位CRC寄存器为0xffff（即全为1）
+    /* 1, 预置16位CRC寄存器为0xffff（即全为1）                          */
+	crc16 = 0xffff;	
+
 	do
 	{
-		crc16 ^= (uint16_t)*buf;		//把8位数据与16位CRC寄存器的低位相异或，把结果放于CRC寄存器
-		for(i=0; i<8; i++)		//8位数据
+        /* 2, 把8位数据与16位CRC寄存器的低位相异或，把结果放于CRC寄存器     */        
+		crc16 ^= (uint16_t)*buf;		//
+		for(i=0; i<8; i++)		
 		{
-			if(crc16 & 1)	crc16 = (crc16 >> 1) ^ 0xA001;	//如果最低位为0，把CRC寄存器的内容右移一位(朝低位)，用0填补最高位，
-															//再异或0xA001
-			else	crc16 >>= 1;							//如果最低位为0，把多项式CRC寄存器的内容右移一位(朝低位)，用0填补最高位
+            /* 3, 如果最低位为1，把CRC寄存器的内容右移一位(朝低位)，用0填补最高位 再异或0xA001    */
+			if(crc16 & 1)
+            {
+                crc16 = (crc16 >> 1) ^ 0xA001;
+            }
+            /* 4, 如果最低位为0，把CRC寄存器的内容右移一位(朝低位)，用0填补最高位                */
+            else
+            {
+                crc16 >>= 1;
+            }		
 		}
 		buf++;
 	}while(--length != 0);
+
 	return	(crc16);
 }

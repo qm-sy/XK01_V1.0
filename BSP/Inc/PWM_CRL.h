@@ -4,6 +4,6 @@
 #include "tim.h"
 #include "sys.h"
 
-void pwm_crl( uint16_t pwm1_val, uint16_t pwm2_val, uint16_t pwm3_val);
+void pwm_crl( uint8_t pwm1_dutycycle, uint8_t pwm2_dutycycle, uint8_t pwm3_dutycycle,uint32_t frequency);
 
 #endif

@@ -37,6 +37,13 @@ static uint16_t MF52E_tab[166] = {
 3963/*125*/    																							
 };
 
+/**
+ * @brief	获取adc value 并查表找到对应温度
+ * 
+ * @param              
+ *
+ * @return  temp T1~T4 温度数组指针
+ */
 uint8_t *get_temp( void )
 {
     static uint8_t temp[4];
@@ -70,7 +77,14 @@ uint8_t *get_temp( void )
     //printf(" The value of NTC1:%d  NTC1:%d  NTC1:%d  NTC1:%d \r\n",temp[0],temp[1],temp[2],temp[3]);
     return temp;
 }
-    
+
+/**
+ * @brief	查表函数
+ * 
+ * @param              
+ *
+ * @return  temp_val adc value 对应的温度值
+ */  
 uint8_t LookupTable( uint16_t *temp_tab, uint8_t tab_num, uint16_t adc_val )
 {
     uint8_t	temp_val = 0;

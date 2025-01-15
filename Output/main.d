@@ -48,7 +48,4 @@
 ..\output\main.o: ../BSP/Inc/ST7789V2.h
 ..\output\main.o: ../SYSTEM/sys.h
 ..\output\main.o: ../BSP/Inc/SPI_Flash_w25q64.h
-..\output\main.o: ../SYSTEM/sys.h
-..\output\main.o: ../BSP/Inc/pic.h
-..\output\main.o: ../SYSTEM/sys.h
 ..\output\main.o: ../BSP/Inc/Modbus_RTU.h

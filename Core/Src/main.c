@@ -31,8 +31,6 @@
 #include "PWM_CRL.h"
 #include "ST7789V2.h"
 #include "SPI_Flash_w25q64.h"
-#include "pic.h"
-#include "sys.h"
 #include "Modbus_RTU.h"
 
 /* USER CODE END Includes */
@@ -66,6 +64,13 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_6) == GPIO_PIN_RESET)
+	{
+		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_12);
+	}
+}
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if ( htim->Instance == htim6.Instance ) 
@@ -77,7 +82,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			{
 				modbus.timrun = 0;
 
-				modbus.reflag = 1;	//接收标志清零
+				modbus.reflag = 1;	//���ձ�־����
 			}
 		}
 	}
@@ -137,137 +142,64 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  HAL_Init();
 
-	/* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 
-	/* USER CODE END Init */
+  /* USER CODE END Init */
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* USER CODE BEGIN SysInit */
+  /* USER CODE BEGIN SysInit */
 
-	/* USER CODE END SysInit */
+  /* USER CODE END SysInit */
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_DMA_Init();
-	MX_USART1_UART_Init();
-	MX_ADC1_Init();
-	MX_USART2_UART_Init();
-	MX_TIM4_Init();
-	MX_SPI1_Init();
-	MX_SPI2_Init();
-	MX_TIM6_Init();
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_USART2_UART_Init();
+  MX_TIM4_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-	HAL_ADCEx_Calibration_Start(&hadc1);    //AD校准
-	HAL_TIM_Base_Start_IT(&htim6);
+	HAL_ADCEx_Calibration_Start(&hadc1);     //ADC校准
+	HAL_TIM_Base_Start_IT(&htim6);			//TIM6使能
 	RS485_RX;
 	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
-  	modbus.myaddr =  0X32; 
+	modbus.myaddr =  0X32; 
 	modbus.reflag = 0;
 	modbus.recount = 0;
-    
-	W25Q64_Erase(0,38402);
-
-	W25Q64_Write(0,power_on1,38400);
-
-
+		
 	
-	 //W25Q64_Write(0,power_on1,38400);
-	// W25Q64_Write(38400,power_on2,38400);
-	// W25Q64_Write(76800,power_on3,38400);
-	// W25Q64_Write(115200,power_on4,38400);	 
 
-	// W25Q64_Write(153600,pic1,38400);
-	// W25Q64_Write(192000,pic2,38400);
-	// W25Q64_Write(230400,pic3,38400);
-	// W25Q64_Write(268800,pic4,38400);
-
-	//W25Q64_Read(0x00,buf2,5);
-	//HAL_UART_Transmit_DMA(&huart2,buf2,5);
-//	 W25X_ReadID();
-//	 printf(" The value1 is 0x%02x  \r\n",buf2[0]);
-//	 printf(" The value1 is 0x%02x  \r\n",buf2[1]);
-//	 printf(" The value1 is 0x%02x  \r\n",buf2[2]);
-//	 printf(" The value1 is 0x%02x  \r\n",buf2[3]);
-//	 printf(" The value1 is 0x%02x  \r\n",buf2[4]);
-
-	//chip_id = W25X_ReadID();
+	//W25Q64_Write(0,power_on1,38400);
 
   // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
 	// HAL_Delay(1500);
 
- // W25Q64_Test();
- 	pwm_crl(500,500,500);
+  	W25Q64_Test(); 
+  	pwm_crl(50,75,75,200);
     printf("========= code start ========= \r\n");
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	//Modbus_Event();
-//	LCD_Show_Image(0, 0, 120, 160,1);
-//	LCD_Show_Image(120, 0, 120, 160,2);
-//	LCD_Show_Image(0, 160, 120, 160,3);
-//	LCD_Show_Image(120, 160, 120, 160,4);
-//    LCD_Clear(YELLOW);
-//    LCD_Clear(GREEN);
-//    LCD_Clear(YELLOW);
-//    LCD_Clear(GREEN);
-//    LCD_Clear(YELLOW);
-//    LCD_Clear(GREEN);
-//    LCD_Clear(YELLOW);
-    LCD_Clear(GREEN);
-    LCD_DrawLine(0,33,200,33,RED);
-    LCD_DrawLine(0,66,200,66,RED);
-	LCD_DrawLine(0,99,200,99,RED);
-    LCD_DrawLine(0,0,200,33,RED);
-	LCD_DrawLine(0,0,200,66,RED);
-    LCD_DrawLine(0,0,200,99,RED);
-	LCD_DrawRectangle(0,0,200,200,RED);
-//    LCD_ShowString(5, 10, 240, 32, 32, "HelloWorld!",POINT_COLOR,GREEN);
-//    LCD_ShowString(10, 50, 240, 16, 16, "Embed Software engineer!",POINT_COLOR,GREEN);		
-//    LCD_ShowString(5, 50+32, 240, 32, 32, "QiaoMing!",POINT_COLOR,GREEN);		
-//    HAL_Delay(1500);
-//    LCD_Clear(YELLOW);		
-    LCD_Draw_Circle(120, 120, 100,RED);
-    LCD_Draw_Circle(120, 120, 80,RED);		
-    LCD_Draw_Circle(120, 120, 60,RED);
-    LCD_Draw_Circle(120, 120, 40,RED);			
-    LCD_Draw_Circle(120, 120, 20,RED);
-    LCD_Draw_Circle(120, 120, 1,RED);
-  //   LCD_ShowChar(220, 50, 'q',12,POINT_COLOR,GREEN);
-	// LCD_ShowChar(220, 80, 'm',16,POINT_COLOR,GREEN);
-	// LCD_ShowChar(220, 110, 's',24,POINT_COLOR,GREEN);
-	// LCD_ShowChar(220, 140, 'y',32,POINT_COLOR,GREEN);
-	// LCD_ShowNum(10, 220, 123, 3, 12,POINT_COLOR,GREEN);
-	// LCD_ShowNum(10, 240, 456, 3, 16,POINT_COLOR,GREEN);
-	// LCD_ShowNum(10, 260, 789, 3, 24,POINT_COLOR,GREEN);
-	// LCD_ShowxNum(10, 280, 001, 3, 32,0,POINT_COLOR,GREEN);
-	// LCD_ShowxNum(80, 280, 001, 3, 32,1,POINT_COLOR,GREEN);	
-	// LCD_ShowString(80,200,24,16,16,"qqq",POINT_COLOR,GREEN);
-  	LCD_Show_Image(0,0,240,320);
-	// PutChinese(120,120,"��",GREEN,POINT_COLOR);
-	// PutChinese_strings(20,180,"��",GREEN,POINT_COLOR);
-	// PutChinese_strings(20,196,"��",GREEN,POINT_COLOR);
-    //temp_crl();
-//    printf("======================\r\n");
-//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[0]);
-//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[1]);
-//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[2]);
-//    printf(" The value1 is 0x%02x  \r\n",modbus.rcbuf[3]);
-//	printf(" ===The value1 is %d  ===\r\n",modbus.recount);
-    HAL_Delay(2500);
-  
-  } 
+	ST7789_test();
+	HAL_Delay(2500);
+
+	} 
   /* USER CODE END 3 */
 }
 

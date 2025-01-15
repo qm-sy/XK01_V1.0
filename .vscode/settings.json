@@ -15,6 +15,8 @@
         "modbus_rtu.h": "c",
         "usart.h": "c",
         "stm32f1xx_hal_conf.h": "c",
-        "hzlib.h": "c"
+        "hzlib.h": "c",
+        "pic.h": "c",
+        "tim.h": "c"
     }
 }

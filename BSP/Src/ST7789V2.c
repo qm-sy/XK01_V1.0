@@ -704,24 +704,8 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
     LCD_Address_Set(x, y, x + width - 1, y + height - 1);
 
     LCD_DC(1);
-	// if(width * height*2>65535)
-	// {   
-	// 	LCD_SPI_Send_DMA((uint8_t *)p, 65535);
-    //     wait_spi1_dma_transmit();
-    //     //status = HAL_SPI_Receive_DMA(&hspi, p, sizeof(rxBuffer), HAL_MAX_DELAY);
-    //     LCD_SPI_Send_DMA((uint8_t *)(p+65535), 65535);
-    //     wait_spi1_dma_transmit();
-	// 	LCD_SPI_Send_DMA((uint8_t *)(p+65535*2), width*height*2-65535);
-    //     wait_spi1_dma_transmit();
-	// }
-	// else
-	// {
-        //LCD_SPI_Send_DMA((uint8_t *)p, width * height*2);
-    // switch (pic_num)
-    // {
-    // case 1:
 
-    for (uint32_t i = 0; i < 38400; i+=240)
+    for (uint32_t i = 0; i < 307200; i+=240)
     {
         W25Q64_Read(i, buf, 240);
         LCD_SPI_Send_DMA(buf, 240);
@@ -924,3 +908,15 @@ void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_c
     }       
 }
 
+void ST7789_test()
+{
+    LCD_Clear(GREEN);
+    LCD_DrawLine(0,33,200,33,RED);
+    LCD_DrawLine(0,66,200,66,RED);
+	LCD_DrawLine(0,99,200,99,RED);
+    LCD_DrawLine(0,0,200,33,RED);
+	LCD_DrawLine(0,0,200,66,RED);
+    LCD_DrawLine(0,0,200,99,RED);
+	LCD_DrawRectangle(0,0,200,200,RED);
+    LCD_Show_Image(0,0,240,320);
+}

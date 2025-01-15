@@ -1,27 +1,13 @@
 #include "SPI_Flash_w25q64.h"
-#include "stm32f1xx_hal.h"
-#include "tim.h"
-#include "adc.h"
-//#include "pic.h"
+#include "../inc/pic.h"
 
 extern SPI_HandleTypeDef hspi2;
 static SPI_HandleTypeDef *g_HSPI_Flash = &hspi2;
 volatile uint8_t receive_complete_flag2 = 0;
 
-/******************************************************************************
-function:wait transmit
-******************************************************************************/
-void wait_spi2_dma_receive(void)
-{
-	while(receive_complete_flag2 == 0)
-    {
-
-    }
-	receive_complete_flag2 = 0;
-}
 
 /**
- * @brief 使用SPI发送/接收数据(注意这个函数没有设置片选信号)
+ * @brief 使用SPI发送/接收数据
  *
  * @param pTxData: 要发送的数据
  * @param pRxData: 接收缓冲区
@@ -31,7 +17,7 @@ void wait_spi2_dma_receive(void)
  * @return : 0 - 成功, -1 - 失败
  * 
 **/
-static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
+static int W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
 {
     if (HAL_OK == HAL_SPI_TransmitReceive(g_HSPI_Flash, pTxData, pRxData, Size, Timeout))
     {
@@ -43,7 +29,7 @@ static int  W25Q64_TxRx(uint8_t *pTxData, uint8_t *pRxData, uint16_t Size, uint3
 }
 
 /**
- * @brief 使用SPI发送数据(注意这个函数没有设置片选信号)
+ * @brief 使用SPI发送数据
  *
  * @param pTxData: 要发送的数据
  * @param Size:    数据长度
@@ -63,9 +49,8 @@ static int W25Q64_Tx(uint8_t *pTxData, uint16_t Size, uint32_t Timeout)
     }
 }
 
-
 /**
- * @brief 使用SPI读取数据(注意这个函数没有设置片选信号)
+ * @brief 使用SPI读取数据
  *
  * @param pRxData: 接收缓冲区
  * @param Size:    数据长度
@@ -86,7 +71,7 @@ static int  W25Q64_Rx(uint8_t *pRxData, uint16_t Size, uint32_t Timeout)
 }
 
 /**
- * @brief 使用SPI读取数据(注意这个函数没有设置片选信号)
+ * @brief 使用SPI_DMA读取数据
  *
  * @param pRxData: 接收缓冲区
  * @param Size:    数据长度
@@ -106,6 +91,19 @@ static int  W25Q64_Rx_DMA(uint8_t *pRxData, uint16_t Size)
     }
 }
 
+/**
+ * @brief 等待DMA传输完毕
+ *
+ * @param
+ * 
+ * @return 
+ * 
+**/
+static void wait_spi2_dma_receive(void)
+{
+	while(receive_complete_flag2 == 0);
+	receive_complete_flag2 = 0;
+}
 
 /**
  * @brief 读取芯片ID
@@ -124,18 +122,15 @@ uint16_t W25X_ReadID(void)
     uint8_t tmpbuf[4] = {0x90,0x00,0x00,0x00};
     uint8_t rx_buf[4] = {0};
 
-    W25Q64_Select;      
+    W25Q64_Select;   
+
     W25Q64_Tx(tmpbuf,4,W25Q64_TIMEOUT);  
     W25Q64_Rx(rx_buf,2,W25Q64_TIMEOUT);
-    //W25Q64_WaitReady(); 
+
     W25Q64_Deselect;
 
-    printf("chip_id is 0x%02x \r\n",rx_buf[0]);
-    printf("chip_id is 0x%02x \r\n",rx_buf[1]);
-
-
-    Temp|= rx_buf[1]<<8;  
-    Temp|= rx_buf[0];  
+    Temp|= rx_buf[0]<<8;  
+    Temp|= rx_buf[1];  
 
     return Temp;
 }
@@ -197,20 +192,6 @@ static int W25Q64_WriteEnable(void)
     W25Q64_Deselect;
 
     return err;
-}
-
-/**
- * @brief W25Q64的初始化函数
- *
- * @param 
- * 
- * @return :
- * 
-**/
-void W25Q64_Init(void)
-{
-    /* 片选信号PB9在MX_GPIO_Init中被配置为输出引脚 */
-    /* SPI在MX_SPI1_Init中也被配置好了 */
 }
 
 /**
@@ -401,70 +382,22 @@ int W25Q64_Erase(uint32_t offset, uint32_t len)
 **/
 void W25Q64_Test(void)
 {
-    // int sector;
-    // int len;
-//    uint8_t write_buf[4] = {0x0001,0x0002,0x0003,0x0004};
-//    uint8_t read_buf[4];
-    // int i;
-    // uint32_t val1, val2;
+    uint16_t chip_id;
+
+    chip_id = W25X_ReadID();
+    printf("The chip id is 0x%04x \r\n",chip_id);
+    // W25Q64_Erase(0,307200);
+    // W25Q64_Write(0,power_on1,38400);
+    // W25Q64_Write(38400,power_on2,38400);
+    // W25Q64_Write(76800,power_on3,38400);
+    //W25Q64_Write(115200,power_on4,38400);	 
+
+    // W25Q64_Write(153600,gImage_shengdan1,38400);
+    // W25Q64_Write(192000,gImage_shengdan2,38400);
+    // W25Q64_Write(230400,gImage_shengdan3,38400);
+    // W25Q64_Write(268800,gImage_shengdan4,38400);
+
     
-   // W25Q64_Init();
-    //W25Q64_Erase(0X0000,8192000);
-    //W25Q64_Write(pic_4,gImage_pic_4,pic_size);
-    // W25Q64_Write(0x0000,write_buf,4);
-    // W25Q64_Read(0x0000,read_buf,4);
-    // printf("The value of read_buf[0] is: 0x%2x \r\n",read_buf[0]);
-    // printf("The value of read_buf[1] is: 0x%2x  \r\n",read_buf[1]);
-    // printf("The value of read_buf[2] is: 0x%2x  \r\n",read_buf[2]);
-    // printf("The value of read_buf[3] is: 0x%2x  \r\n",read_buf[3]);
-    // HAL_Delay(1000);
-    // while (1)
-    // {
-    //     LCD_PrintString(0, 0, "W25Q64 Test: ");
-
-    //     for (sector = 0; sector < 2048; sector++)
-    //     {
-    //         /* 擦除测试 */
-    //         LCD_ClearLine(0, 2);
-    //         len = LCD_PrintString(0, 2, "Erase ");
-    //         LCD_PrintSignedVal(len, 2, sector);
-    //         W25Q64_Erase(sector * 4096, 4096);            
-    //         W25Q64_Read(sector * 4096, buf, 4);
-    //         //LCD_ClearLine(0, 4);
-    //         for (i = 0; i < 4; i++)
-    //         {
-    //             LCD_PrintHex(i*3, 4, buf[i], 0);
-    //         }
-    //         HAL_Delay(1000);
-
-            // /* 写入测试 */
-            // LCD_ClearLine(0, 2);
-            // len = LCD_PrintString(0, 2, "Write ");
-            // LCD_PrintSignedVal(len, 2, sector);
-
-            // val1 = system_get_ns();
-            // W25Q64_Write(sector * 4096, (uint8_t *)&val1, 4);
-            // LCD_ClearLine(0, 4);
-            // LCD_PrintHex(0, 4, val1, 1);
-            // mdelay(1000);
-
-            // /* 读出测试 */
-            // LCD_ClearLine(0, 2);
-            // len = LCD_PrintString(0, 2, "Read ");
-            // LCD_PrintSignedVal(len, 2, sector);
-
-            // W25Q64_Read(sector * 4096, (uint8_t *)&val2, 4);
-            // LCD_ClearLine(0, 4);
-            // if (val1 == val2)
-            //     LCD_PrintString(0, 4, "Test ok");
-            // else
-            // {
-            //     LCD_PrintHex(0, 4, val2, 1);
-            //     LCD_ClearLine(0, 6);
-            //     LCD_PrintString(0, 6, "Test Failed");
-            // }
-            // mdelay(1000);
-            
-        // }
-    // }
+    // HAL_UART_Transmit_DMA(&huart2,buf2,5);
+    // W25X_ReadID();
 }
