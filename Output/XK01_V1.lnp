@@ -33,6 +33,7 @@
 "..\output\pwm_crl.o"
 "..\output\spi_flash_w25q64.o"
 "..\output\modbus_rtu.o"
+"..\output\power_crl.o"
 "..\output\display.o"
 "..\output\temp.o"
 --library_type=microlib --strict --scatter "..\Output\XK01_V1.sct"

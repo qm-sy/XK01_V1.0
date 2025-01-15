@@ -17,6 +17,7 @@
         "stm32f1xx_hal_conf.h": "c",
         "hzlib.h": "c",
         "pic.h": "c",
-        "tim.h": "c"
+        "tim.h": "c",
+        "power_crl.h": "c"
     }
 }

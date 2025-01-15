@@ -32,7 +32,7 @@
 #include "ST7789V2.h"
 #include "SPI_Flash_w25q64.h"
 #include "Modbus_RTU.h"
-
+#include "POWER_CRL.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,14 +66,14 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	if(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_6) == GPIO_PIN_RESET)
-	{
-		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_12);
-	}
+	zero_flag = 1;
 }
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if ( htim->Instance == htim6.Instance ) 
+	static uint8_t switch_flag = 0;
+	static uint16_t phase_num = 0;
+	static uint8_t phase_flag = 0;
+	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms
 	{
 		if( modbus.timrun != 0 )//运�?�时间�????=0表明
 		{
@@ -84,6 +84,41 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 				modbus.reflag = 1;	//���ձ�־����
 			}
+		}
+	}
+
+	/* 1. 发送10us脉冲斩波												   */
+	if( htim->Instance == htim7.Instance ) 			//timer7:T = 10us
+	{
+		
+		/* 3. timer 第二次中断事件：电平统一拉高							*/
+		if( switch_flag == 1 )
+		{
+			POWER_CH1(1);
+			POWER_CH2(1);
+			POWER_CH3(1);
+			POWER_CH4(1);
+			switch_flag = 0;
+		}
+		/* 2. timer 第一次中断事件：statu = 1 电平拉低   statu = 0 电平拉高	*/
+		if ( zero_flag == 1 )
+		{	
+			phase_flag = 1;
+			if( phase_num >= power_phase_delay )
+			{
+				POWER_CH1(power_ch1_statu);
+				POWER_CH2(power_ch1_statu);
+				POWER_CH3(power_ch1_statu);
+				POWER_CH4(power_ch1_statu);
+				switch_flag = 1;
+				zero_flag = 0;
+				phase_num = 0;
+				phase_flag = 0;
+			}
+		}
+		if( phase_flag == 1)
+		{
+			phase_num++;
 		}
 	}
 }
@@ -165,9 +200,11 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI2_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-	HAL_ADCEx_Calibration_Start(&hadc1);     //ADC校准
-	HAL_TIM_Base_Start_IT(&htim6);			//TIM6使能
+	HAL_ADCEx_Calibration_Start(&hadc1);      //ADC校准
+	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
+	HAL_TIM_Base_Start_IT(&htim7);			      //TIM6使能
 	RS485_RX;
 	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
@@ -184,6 +221,7 @@ int main(void)
 
   	W25Q64_Test(); 
   	pwm_crl(50,75,75,200);
+	power_crl(95);
     printf("========= code start ========= \r\n");
 
   /* USER CODE END 2 */
