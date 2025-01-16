@@ -5,6 +5,33 @@ MODBUS modbus;
 uint16_t USART_RX_STA = 0;
 
 /**
+ * @brief	uart2回调函数 用于接收数据
+ * 
+ * @param   huart：标识触发回调函数的UART外设                     
+ * 
+  @return  void
+ */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if( huart->Instance == USART2)
+    {
+        if ( modbus.reflag == 1 )
+        {
+            return;
+        }
+		modbus.rcbuf[modbus.recount++] = (uint8_t)(huart2.Instance->DR & 0x00FF);
+		modbus.timout = 0;
+		if( modbus.recount == 1 )
+		{
+			modbus.timrun = 1;
+		}
+
+		HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
+    }
+}
+
+
+/**
  * @brief	发送1byte数据
  * 
  * @param   buf：待发送数组首地址           

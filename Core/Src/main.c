@@ -64,102 +64,11 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	zero_flag = 1;
-}
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	static uint8_t switch_flag = 0;
-	static uint16_t phase_num = 0;
-	static uint8_t phase_flag = 0;
-	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms
-	{
-		if( modbus.timrun != 0 )//运�?�时间�????=0表明
-		{
-			modbus.timout++;
-			if( modbus.timout >=8 )
-			{
-				modbus.timrun = 0;
 
-				modbus.reflag = 1;	//���ձ�־����
-			}
-		}
-	}
-
-	/* 1. 发送10us脉冲斩波												   */
-	if( htim->Instance == htim7.Instance ) 			//timer7:T = 10us
-	{
-		
-		/* 3. timer 第二次中断事件：电平统一拉高							*/
-		if( switch_flag == 1 )
-		{
-			POWER_CH1(1);
-			POWER_CH2(1);
-			POWER_CH3(1);
-			POWER_CH4(1);
-			switch_flag = 0;
-		}
-		/* 2. timer 第一次中断事件：statu = 1 电平拉低   statu = 0 电平拉高	*/
-		if ( zero_flag == 1 )
-		{	
-			phase_flag = 1;
-			if( phase_num >= power_phase_delay )
-			{
-				POWER_CH1(power_ch1_statu);
-				POWER_CH2(power_ch1_statu);
-				POWER_CH3(power_ch1_statu);
-				POWER_CH4(power_ch1_statu);
-				switch_flag = 1;
-				zero_flag = 0;
-				phase_num = 0;
-				phase_flag = 0;
-			}
-		}
-		if( phase_flag == 1)
-		{
-			phase_num++;
-		}
-	}
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-    if( huart->Instance == USART2)
-    {
-        if ( modbus.reflag == 1 )
-        {
-            return;
-        }
-		modbus.rcbuf[modbus.recount++] = (uint8_t)(huart2.Instance->DR & 0x00FF);
-		modbus.timout = 0;
-		if( modbus.recount == 1 )
-		{
-			modbus.timrun = 1;
-		}
-
-		HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
-    }
-}
 
 /******************************************************************************
 function:transmit_complete_callback
 ******************************************************************************/
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if( hspi->Instance == SPI1 )
-	{
-		transmit_complete_flag1 = 1;
-	}
-}
-
-void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-	if( hspi->Instance == SPI2)
-	{
-		receive_complete_flag2 = 1;
-	}
-}
 
 /* USER CODE END 0 */
 
@@ -211,18 +120,11 @@ int main(void)
 	modbus.myaddr =  0X32; 
 	modbus.reflag = 0;
 	modbus.recount = 0;
-		
-	
 
-	//W25Q64_Write(0,power_on1,38400);
-
-  // HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_SET);
-	// HAL_Delay(1500);
-
-  	W25Q64_Test(); 
-  	pwm_crl(50,75,75,200);
-	power_crl(95);
-    printf("========= code start ========= \r\n");
+	W25Q64_Test(); 
+	pwm_crl(50,75,75,200);
+	power_crl(70);
+	printf("========= code start ========= \r\n");
 
   /* USER CODE END 2 */
 
@@ -234,8 +136,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	//Modbus_Event();
-	ST7789_test();
-	HAL_Delay(2500);
+		ST7789_test();
+	// HAL_Delay(700);
 
 	} 
   /* USER CODE END 3 */

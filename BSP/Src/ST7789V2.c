@@ -15,10 +15,17 @@
 static uint8_t lcd_buf[LCD_Buf_Size];
 volatile uint8_t transmit_complete_flag1 = 0;
 
-uint16_t	POINT_COLOR = WHITE;	//画笔颜色	默认为黑色
-uint16_t	BACK_COLOR 	= BLACK;	//背景颜色	默认为白色
+uint16_t	POINT_COLOR = BLACK;	//画笔颜色	默认为黑色
+uint16_t	BACK_COLOR 	= WHITE;	//背景颜色	默认为白色
 
 
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	if( hspi->Instance == SPI1 )
+	{
+		transmit_complete_flag1 = 1;
+	}
+}
 
 /******************************************************************************
 function:wait transmit
@@ -705,7 +712,7 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 
     LCD_DC(1);
 
-    for (uint32_t i = 0; i < 307200; i+=240)
+    for (uint32_t i = 0; i < 967680; i+=240)
     {
         W25Q64_Read(i, buf, 240);
         LCD_SPI_Send_DMA(buf, 240);
@@ -910,13 +917,14 @@ void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_c
 
 void ST7789_test()
 {
-    LCD_Clear(GREEN);
-    LCD_DrawLine(0,33,200,33,RED);
-    LCD_DrawLine(0,66,200,66,RED);
-	LCD_DrawLine(0,99,200,99,RED);
-    LCD_DrawLine(0,0,200,33,RED);
-	LCD_DrawLine(0,0,200,66,RED);
-    LCD_DrawLine(0,0,200,99,RED);
-	LCD_DrawRectangle(0,0,200,200,RED);
-    LCD_Show_Image(0,0,240,320);
+    //LCD_Clear(BLACK);
+    // LCD_DrawLine(0,33,200,33,RED);
+    // LCD_DrawLine(0,66,200,66,RED);
+	// LCD_DrawLine(0,99,200,99,RED);
+    // LCD_DrawLine(0,0,200,33,RED);
+	// LCD_DrawLine(0,0,200,66,RED);
+    // LCD_DrawLine(0,0,200,99,RED);
+	// LCD_DrawRectangle(0,0,200,200,RED);
+    LCD_Show_Image(0,35,240,252);
+    HAL_Delay(1);
 }

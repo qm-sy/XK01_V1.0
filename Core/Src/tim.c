@@ -19,7 +19,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "tim.h"
-
+#include "POWER_CRL.h"
+#include "Modbus_rtu.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -280,5 +281,59 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	static uint8_t switch_flag = 0;
+	static uint16_t phase_num = 0;
+	static uint8_t phase_flag = 0;
+	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms
+	{
+		if( modbus.timrun != 0 )//运�?�时间�????=0表明
+		{
+			modbus.timout++;
+			if( modbus.timout >=8 )
+			{
+				modbus.timrun = 0;
+
+				modbus.reflag = 1;	//���ձ�־����
+			}
+		}
+	}
+
+	/* 1. 发送10us脉冲斩波										                  	  	   */
+	if( htim->Instance == htim7.Instance ) 			//timer7:T = 10us
+	{
+		
+		/* 3. timer 第二次中断事件：电平统一拉高			              				*/
+		if( switch_flag == 1 )
+		{
+			POWER_CH1(1);
+			POWER_CH2(1);
+			POWER_CH3(1);
+			POWER_CH4(1);
+			switch_flag = 0;
+		}
+		/* 2. timer 第一次中断事件：statu = 1 电平拉低   statu = 0 电平拉高	*/
+		if ( zero_flag == 1 )
+		{	
+			phase_flag = 1;
+			if( phase_num >= power_phase_delay )
+			{
+				POWER_CH1(power_ch1_statu);
+				POWER_CH2(power_ch1_statu);
+				POWER_CH3(power_ch1_statu);
+				POWER_CH4(power_ch1_statu);
+				switch_flag = 1;
+				zero_flag = 0;
+				phase_num = 0;
+				phase_flag = 0;
+			}
+		}
+		if( phase_flag == 1)
+		{
+			phase_num++;
+		}
+	}
+}
 
 /* USER CODE END 1 */
