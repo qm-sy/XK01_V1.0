@@ -3,13 +3,14 @@
 
 #include "stm32f1xx_hal.h"
 #include "sys.h"
+#include "delay.h"
 
 extern uint16_t	POINT_COLOR;		//Default brush color
 extern uint16_t	BACK_COLOR;		//Default background color
 extern volatile uint8_t transmit_complete_flag1;
 //Width and height definitions of LCD
-#define LCD_Width 	240
-#define LCD_Height 	320
+#define LCD_Width 	320
+#define LCD_Height 	240
 
 //Brush color
 #define WHITE         	 0xFFFF

@@ -18,6 +18,7 @@
         "hzlib.h": "c",
         "pic.h": "c",
         "tim.h": "c",
-        "power_crl.h": "c"
+        "power_crl.h": "c",
+        "delay.h": "c"
     }
 }

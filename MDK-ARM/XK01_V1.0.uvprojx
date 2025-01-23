@@ -936,6 +936,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\POWER_CRL.c</FilePath>
             </File>
+            <File>
+              <FileName>KEY_CRL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\KEY_CRL.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -960,6 +965,11 @@
               <FileName>sys.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\SYSTEM\sys.h</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SYSTEM\delay.c</FilePath>
             </File>
           </Files>
         </Group>

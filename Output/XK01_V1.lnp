@@ -34,8 +34,10 @@
 "..\output\spi_flash_w25q64.o"
 "..\output\modbus_rtu.o"
 "..\output\power_crl.o"
+"..\output\key_crl.o"
 "..\output\display.o"
 "..\output\temp.o"
+"..\output\delay.o"
 --library_type=microlib --strict --scatter "..\Output\XK01_V1.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

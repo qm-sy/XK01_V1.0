@@ -110,10 +110,12 @@ int main(void)
   MX_SPI2_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);      //ADC校准
+  	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
 	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
-	HAL_TIM_Base_Start_IT(&htim7);			      //TIM6使能
+	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
 	RS485_RX;
 	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
 	LCD_Init();
@@ -124,6 +126,7 @@ int main(void)
 	W25Q64_Test(); 
 	pwm_crl(50,75,75,200);
 	power_crl(70);
+	LCD_Clear(WHITE);
 	printf("========= code start ========= \r\n");
 
   /* USER CODE END 2 */

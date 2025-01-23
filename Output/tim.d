@@ -36,5 +36,6 @@
 ..\output\tim.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\tim.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\output\tim.o: ../BSP/Inc/POWER_CRL.h
-..\output\tim.o: ../BSP/Inc/Modbus_rtu.h
+..\output\tim.o: ../BSP/Inc/Modbus_RTU.h
 ..\output\tim.o: ../Core/Inc/usart.h
+..\output\tim.o: ../BSP/Inc/KEY_CRL.h

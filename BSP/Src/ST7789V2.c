@@ -744,7 +744,7 @@ void LCD_Init(void)
 
     /* Memory Data Access Control */
     LCD_Write_Cmd(0x36);
-    LCD_Write_Data(0x00);
+    LCD_Write_Data(0x60);
 
     /* RGB 5-6-5-bit  */
     LCD_Write_Cmd(0x3A);
@@ -914,7 +914,7 @@ void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_c
         Tmp_y += 16 ;	
     }       
 }
-
+                                                                                                                                                                                                                    
 void ST7789_test()
 {
     //LCD_Clear(BLACK);
@@ -925,6 +925,19 @@ void ST7789_test()
 	// LCD_DrawLine(0,0,200,66,RED);
     // LCD_DrawLine(0,0,200,99,RED);
 	// LCD_DrawRectangle(0,0,200,200,RED);
-    LCD_Show_Image(0,35,240,252);
-    HAL_Delay(1);
+    //LCD_Show_Image(0,35,240,252);
+    static uint32_t now_cnt = 22;
+
+    if( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET ) 
+    {
+        delay_ms(20);
+        if( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET )
+        {
+            now_cnt = now_cnt + 1;
+            LCD_ShowNum(160,120,now_cnt,2,32,RED,GREEN);
+        } 
+        while ( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET );
+    }
+    
+    delay_ms(100);
 }

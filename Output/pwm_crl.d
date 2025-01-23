@@ -36,4 +36,8 @@
 ..\output\pwm_crl.o: ../SYSTEM/sys.h
 ..\output\pwm_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\pwm_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\pwm_crl.o: ../BSP/Inc/POWER_CRL.h
+..\output\pwm_crl.o: ../BSP/Inc/Modbus_RTU.h
+..\output\pwm_crl.o: ../Core/Inc/usart.h
+..\output\pwm_crl.o: ../BSP/Inc/KEY_CRL.h
 ..\output\pwm_crl.o: ../SYSTEM/sys.h

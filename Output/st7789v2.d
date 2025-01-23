@@ -34,10 +34,11 @@
 ..\output\st7789v2.o: ../SYSTEM/sys.h
 ..\output\st7789v2.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\st7789v2.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\st7789v2.o: ../BSP/Inc/font.h
-..\output\st7789v2.o: ../Core/Inc/spi.h
+..\output\st7789v2.o: ../SYSTEM/delay.h
 ..\output\st7789v2.o: ../Core/Inc/main.h
 ..\output\st7789v2.o: ../SYSTEM/sys.h
+..\output\st7789v2.o: ../BSP/Inc/font.h
+..\output\st7789v2.o: ../Core/Inc/spi.h
 ..\output\st7789v2.o: ../Core/Inc/gpio.h
 ..\output\st7789v2.o: ../BSP/Inc/Hzlib.h
 ..\output\st7789v2.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

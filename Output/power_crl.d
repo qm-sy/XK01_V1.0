@@ -36,3 +36,6 @@
 ..\output\power_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\power_crl.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\output\power_crl.o: ../Core/Inc/tim.h
+..\output\power_crl.o: ../BSP/Inc/Modbus_RTU.h
+..\output\power_crl.o: ../Core/Inc/usart.h
+..\output\power_crl.o: ../BSP/Inc/KEY_CRL.h
