@@ -117,9 +117,9 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
 	RS485_RX;
-	HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
+	HAL_UART_Receive_IT(&huart2,&modbus.rcvbuf[modbus.recount],1);
 	LCD_Init();
-	modbus.myaddr =  0X32; 
+	modbus.multifunpower =  0X35; 
 	modbus.reflag = 0;
 	modbus.recount = 0;
 

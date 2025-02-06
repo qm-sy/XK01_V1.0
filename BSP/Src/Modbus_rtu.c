@@ -19,20 +19,20 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         {
             return;
         }
-		modbus.rcbuf[modbus.recount++] = (uint8_t)(huart2.Instance->DR & 0x00FF);
+		modbus.rcvbuf[modbus.recount++] = (uint8_t)(huart2.Instance->DR & 0x00FF);
 		modbus.timout = 0;
 		if( modbus.recount == 1 )
 		{
 			modbus.timrun = 1;
 		}
 
-		HAL_UART_Receive_IT(&huart2,&modbus.rcbuf[modbus.recount],1);
+		HAL_UART_Receive_IT(&huart2,&modbus.rcvbuf[modbus.recount],1);
     }
 }
 
 
 /**
- * @brief	发送1byte数据
+ * @brief	发送1帧数据
  * 
  * @param   buf：待发送数组首地址           
  * @param   len：数组长度           
@@ -46,6 +46,25 @@ void modbus_send_data( uint8_t *buf , uint8_t len )
     while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
 }
 
+uint8_t modbus_wait_receive( void )
+{
+    uint8_t wait_time_cnt = 100;
+
+    while(~modbus.reflag)
+    {
+        wait_time_cnt--;
+        HAL_Delay(1);
+    }
+    if( wait_time_cnt == 0 )
+    {
+        printf("receive error \r\n");
+        return 0;
+    }else
+    {
+        modbus.reflag = 0;	
+    }
+    return 1;
+}
 /**
  * @brief	modbus接收函数，接收并判断Function后转到相应Function函数进行处理
  * 
@@ -58,72 +77,66 @@ void Modbus_Event( void )
 {
     uint16_t crc,rccrc;
 
-    if( modbus.reflag == 0 )
+    /*1.接收完毕                                           */
+    if( modbus.reflag == 1 )
     {
-        return ;
-    }
+        /*2.清空接收完毕标志位                              */
+        modbus.reflag = 0;	
+        
+        /*3.CRC校验                                         */
+        crc = MODBUS_CRC16(modbus.rcvbuf, modbus.recount-2);
+        rccrc = (modbus.rcvbuf[modbus.recount-2]<<8) | (modbus.rcvbuf[modbus.recount-1]);
 
-    crc = MODBUS_CRC16(modbus.rcbuf, modbus.recount-2);
-    rccrc = (modbus.rcbuf[modbus.recount-2]<<8) | (modbus.rcbuf[modbus.recount-1]);
-
-    if ( crc == rccrc)
-    {
-        if( modbus.myaddr == modbus.rcbuf[0] )
+        /*4.清空接收计数                                    */
+        modbus.recount = 0;
+        if ( crc == rccrc)
         {
-            printf("GOOD \r\n");
-            switch ( modbus.rcbuf[1] )
+            if( modbus.multifunpower == modbus.rcvbuf[0] )
             {
-				case 0:							break;            
-                case 1:		Modbus_Fun1();		break;
-				case 2:							break;            
-                case 3:		Modbus_Fun3();		break;
-				case 4:							break;            
-                case 5:		Modbus_Fun5();		break;
-				case 15:	Modbus_Fun15();		break;            
-                case 16:	Modbus_Fun16();		break;  
+                switch ( modbus.rcvbuf[1] )
+                {         
+                    case 0x03:		Modbus_Fun3();		break;
+                    case 0x04:		Modbus_Fun4();      break;            
+                    case 0x06:		Modbus_Fun6();		break;        
+                    case 0x10:	    Modbus_Fun16();		break;  
 
-				default:						break;
+                    default:						    break;
+                }
             }
         }
     }
-    modbus.recount = 0;
-    modbus.reflag = 0;	//接收标志清零
-}
-
-void Modbus_Fun1()
-{
-    uint16_t crc;
-	
-	//发送回应数据包
-	modbus.sendbuf[0] = modbus.myaddr;     
-	modbus.sendbuf[1] = 0x01;  //功能码  01          
-    modbus.sendbuf[2] = 0x01; //1个字节数
-    modbus.sendbuf[3] = 0xFF; //
-
-	crc = MODBUS_CRC16(modbus.sendbuf,4);    
-    
-	modbus.sendbuf[4] = crc >> 8;
-	modbus.sendbuf[5] = crc & 0x00FF;
-	//数据包打包完成
-	RS485_TX;
-
-    modbus_send_data(modbus.sendbuf,5);	
-
-	RS485_RX;
 }
 
 void Modbus_Fun3()
+{
+	slave_pwm.fan_info = modbus.rcvbuf[4];     
+    if((slave_pwm.fan_info & 0xFE) & 0X01)
+    {
+        slave_pwm.fan_pwm7_statu = 1;
+    }else
+    {
+        slave_pwm.fan_pwm7_statu = 0;
+    }
+
+    if((slave_pwm.fan_info & 0xFD) & 0X02)
+    {
+        slave_pwm.fan_pwm8_statu = 1;
+    }else
+    {
+        slave_pwm.fan_pwm8_statu = 0;
+    }
+
+    slave_pwm.fan_pwm7_level = ((slave_pwm.fan_info>>2) & 0x07) / 184;
+    slave_pwm.fan_pwm8_level = (slave_pwm.fan_info>>5) / 184;
+}
+
+void Modbus_Fun4()
 {
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOD,GPIO_PIN_2,GPIO_PIN_RESET);
 }
 
-void Modbus_Fun5()
-{
-	
-}
-
-void Modbus_Fun15()
+void Modbus_Fun6()
 {
 	
 }
