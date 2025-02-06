@@ -7,7 +7,7 @@
 #include "stm32f1xx_hal.h"
 #include "SPI_Flash_w25q64.h"
 #include "string.h"
-
+#include "pic.h"
 
 #define LCD_TOTAL_BUF_SIZE	(240*320*2)
 #define LCD_Buf_Size 1536
@@ -62,7 +62,7 @@ static void LCD_SPI_Send(uint8_t *data, uint16_t size)
  * @return  void
  */
 
-static void LCD_SPI_Send_DMA(uint8_t *data, uint16_t size)
+static void LCD_SPI_Send_DMA(const uint8_t *data, uint16_t size)
 {
 	SPI1_WriteByte_DMA(data, size);
 }
@@ -652,12 +652,14 @@ void LCD_ShowxNum(uint16_t x, uint16_t y, uint32_t num, uint8_t len, uint8_t siz
 /**
  * @brief	显示字符串
  *
- * @param   x,y		起点坐标
- * @param   width	字符显示区域宽度,1char/1byte=8
- * @param   height	字符显示区域高度，根据char’s size
- * @param   size	字体大小，根据char’s size
- * @param   p		字符串起始地址
- *
+ * @param   x,y		    起点坐标
+ * @param   width	    字符显示区域宽度,1char/1byte=8
+ * @param   height	    字符显示区域高度，根据char’s size
+ * @param   size	    字体大小，根据char’s size
+ * @param   p		    字符串起始地址
+ * @param   back_color  字体背景颜色
+ * @param   char_color  字体颜色
+ * 
  * @return  void
  */
 void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, char *p,uint16_t back_color,uint16_t char_color)
@@ -687,21 +689,22 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
 
 
 /**
- * @brief	显示图片
+ * @brief	显示图片,从单片机内部flash读取
  *
  * @remark	Image2Lcd取模方式：	C语言数据/水平扫描/16位真彩色(RGB565)/高位在前		其他的不要选
  *
- * @param   x,y		起点坐标
- * @param   width	图片宽度
- * @param   height	图片高度
- * @param   p		图片缓存数据起始地址
+ * @param   x,y		    起点坐标
+ * @param   width	    图片宽度
+ * @param   height	    图片高度
+ * @param   pic		    图片缓存数据起始地址,数组名
+ * @param   pic_size    图片数组大小
  *
  * @return  void
  */
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
+void LCD_Show_Image_Internal_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *pic, uint16_t pic_size)
 {
     
-    uint8_t buf[240];
+    //uint8_t buf[240];
     //HAL_StatusTypeDef status ;
     if(x + width > LCD_Width || y + height > LCD_Height)
     {
@@ -712,12 +715,49 @@ void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height)
 
     LCD_DC(1);
 
-    for (uint32_t i = 0; i < 967680; i+=240)
+    // for (uint32_t i = 0; i < 967680; i+=240)
+    // {
+    //     W25Q64_Read(i, buf, 240);
+    //     LCD_SPI_Send_DMA(buf, 240);
+    // }
+    LCD_SPI_Send_DMA(pic, pic_size);  
+    wait_spi1_dma_transmit();
+}
+
+/**
+ * @brief	显示图片 从外部flash W25Q64中读取
+ *
+ * @remark	Image2Lcd取模方式：	C语言数据/水平扫描/16位真彩色(RGB565)/高位在前		其他的不要选
+ *
+ * @param   x,y		    起点坐标
+ * @param   width	    图片宽度
+ * @param   height	    图片高度
+ * @param   start_addr	起始地址
+ * @param   pic_size    图片数组大小
+ * 
+ * @return  void
+ */
+void LCD_Show_Image_External_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t start_addr, uint16_t pic_size)
+{
+    
+    uint8_t buf[240];
+
+    if(x + width > LCD_Width || y + height > LCD_Height)
+    {
+        return;
+    }
+
+    LCD_Address_Set(x, y, x + width - 1, y + height - 1);
+
+    LCD_DC(1);
+
+    for (uint32_t i = start_addr; i < start_addr + pic_size; i+=240)
     {
         W25Q64_Read(i, buf, 240);
         LCD_SPI_Send_DMA(buf, 240);
     }
-
+ 
+    wait_spi1_dma_transmit();
 }
 
 
@@ -925,19 +965,19 @@ void ST7789_test()
 	// LCD_DrawLine(0,0,200,66,RED);
     // LCD_DrawLine(0,0,200,99,RED);
 	// LCD_DrawRectangle(0,0,200,200,RED);
-    //LCD_Show_Image(0,35,240,252);
-    static uint32_t now_cnt = 22;
+    LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
 
-    if( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET ) 
-    {
-        delay_ms(20);
-        if( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET )
-        {
-            now_cnt = now_cnt + 1;
-            LCD_ShowNum(160,120,now_cnt,2,32,RED,GREEN);
-        } 
-        while ( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5) == GPIO_PIN_RESET );
-    }
-    
-    delay_ms(100);
+    LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_off,1922);
+
+    LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
+
+    LCD_Show_Image_Internal_Flash(240,80,66,39,gImage_hot_on,5148);
+
+    LCD_Show_Image_Internal_Flash(250,180,31,31,gImage_temp_on,1922);
+   
+    LCD_Show_Image_Internal_Flash(130,210,29,29,gImage_connect_on,1682);
+ 
+
+    LCD_ShowString(160,215,56,16,16,"connect",BLACK,WHITE);
+    HAL_Delay(100);
 }

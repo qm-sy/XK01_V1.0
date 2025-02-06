@@ -43,3 +43,4 @@
 ..\output\st7789v2.o: ../BSP/Inc/Hzlib.h
 ..\output\st7789v2.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\output\st7789v2.o: ../BSP/Inc/SPI_Flash_w25q64.h
+..\output\st7789v2.o: ../BSP/Inc/pic.h

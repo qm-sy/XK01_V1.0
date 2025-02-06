@@ -86,34 +86,34 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+	SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_USART1_UART_Init();
-  MX_ADC1_Init();
-  MX_USART2_UART_Init();
-  MX_TIM4_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
-  MX_TIM6_Init();
-  MX_TIM7_Init();
-  MX_TIM5_Init();
+	MX_GPIO_Init();
+	MX_DMA_Init();
+	MX_USART1_UART_Init();
+	MX_ADC1_Init();
+	MX_USART2_UART_Init();
+	MX_TIM4_Init();
+	MX_SPI1_Init();
+	MX_SPI2_Init();
+	MX_TIM6_Init();
+	MX_TIM7_Init();
+	MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);      //ADC校准
-  	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
+	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
 	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
 	RS485_RX;
@@ -128,7 +128,7 @@ int main(void)
 	power_crl(70);
 	LCD_Clear(WHITE);
 	printf("========= code start ========= \r\n");
-
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -140,7 +140,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	//Modbus_Event();
 		ST7789_test();
-	// HAL_Delay(700);
+		// LCD_Clear(WHITE);
+		// HAL_Delay(700);
 
 	} 
   /* USER CODE END 3 */

@@ -267,7 +267,7 @@ uint8_t SPI1_WriteByte(uint8_t* data, uint16_t size)
 }
 
 
-uint8_t SPI1_WriteByte_DMA(uint8_t* data, uint16_t size)
+uint8_t SPI1_WriteByte_DMA(const uint8_t* data, uint16_t size)
 {
 	return HAL_SPI_Transmit_DMA(&hspi1, data, size);
 }

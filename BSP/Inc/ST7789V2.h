@@ -61,7 +61,8 @@ void LCD_ShowChar(uint16_t x, uint16_t y, char chr, uint8_t size,uint16_t back_c
 void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint16_t back_color,uint16_t char_color);		
 void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode,uint16_t back_color,uint16_t char_color);		
 void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,char *p,uint16_t back_color,uint16_t char_color);		
-void LCD_Show_Image(uint16_t x, uint16_t y, uint16_t width, uint16_t height);					
+void LCD_Show_Image_Internal_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t *pic, uint16_t pic_size);
+void LCD_Show_Image_External_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t start_addr, uint16_t pic_size);				
 void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 void ST7789_test(void);

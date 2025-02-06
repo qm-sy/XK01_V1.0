@@ -1,5 +1,5 @@
 #include "SPI_Flash_w25q64.h"
-#include "../inc/pic.h"
+//#include "../inc/pic.h"
 
 extern SPI_HandleTypeDef hspi2;
 static SPI_HandleTypeDef *g_HSPI_Flash = &hspi2;

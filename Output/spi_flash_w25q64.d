@@ -35,4 +35,3 @@
 ..\output\spi_flash_w25q64.o: ../SYSTEM/sys.h
 ..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\output\spi_flash_w25q64.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\spi_flash_w25q64.o: ..\BSP\Src\../inc/pic.h
