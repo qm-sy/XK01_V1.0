@@ -1,10 +1,10 @@
 ..\output\communication.o: ..\BSP\Src\Communication.c
 ..\output\communication.o: ../BSP/Inc/communication.h
 ..\output\communication.o: ../SYSTEM/sys.h
-..\output\communication.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-..\output\communication.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\output\communication.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\communication.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\output\communication.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\communication.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\communication.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\communication.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\string.h
 ..\output\communication.o: ../Core/Inc/main.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\communication.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -19,7 +19,7 @@
 ..\output\communication.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-..\output\communication.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+..\output\communication.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stddef.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 ..\output\communication.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

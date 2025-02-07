@@ -391,10 +391,10 @@ int W25Q64_Erase(uint32_t offset, uint32_t len)
 **/
 void W25Q64_Test(void)
 {
-    uint16_t chip_id;
+//    uint16_t chip_id;
 
-    chip_id = W25X_ReadID();
-    printf("The chip id is 0x%04x \r\n",chip_id);
+//    chip_id = W25X_ReadID();
+    //printf("The chip id is 0x%04x \r\n",chip_id);
     //W25Q64_Erase(0,967680);
     
     // W25Q64_Write(0,gImage_xiaonvhai1_1,30240);

@@ -362,14 +362,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms
 	{
-		if( rs485.timrun != 0 )//运�?�时间�????=0表明
+		if( rs485.timrun != 0 )     //定时器运行标志位
 		{
 			rs485.timout++;
 			if( rs485.timout >=8 )
 			{
 				rs485.timrun = 0;
-
-				rs485.reflag = 1;	//���ձ�־����
+        
+				rs485.reflag = 1;	      //超时，说明接收完毕
 			}
 		}
 	}

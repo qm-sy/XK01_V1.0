@@ -32,6 +32,7 @@ extern "C" {
 #include "POWER_CRL.h"
 #include "modbus_rtu.h"
 #include "KEY_CRL.h"
+#include "Communication.h"
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim4;

@@ -80,7 +80,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  uint8_t send_buf[5] = {0xaa,0xbb,0xcc,0xdd,0xee};
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -116,12 +116,15 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
 	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
+  
+  
 	RS485_RX;
+  rs485.reflag = 0;
+	rs485.recount = 0;
 	HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
 	LCD_Init();
 
-	rs485.reflag = 0;
-	rs485.recount = 0;
+
 
 	W25Q64_Test(); 
 	pwm_crl(50,75,75,200);
@@ -129,6 +132,7 @@ int main(void)
 	LCD_Clear(WHITE);
 	printf("========= code start ========= \r\n");
 	
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,9 +143,16 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	//Modbus_Event();
-		ST7789_test();
+		//ST7789_test();
+    // HAL_UART_Transmit(&huart2,send_buf,5,1000);
+    // Modbus_Event();
+    // HAL_Delay(100);
+    
+    slave_statu_query_modify(0X03,0X00,5);
+    
+    HAL_Delay(100);
 		// LCD_Clear(WHITE);
-		// HAL_Delay(700);
+
 
 	} 
   /* USER CODE END 3 */

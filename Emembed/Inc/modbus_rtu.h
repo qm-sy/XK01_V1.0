@@ -4,26 +4,28 @@
 #include "usart.h"
 #include "main.h"
 #include "PWM_CRL.h"
+#include "communication.h"
 
 typedef struct  
 {
-    uint8_t *modbus_send_buf;
-    uint8_t *modbus_rcv_buf;
+    uint8_t modbus_send_buf[48];
+    uint8_t modbus_rcv_buf[48];
 
-    uint16_t NTC1_current_value;   //30001
-    uint16_t NTC2_current_value; 
-    uint16_t NTC3_current_value;    //30002
-    uint16_t NTC4_current_value;    //30002
-    uint16_t IR1_adc_value;          //30003
-    uint16_t IR2_adc_value;          //30003
-    uint16_t I_out12_value;         //30004
-    uint16_t I_out3_value;          //30005
+    uint8_t NTC1_current_value;     //30001
+    uint8_t NTC2_current_value; 
+    uint8_t NTC3_current_value;     //30002
+    uint8_t NTC4_current_value;    
+    uint8_t IR1_adc_value;          //30003
+    uint8_t IR2_adc_value;          
+    uint8_t I_out1_value;           //30004
+    uint8_t I_out2_value;           //30004
+    uint8_t I_out3_value;           //30005
 
-    uint16_t PWM_info;              //40001
-    uint16_t LED_info;              //40002
-    uint16_t AC220_info;            //40003
-    uint16_t NTC12_alarm_value;     //40004
-    uint16_t NTC3_alarm_value;      //40005
+    uint8_t PWM_info;               //40001
+    uint8_t LED_info;               //40002
+    uint8_t AC220_info;             //40003
+    uint8_t NTC12_alarm_value;      //40004
+    uint8_t NTC3_alarm_value;       //40005
 }MODBUS_INFO;
 
 extern MODBUS_INFO modbus;
@@ -44,6 +46,6 @@ uint8_t modbus_wait_receive( void );
 
 uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length);
 
-void slave_statu_query_modify( uint8_t code,uint8_t fun, uint16_t reg_addr,uint16_t reg_num,uint16_t reg_data);
-
+void slave_statu_query_modify( uint8_t fun, uint16_t reg_addr,uint16_t reg_num);
+void test_hanshu(void);
 #endif

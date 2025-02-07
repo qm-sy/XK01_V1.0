@@ -14,24 +14,22 @@ void modbus_send_data( uint8_t *buf , uint8_t len )
 {
     HAL_UART_Transmit(&huart2,(uint8_t*)buf,len,1000);
     
-    while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
+    //while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
 }
 
 uint8_t modbus_wait_receive( void )
 {
     uint8_t wait_time_cnt = 100;
 
-    while(~rs485.reflag)
-    {
-        wait_time_cnt--;
-        HAL_Delay(1);
-    }
+    while((~rs485.reflag)&&(wait_time_cnt!=0))
+
     if( wait_time_cnt == 0 )
     {
         printf("receive error \r\n");
         return 0;
     }else
     {
+        printf("receive success \r\n");
         rs485.reflag = 0;	
     }
     return 1;
@@ -46,36 +44,37 @@ uint8_t modbus_wait_receive( void )
  */
 void Modbus_Event( void )
 {
-    // uint16_t crc,rccrc;
+    uint16_t crc,rccrc;
 
-    // /*1.接收完毕                                           */
-    // if( rs485.reflag == 1 )
-    // {
-    //     /*2.清空接收完毕标志位                              */
-    //     rs485.reflag = 0;	
+    /*1.接收完毕                                           */
+    if( rs485.reflag == 1 )
+    {
+        //printf("here \r\n");
+        /*2.清空接收完毕标志位                              */
+        rs485.reflag = 0;	
         
-    //     /*3.CRC校验                                         */
-    //     crc = MODBUS_CRC16(rs485.rcvbuf, rs485.recount-2);
-    //     rccrc = (rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1]);
+        /*3.CRC校验                                         */
+        crc = MODBUS_CRC16(rs485.rcvbuf, rs485.recount-2);
+        rccrc = (rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1]);
 
-    //     /*4.清空接收计数                                    */
-    //     rs485.recount = 0;
-    //     if ( crc == rccrc)
-    //     {
-    //         if( rs485.multifunpower == rs485.rcvbuf[0] )
-    //         {
-    //             switch ( rs485.rcvbuf[1] )
-    //             {         
-    //                 case 0x03:		Modbus_Fun3();		break;
-    //                 case 0x04:		Modbus_Fun4();      break;            
-    //                 case 0x06:		Modbus_Fun6();		break;        
-    //                 case 0x10:	    Modbus_Fun16();		break;  
+        /*4.清空接收计数                                    */
+        rs485.recount = 0;
+        if ( crc == rccrc)
+        {
+            if( rs485.rcvbuf[0] == SLAVE_ADDR )
+            {
+                switch ( rs485.rcvbuf[1] )
+                {         
+                    case 0x03:		Modbus_Fun3();		break;
+                    case 0x04:		Modbus_Fun4();      break;            
+                    case 0x06:		Modbus_Fun6();		break;        
+                    case 0x10:	    Modbus_Fun16();		break;  
 
-    //                 default:						    break;
-    //             }
-    //         }
-    //     }
-    // }
+                    default:						    break;
+                }
+            }
+        }
+    }
 }
 
 void Modbus_Fun3()
@@ -109,7 +108,10 @@ void Modbus_Fun4()
 
 void Modbus_Fun6()
 {
-	
+    uint8_t send_buf[5] = {0x00,0x01,0x02,0x03,0x04};
+    //printf("success");
+    HAL_UART_Transmit(&huart2,send_buf,5,1000);
+	//printf("success");
 }
 
 void Modbus_Fun16()
@@ -158,15 +160,16 @@ uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length)
 }
 
 
-void slave_statu_query_modify( uint8_t code,uint8_t fun, uint16_t reg_addr,uint16_t reg_num,uint16_t reg_data)
+void slave_statu_query_modify(uint8_t fun, uint16_t reg_addr,uint16_t reg_num)
 {
-    uint16_t rccrc,crc,err;
-    uint8_t crc_buf_03[6];
+    uint16_t rccrc,crc;
+    //uint8_t crc_buf_03[6];
     uint8_t start_addr_03 = 3;
-
+    //printf("here1 \r\n");
     switch(fun)
     {
         case 0x03:
+            
             modbus.modbus_send_buf[0] = SLAVE_ADDR;
             modbus.modbus_send_buf[1] = 0x03;
             modbus.modbus_send_buf[2] = reg_addr >> 8;
@@ -176,11 +179,15 @@ void slave_statu_query_modify( uint8_t code,uint8_t fun, uint16_t reg_addr,uint1
             crc = MODBUS_CRC16(modbus.modbus_send_buf,6);
             modbus.modbus_send_buf[6] = crc >> 8;
             modbus.modbus_send_buf[7] = crc;
-
-            modbus_send_data(modbus.modbus_send_buf,8);
-            err = modbus_wait_receive();
-            if( err == 1)
+            
+            HAL_UART_Transmit(&huart2,modbus.modbus_send_buf,8,1000);
+            //HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
+            HAL_Delay(1000);
+            printf("The vlaue of flag %d \r\n",rs485.reflag);
+            if(rs485.reflag == 1)
             {
+                rs485.reflag = 0;
+                
                 rccrc = MODBUS_CRC16(rs485.rcvbuf,3 + reg_num * 2);
                 if(rccrc == (rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1]))
                 {
@@ -189,29 +196,45 @@ void slave_statu_query_modify( uint8_t code,uint8_t fun, uint16_t reg_addr,uint1
                         switch (i)
                         {
                         case 0:
-                            modbus.NTC1_current_value = rs485.rcvbuf[start_addr_03+1];
+                            modbus.NTC1_current_value = rs485.rcvbuf[start_addr_03 + 1];
                             modbus.NTC2_current_value = rs485.rcvbuf[start_addr_03];
+                            printf("value1 is 0x%02x\r\n",modbus.NTC1_current_value);
+                            printf("value2 is 0x%02x\r\n",modbus.NTC2_current_value);
                             break;
                         case 1:
-                            modbus.NTC3_current_value = rs485.rcvbuf[start_addr_03+1];
+                            modbus.NTC3_current_value = rs485.rcvbuf[start_addr_03 + 1];
                             modbus.NTC4_current_value = rs485.rcvbuf[start_addr_03];
+                            printf("value3 is 0x%02x\r\n",modbus.NTC3_current_value);
+                            printf("value4 is 0x%02x\r\n",modbus.NTC4_current_value);
                             break;
                         case 2:
-                            /* code */
+                            modbus.IR1_adc_value = rs485.rcvbuf[start_addr_03 + 1];
+                            modbus.IR2_adc_value = rs485.rcvbuf[start_addr_03];
+                            printf("value5 is 0x%02x\r\n",modbus.IR1_adc_value);
+                            printf("value6 is 0x%02x\r\n",modbus.IR2_adc_value);
                             break;    
                         case 3:
-                            /* code */
+                            modbus.I_out1_value = rs485.rcvbuf[start_addr_03 + 1];
+                            modbus.I_out2_value = rs485.rcvbuf[start_addr_03];
+                            printf("value7 is 0x%02x\r\n",modbus.I_out1_value);
+                            printf("value8 is 0x%02x\r\n",modbus.I_out2_value);
                             break;
                         case 4:
-                            /* code */
+                            modbus.I_out3_value = rs485.rcvbuf[start_addr_03 + 1];
+                            printf("value9 is 0x%02x\r\n",modbus.I_out3_value);
                             break;                                                    
                         default:
                             break;
                         }
+                        rs485.recount = 0;
                         start_addr_03 += 2;
                     }
                 }
             }
+            
+           
+            
+            break;
         case 0x04:
             break;
         case 0x06:
@@ -221,6 +244,7 @@ void slave_statu_query_modify( uint8_t code,uint8_t fun, uint16_t reg_addr,uint1
         default:
             break;
     }
+
 }
 
 void slave_fan_statu_query(void)
@@ -266,3 +290,15 @@ void slave_fan_statu_query(void)
 //     modbus_send_data(slave_pwm.modbus_06,8);
 // }
 
+void test_hanshu(void)
+{
+    uint8_t send_buf[5] = {0x00,0x01,0x02,0x03,0x04};
+    //printf("success");
+    HAL_UART_Transmit(&huart2,send_buf,5,1000);
+    if(rs485.reflag == 1)
+    {
+        rs485.reflag = 0;
+        
+        printf("hello \r\n");
+    }
+}
