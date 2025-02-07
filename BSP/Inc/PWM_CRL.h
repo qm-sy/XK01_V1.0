@@ -3,7 +3,8 @@
 
 #include "tim.h"
 #include "sys.h"
-#include "Modbus_rtu.h"
+#include "modbus_rtu.h"
+#include "communication.h"
 
 typedef struct  
 {

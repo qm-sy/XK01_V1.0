@@ -622,8 +622,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\Modbus_RTU.c</PathWithFileName>
-      <FilenameWithoutPath>Modbus_RTU.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\POWER_CRL.c</PathWithFileName>
+      <FilenameWithoutPath>POWER_CRL.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -634,8 +634,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\POWER_CRL.c</PathWithFileName>
-      <FilenameWithoutPath>POWER_CRL.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\KEY_CRL.c</PathWithFileName>
+      <FilenameWithoutPath>KEY_CRL.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -646,8 +646,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\KEY_CRL.c</PathWithFileName>
-      <FilenameWithoutPath>KEY_CRL.c</FilenameWithoutPath>
+      <PathWithFileName>..\BSP\Src\Communication.c</PathWithFileName>
+      <FilenameWithoutPath>Communication.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -683,6 +683,18 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>39</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Emembed\Src\modbus_rtu.c</PathWithFileName>
+      <FilenameWithoutPath>modbus_rtu.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -693,7 +705,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>7</GroupNumber>
-      <FileNumber>39</FileNumber>
+      <FileNumber>40</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -705,7 +717,7 @@
     </File>
     <File>
       <GroupNumber>7</GroupNumber>
-      <FileNumber>40</FileNumber>
+      <FileNumber>41</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

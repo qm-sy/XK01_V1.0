@@ -362,14 +362,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms
 	{
-		if( modbus.timrun != 0 )//运�?�时间�????=0表明
+		if( rs485.timrun != 0 )//运�?�时间�????=0表明
 		{
-			modbus.timout++;
-			if( modbus.timout >=8 )
+			rs485.timout++;
+			if( rs485.timout >=8 )
 			{
-				modbus.timrun = 0;
+				rs485.timrun = 0;
 
-				modbus.reflag = 1;	//���ձ�־����
+				rs485.reflag = 1;	//���ձ�־����
 			}
 		}
 	}

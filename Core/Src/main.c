@@ -31,7 +31,7 @@
 #include "PWM_CRL.h"
 #include "ST7789V2.h"
 #include "SPI_Flash_w25q64.h"
-#include "Modbus_RTU.h"
+#include "modbus_rtu.h"
 #include "POWER_CRL.h"
 /* USER CODE END Includes */
 
@@ -117,11 +117,11 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);			      //TIM6使能
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
 	RS485_RX;
-	HAL_UART_Receive_IT(&huart2,&modbus.rcvbuf[modbus.recount],1);
+	HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
 	LCD_Init();
-	modbus.multifunpower =  0X35; 
-	modbus.reflag = 0;
-	modbus.recount = 0;
+
+	rs485.reflag = 0;
+	rs485.recount = 0;
 
 	W25Q64_Test(); 
 	pwm_crl(50,75,75,200);

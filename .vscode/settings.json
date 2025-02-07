@@ -19,7 +19,8 @@
         "pic.h": "c",
         "tim.h": "c",
         "power_crl.h": "c",
-        "delay.h": "c"
+        "delay.h": "c",
+        "communication.H": "cpp"
     },
     "files.exclude": {
         "**/.vscode": true,

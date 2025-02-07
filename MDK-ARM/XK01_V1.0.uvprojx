@@ -927,11 +927,6 @@
               <FilePath>..\BSP\Src\SPI_Flash_w25q64.c</FilePath>
             </File>
             <File>
-              <FileName>Modbus_RTU.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Src\Modbus_RTU.c</FilePath>
-            </File>
-            <File>
               <FileName>POWER_CRL.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\POWER_CRL.c</FilePath>
@@ -940,6 +935,11 @@
               <FileName>KEY_CRL.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\KEY_CRL.c</FilePath>
+            </File>
+            <File>
+              <FileName>Communication.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\Src\Communication.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -955,6 +955,11 @@
               <FileName>temp.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Emembed\Src\temp.c</FilePath>
+            </File>
+            <File>
+              <FileName>modbus_rtu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Emembed\Src\modbus_rtu.c</FilePath>
             </File>
           </Files>
         </Group>

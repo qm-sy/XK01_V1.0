@@ -30,7 +30,7 @@ extern "C" {
 
 /* USER CODE BEGIN Includes */
 #include "POWER_CRL.h"
-#include "Modbus_RTU.h"
+#include "modbus_rtu.h"
 #include "KEY_CRL.h"
 /* USER CODE END Includes */
 
