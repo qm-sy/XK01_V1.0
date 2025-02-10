@@ -14,24 +14,25 @@ void modbus_send_data( uint8_t *buf , uint8_t len )
 {
     HAL_UART_Transmit(&huart2,(uint8_t*)buf,len,1000);
     
-    //while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
+    while (__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC) != SET);
 }
 
 uint8_t modbus_wait_receive( void )
 {
-    uint8_t wait_time_cnt = 100;
+    uint16_t wait_time_cnt = 300;
 
-    while((~rs485.reflag)&&(wait_time_cnt!=0))
+    while((rs485.reflag!=1)&&(wait_time_cnt!=0))
+    {
+        wait_time_cnt--;
+        delay_ms(1);
+    }
 
     if( wait_time_cnt == 0 )
     {
         printf("receive error \r\n");
         return 0;
-    }else
-    {
-        printf("receive success \r\n");
-        rs485.reflag = 0;	
     }
+
     return 1;
 }
 /**
@@ -160,93 +161,236 @@ uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length)
 }
 
 
-void slave_statu_query_modify(uint8_t fun, uint16_t reg_addr,uint16_t reg_num)
+void slave_statu_query_modify( uint8_t fun, uint16_t reg_addr,uint16_t reg_num,uint16_t reg_val )
 {
-    uint16_t rccrc,crc;
-    //uint8_t crc_buf_03[6];
-    uint8_t start_addr_03 = 3;
-    //printf("here1 \r\n");
+    
     switch(fun)
     {
-        case 0x03:
-            
-            modbus.modbus_send_buf[0] = SLAVE_ADDR;
-            modbus.modbus_send_buf[1] = 0x03;
-            modbus.modbus_send_buf[2] = reg_addr >> 8;
-            modbus.modbus_send_buf[3] = reg_addr;
-            modbus.modbus_send_buf[4] = reg_num >> 8;
-            modbus.modbus_send_buf[5] = reg_num;
-            crc = MODBUS_CRC16(modbus.modbus_send_buf,6);
-            modbus.modbus_send_buf[6] = crc >> 8;
-            modbus.modbus_send_buf[7] = crc;
-            
-            HAL_UART_Transmit(&huart2,modbus.modbus_send_buf,8,1000);
-            //HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
-            HAL_Delay(1000);
-            printf("The vlaue of flag %d \r\n",rs485.reflag);
-            if(rs485.reflag == 1)
+        case 0x03:  Modbus_fun03_Master(reg_addr, reg_num);             break;
+
+        case 0x04:  Modbus_fun04_Master(reg_addr, reg_num);             break;
+
+        case 0x06:  Modbus_fun06_Master(reg_addr, reg_num, reg_val);  break;
+
+        case 0x0a:  Modbus_fun16_Master(reg_addr, reg_num, reg_val);  break;
+    }        
+}
+void Modbus_fun03_Master( uint16_t reg_addr,uint16_t reg_num )
+{
+    uint16_t rccrc,crc;
+    uint8_t start_addr_03 = 3;              //Slave reply  DATA1_H address
+
+    /*1. 主机 发送一帧查询报文后等待回复                    */
+    modbus.modbus_send_buf[0] = SLAVE_ADDR;
+    modbus.modbus_send_buf[1] = 0x03;
+    modbus.modbus_send_buf[2] = reg_addr >> 8;
+    modbus.modbus_send_buf[3] = reg_addr;
+    modbus.modbus_send_buf[4] = reg_num >> 8;
+    modbus.modbus_send_buf[5] = reg_num;
+    crc = MODBUS_CRC16(modbus.modbus_send_buf,6);
+    modbus.modbus_send_buf[6] = crc >> 8;
+    modbus.modbus_send_buf[7] = crc;
+    
+    modbus_send_data(modbus.modbus_send_buf,8);
+    modbus_wait_receive();
+
+    /*2. 收到回复后校验crc                                  */
+    if(rs485.reflag == 1)
+    {
+        rccrc = MODBUS_CRC16(rs485.rcvbuf,3 + reg_num * 2);
+        if(rccrc == ((rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1])))
+        {
+            /*3. crc校验通过，对信息帧内数据进行处理        */
+            for( uint16_t i = reg_addr; i < reg_addr + reg_num; i++)
             {
-                rs485.reflag = 0;
-                
-                rccrc = MODBUS_CRC16(rs485.rcvbuf,3 + reg_num * 2);
-                if(rccrc == (rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1]))
+                switch (i)
                 {
-                    for( uint16_t i = reg_addr; i < reg_addr + reg_num; i++)
-                    {
-                        switch (i)
-                        {
-                        case 0:
-                            modbus.NTC1_current_value = rs485.rcvbuf[start_addr_03 + 1];
-                            modbus.NTC2_current_value = rs485.rcvbuf[start_addr_03];
-                            printf("value1 is 0x%02x\r\n",modbus.NTC1_current_value);
-                            printf("value2 is 0x%02x\r\n",modbus.NTC2_current_value);
-                            break;
-                        case 1:
-                            modbus.NTC3_current_value = rs485.rcvbuf[start_addr_03 + 1];
-                            modbus.NTC4_current_value = rs485.rcvbuf[start_addr_03];
-                            printf("value3 is 0x%02x\r\n",modbus.NTC3_current_value);
-                            printf("value4 is 0x%02x\r\n",modbus.NTC4_current_value);
-                            break;
-                        case 2:
-                            modbus.IR1_adc_value = rs485.rcvbuf[start_addr_03 + 1];
-                            modbus.IR2_adc_value = rs485.rcvbuf[start_addr_03];
-                            printf("value5 is 0x%02x\r\n",modbus.IR1_adc_value);
-                            printf("value6 is 0x%02x\r\n",modbus.IR2_adc_value);
-                            break;    
-                        case 3:
-                            modbus.I_out1_value = rs485.rcvbuf[start_addr_03 + 1];
-                            modbus.I_out2_value = rs485.rcvbuf[start_addr_03];
-                            printf("value7 is 0x%02x\r\n",modbus.I_out1_value);
-                            printf("value8 is 0x%02x\r\n",modbus.I_out2_value);
-                            break;
-                        case 4:
-                            modbus.I_out3_value = rs485.rcvbuf[start_addr_03 + 1];
-                            printf("value9 is 0x%02x\r\n",modbus.I_out3_value);
-                            break;                                                    
-                        default:
-                            break;
-                        }
-                        rs485.recount = 0;
-                        start_addr_03 += 2;
-                    }
+                case 0:
+                    modbus.PWM_info = rs485.rcvbuf[start_addr_03 + 1];                       
+                    printf("value1 is 0x%02x\r\n",modbus.PWM_info);
+                    break;
+
+                case 1:
+                    modbus.LED_info = rs485.rcvbuf[start_addr_03 + 1];
+                    printf("value3 is 0x%02x\r\n",modbus.LED_info);
+                    break;
+
+                case 2:
+                    modbus.AC220_info = rs485.rcvbuf[start_addr_03 + 1];                            
+                    printf("value5 is 0x%02x\r\n",modbus.AC220_info);                            
+                    break; 
+
+                case 3:
+                    modbus.NTC1_alarm_value = rs485.rcvbuf[start_addr_03 + 1];
+                    modbus.NTC2_alarm_value = rs485.rcvbuf[start_addr_03];
+                    printf("value7 is 0x%02x\r\n",modbus.NTC1_alarm_value);
+                    printf("value8 is 0x%02x\r\n",modbus.NTC2_alarm_value);
+                    break;
+
+                case 4:
+                    modbus.NTC3_alarm_value = rs485.rcvbuf[start_addr_03 + 1];
+                    printf("value9 is 0x%02x\r\n",modbus.NTC3_alarm_value);
+                    break;   
+
+                default:
+                    break;
                 }
+                start_addr_03 += 2;
             }
+        }
+        /*4. RX允许继续接收，开启超时接收计时               */
+        rs485.reflag = 0;
+        rs485.recount = 0;
+    }
+}
+
+void Modbus_fun04_Master( uint16_t reg_addr,uint16_t reg_num )
+{
+    uint16_t rccrc,crc;
+    uint8_t start_addr_03 = 3;              //Slave reply  DATA1_H address
+
+    /*1. 主机 发送一帧查询报文后等待回复                    */
+    modbus.modbus_send_buf[0] = SLAVE_ADDR;
+    modbus.modbus_send_buf[1] = 0x04;
+    modbus.modbus_send_buf[2] = reg_addr >> 8;
+    modbus.modbus_send_buf[3] = reg_addr;
+    modbus.modbus_send_buf[4] = reg_num >> 8;
+    modbus.modbus_send_buf[5] = reg_num;
+    crc = MODBUS_CRC16(modbus.modbus_send_buf,6);
+    modbus.modbus_send_buf[6] = crc >> 8;
+    modbus.modbus_send_buf[7] = crc;
+    
+    modbus_send_data(modbus.modbus_send_buf,8);
+    modbus_wait_receive();
+
+    /*2. 收到回复后校验crc                                  */
+    if(rs485.reflag == 1)
+    {
+        rccrc = MODBUS_CRC16(rs485.rcvbuf,3 + reg_num * 2);
+        if(rccrc == ((rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1])))
+        {
+            /*3. crc校验通过，对信息帧内数据进行处理        */
+            for( uint16_t i = reg_addr; i < reg_addr + reg_num; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        modbus.NTC1_current_value = rs485.rcvbuf[start_addr_03 + 1];
+                        modbus.NTC2_current_value = rs485.rcvbuf[start_addr_03];
+                        printf("value1 is 0x%02x\r\n",modbus.NTC1_current_value);
+                        printf("value2 is 0x%02x\r\n",modbus.NTC2_current_value);
+                        break;
+
+                    case 1:
+                        modbus.NTC3_current_value = rs485.rcvbuf[start_addr_03 + 1];
+                        modbus.NTC4_current_value = rs485.rcvbuf[start_addr_03];
+                        printf("value3 is 0x%02x\r\n",modbus.NTC3_current_value);
+                        printf("value4 is 0x%02x\r\n",modbus.NTC4_current_value);
+                        break;
+
+                    case 2:
+                        modbus.IR1_adc_value = rs485.rcvbuf[start_addr_03 + 1];
+                        modbus.IR2_adc_value = rs485.rcvbuf[start_addr_03];
+                        printf("value5 is 0x%02x\r\n",modbus.IR1_adc_value);
+                        printf("value6 is 0x%02x\r\n",modbus.IR2_adc_value);
+                        break;    
+
+                    case 3:
+                        modbus.I_out1_value = rs485.rcvbuf[start_addr_03 + 1];
+                        modbus.I_out2_value = rs485.rcvbuf[start_addr_03];
+                        printf("value7 is 0x%02x\r\n",modbus.I_out1_value);
+                        printf("value8 is 0x%02x\r\n",modbus.I_out2_value);
+                        break;
+
+                    case 4:
+                        modbus.I_out3_value = rs485.rcvbuf[start_addr_03 + 1];
+                        printf("value9 is 0x%02x\r\n",modbus.I_out3_value);
+                        break;  
+
+                    default:
+                        break;
+                }
+                start_addr_03 += 2;
+            }
+        }
+        /*4. RX允许继续接收，开启超时接收计时               */
+        rs485.reflag = 0;
+        rs485.recount = 0;
+    }
+}
+
+void Modbus_fun06_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val )
+{
+    uint16_t rccrc,crc;
+
+    /*1. 主机 发送一帧查询报文后等待回复                    */
+    modbus.modbus_send_buf[0] = SLAVE_ADDR;
+    modbus.modbus_send_buf[1] = 0x06;
+    modbus.modbus_send_buf[2] = reg_addr >> 8;
+    modbus.modbus_send_buf[3] = reg_addr;
+    switch (reg_addr)
+    {
+        case 0:
+            modbus.PWM_info = reg_val;
+            modbus.modbus_send_buf[4] = 0x00;
+            modbus.modbus_send_buf[5] = modbus.PWM_info;
+            break;
+
+        case 1:
+            modbus.LED_info = reg_val;
+            modbus.modbus_send_buf[4] = 0x00;
+            modbus.modbus_send_buf[5] = modbus.LED_info;
+            break;
+
+        case 2:
+            modbus.AC220_info = reg_val;
+            modbus.modbus_send_buf[4] = 0x00;
+            modbus.modbus_send_buf[5] = modbus.AC220_info;
+            break;
             
-           
-            
+        case 3:
+            modbus.NTC1_alarm_value = reg_val;
+            modbus.NTC2_alarm_value = reg_val>>8;
+            modbus.modbus_send_buf[4] = modbus.NTC2_alarm_value;
+            modbus.modbus_send_buf[5] = modbus.NTC1_alarm_value;
             break;
-        case 0x04:
+
+        case 4:
+            modbus.NTC3_alarm_value = reg_val;
+            modbus.modbus_send_buf[4] = 0x00;
+            modbus.modbus_send_buf[5] = modbus.NTC3_alarm_value;
             break;
-        case 0x06:
-            break;    
-        case 0x0a:
-            break;
+
         default:
             break;
     }
 
+    crc = MODBUS_CRC16(modbus.modbus_send_buf,6);
+    modbus.modbus_send_buf[6] = crc >> 8;
+    modbus.modbus_send_buf[7] = crc;
+    
+    modbus_send_data(modbus.modbus_send_buf,8);
+    modbus_wait_receive();
+
+    /*2. 收到回复后校验crc                                  */
+    if(rs485.reflag == 1)
+    {
+        rccrc = MODBUS_CRC16(rs485.rcvbuf,3 + reg_num * 2);
+        if(rccrc == ((rs485.rcvbuf[rs485.recount-2]<<8) | (rs485.rcvbuf[rs485.recount-1])))
+        {
+            /*3. crc校验通过，对信息帧内数据进行处理        */
+            printf("reply success \r\n");
+        }    
+        /*4. RX允许继续接收，开启超时接收计时               */
+        rs485.reflag = 0;
+        rs485.recount = 0;
+    }
 }
 
+void Modbus_fun16_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val )
+{
+
+}
 void slave_fan_statu_query(void)
 {
     slave_pwm.fan_info = rs485.rcvbuf[4];

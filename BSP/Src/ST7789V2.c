@@ -784,7 +784,7 @@ void LCD_Init(void)
 
     /* Memory Data Access Control */
     LCD_Write_Cmd(0x36);
-    LCD_Write_Data(0x60);
+    LCD_Write_Data(0xa0);
 
     /* RGB 5-6-5-bit  */
     LCD_Write_Cmd(0x3A);

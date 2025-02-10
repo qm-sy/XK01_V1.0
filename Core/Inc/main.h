@@ -141,8 +141,8 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
-#define RS485_TX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_RESET)
-#define RS485_RX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_SET)
+#define RS485_TX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_SET)
+#define RS485_RX HAL_GPIO_WritePin(DR_485_GPIO_Port,DR_485_Pin,GPIO_PIN_RESET)
 
 /* USER CODE END Private defines */
 

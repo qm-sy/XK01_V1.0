@@ -224,6 +224,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
   /* USER CODE END TIM5_MspInit 0 */
     /* TIM5 clock enable */
     __HAL_RCC_TIM5_CLK_ENABLE();
+
+    /* TIM5 interrupt Init */
+    HAL_NVIC_SetPriority(TIM5_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM5_IRQn);
   /* USER CODE BEGIN TIM5_MspInit 1 */
 
   /* USER CODE END TIM5_MspInit 1 */
@@ -308,6 +312,9 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
   /* USER CODE END TIM5_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_TIM5_CLK_DISABLE();
+
+    /* TIM5 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(TIM5_IRQn);
   /* USER CODE BEGIN TIM5_MspDeInit 1 */
 
   /* USER CODE END TIM5_MspDeInit 1 */
@@ -348,16 +355,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint8_t switch_flag = 0;
 	static uint16_t phase_num = 0;
 	static uint8_t phase_flag = 0;
-  static uint8_t key_scan_cnt = 0;
+	static uint8_t key_scan_cnt = 0;
 
-  if( htim->Instance == htim5.Instance ) 			//timer5:T = 10ms
+	if( htim->Instance == htim5.Instance ) 			//timer5:T = 10ms
 	{
-    key_scan_cnt++;
-    if( key_scan_cnt == 5 )
-    {
-		key_value = (B0_VAL) | (B1_VAL<<1) | (B2_VAL<<2) | (B3_VAL<<3);
-    }
+		key_scan_cnt++;
+		if( key_scan_cnt == 4 )
+		{
+			key_value_flag = 1;
+		}
 
+		if( key_scan_cnt == 5 )
+		{
+			key_value_flag = 0;
+			key_scan_cnt = 0;
+		}
 	}
 
 	if( htim->Instance == htim6.Instance ) 			//timer6:T = 1ms

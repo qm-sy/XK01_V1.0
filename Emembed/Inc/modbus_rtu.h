@@ -5,6 +5,7 @@
 #include "main.h"
 #include "PWM_CRL.h"
 #include "communication.h"
+#include "delay.h"
 
 typedef struct  
 {
@@ -24,7 +25,8 @@ typedef struct
     uint8_t PWM_info;               //40001
     uint8_t LED_info;               //40002
     uint8_t AC220_info;             //40003
-    uint8_t NTC12_alarm_value;      //40004
+    uint8_t NTC1_alarm_value;       //40004
+    uint8_t NTC2_alarm_value;       //40004
     uint8_t NTC3_alarm_value;       //40005
 }MODBUS_INFO;
 
@@ -46,6 +48,11 @@ uint8_t modbus_wait_receive( void );
 
 uint16_t MODBUS_CRC16(uint8_t *buf, uint8_t length);
 
-void slave_statu_query_modify( uint8_t fun, uint16_t reg_addr,uint16_t reg_num);
+void slave_statu_query_modify( uint8_t fun, uint16_t reg_addr,uint16_t reg_num,uint16_t reg_val );
 void test_hanshu(void);
+void Modbus_fun03_Master( uint16_t reg_addr,uint16_t reg_num );
+void Modbus_fun04_Master( uint16_t reg_addr,uint16_t reg_num );
+void Modbus_fun06_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val );
+void Modbus_fun16_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val );
+
 #endif

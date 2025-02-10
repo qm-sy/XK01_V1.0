@@ -20,7 +20,8 @@
         "tim.h": "c",
         "power_crl.h": "c",
         "delay.h": "c",
-        "communication.H": "cpp"
+        "communication.H": "cpp",
+        "key_crl.h": "c"
     },
     "files.exclude": {
         "**/.vscode": true,

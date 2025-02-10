@@ -33,6 +33,7 @@
 #include "SPI_Flash_w25q64.h"
 #include "modbus_rtu.h"
 #include "POWER_CRL.h"
+#include "KEY_CRL.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -80,37 +81,37 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  uint8_t send_buf[5] = {0xaa,0xbb,0xcc,0xdd,0xee};
+  uint8_t value = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-	SystemClock_Config();
+  SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_DMA_Init();
-	MX_USART1_UART_Init();
-	MX_ADC1_Init();
-	MX_USART2_UART_Init();
-	MX_TIM4_Init();
-	MX_SPI1_Init();
-	MX_SPI2_Init();
-	MX_TIM6_Init();
-	MX_TIM7_Init();
-	MX_TIM5_Init();
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_USART2_UART_Init();
+  MX_TIM4_Init();
+  MX_SPI1_Init();
+  MX_SPI2_Init();
+  MX_TIM6_Init();
+  MX_TIM7_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);      //ADC校准
 	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
@@ -118,7 +119,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
   
   
-	RS485_RX;
+	RS485_TX;
   rs485.reflag = 0;
 	rs485.recount = 0;
 	HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
@@ -127,12 +128,12 @@ int main(void)
 
 
 	W25Q64_Test(); 
-	pwm_crl(50,75,75,200);
+	pwm_crl(100,75,75,200);
 	power_crl(70);
 	LCD_Clear(WHITE);
-	printf("========= code start ========= \r\n");
+	//printf("========= code start ========= \r\n");
 	
-  
+  slave_statu_query_modify(0X04,0X02,3,0xFF);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -142,15 +143,29 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	//Modbus_Event();
+    //Modbus_Event();
 		//ST7789_test();
     // HAL_UART_Transmit(&huart2,send_buf,5,1000);
-    // Modbus_Event();
-    // HAL_Delay(100);
+    // HAL_Delay(100); +
+    //value = HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_6);
+	// value = (B0_VAL) | (B1_VAL<<1) | (B2_VAL<<2) | (B3_VAL<<3);
+	// printf("The value of B0_VAL is : %d \r\n",B0_VAL);
+	// printf("The value of B1_VAL is : %d \r\n",B1_VAL);
+	// printf("The value of B2_VAL is : %d \r\n",B2_VAL);
+	// printf("The value of B3_VAL is : %d \r\n",B3_VAL);
+
+	//printf("The value of value is : %d \r\n",key_value_flag);
+	key_scan();
+	//delay_ms(100); 
+    // LCD_Clear(RED);
+    // HAL_Delay(50);
+    // LCD_Clear(GREEN);
+    // HAL_Delay(50);
+    // LCD_Clear(YELLOW);
+    // HAL_Delay(50);
     
-    slave_statu_query_modify(0X03,0X00,5);
     
-    HAL_Delay(100);
+    //HAL_Delay(100);
 		// LCD_Clear(WHITE);
 
 
