@@ -35,7 +35,6 @@ extern volatile uint8_t transmit_complete_flag1;
 #define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
 #define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
 
-
 /*
 	LCD_RST:	PC4
 	LCD_DC:		PA6	
@@ -65,7 +64,6 @@ void LCD_Show_Image_Internal_Flash(uint16_t x, uint16_t y, uint16_t width, uint1
 void LCD_Show_Image_External_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height,const uint8_t start_addr, uint16_t pic_size);				
 void PutChinese(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
 void PutChinese_strings(uint16_t Xpos,uint16_t Ypos,uint8_t *str,uint16_t back_color,uint16_t char_color);
-void ST7789_test(void);
 
 #endif
 

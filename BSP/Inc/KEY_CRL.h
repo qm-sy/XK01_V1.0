@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "delay.h"
+#include "GUI.h"
 
 extern volatile uint8_t key_value_flag;
 
@@ -13,13 +14,13 @@ extern volatile uint8_t key_value_flag;
 
 void key_scan( void );
 
-void key1_press( uint8_t key_value );
+void key1_press( void );
 
-void key2_press( uint8_t key_value );
+void key2_press( void );
 
-void key3_press( uint8_t key_value );
+void key3_press( void );
 
-void key4_press( uint8_t key_value );
+void key4_press( void );
 
 
 #endif

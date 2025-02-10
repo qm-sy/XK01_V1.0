@@ -356,6 +356,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint16_t phase_num = 0;
 	static uint8_t phase_flag = 0;
 	static uint8_t key_scan_cnt = 0;
+	static uint8_t beat_scan_cnt = 0;
 
 	if( htim->Instance == htim5.Instance ) 			//timer5:T = 10ms
 	{
@@ -369,6 +370,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			key_value_flag = 0;
 			key_scan_cnt = 0;
+		}
+
+		if( gui.beat_allow_flag == 1 )
+		{
+			beat_scan_cnt++;
+			if( beat_scan_cnt == 50 )
+			{
+				gui.beat_allow_flag = 0;
+				beat_scan_cnt = 0;
+				gui.beat_start_flag = 1;
+			}
 		}
 	}
 

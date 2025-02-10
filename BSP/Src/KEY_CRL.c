@@ -16,7 +16,7 @@ void key_scan( void )
             delay_ms(200);
             if(key_value == 7)
             {
-                key1_press( key_value );
+                key1_press();
             }
             
             break;
@@ -25,7 +25,7 @@ void key_scan( void )
             delay_ms(200);
             if(key_value == 11)
             {
-                key2_press( key_value );
+                key2_press();
             }
         
             break;
@@ -34,7 +34,7 @@ void key_scan( void )
             delay_ms(200);
             if(key_value == 13)
             {
-                key3_press( key_value );
+                key3_press();
             }
             break;
 
@@ -42,7 +42,7 @@ void key_scan( void )
             delay_ms(200);
             if(key_value == 14)
             {
-                key4_press( key_value );
+                key4_press();
             }
             break;
 
@@ -51,26 +51,50 @@ void key_scan( void )
     }
 }
 
-void key1_press( uint8_t key_value )
+void key1_press()
 {
+    static uint8_t icon_select = 0;
+    icon_select++;
+    check_icon(icon_select);
+    switch (icon_select)
+    {
+    case 1:
+        gui.led_statu = 1;
+        gui.beat_select = LED_ICON;
+        gui.beat_switch = DIS_ON;
+        break;
+    
+    case 2:
+        gui.fan_statu = 1;
+        gui.beat_select = FAN_ICON;
+        gui.beat_switch = DIS_ON;
+        break;
 
-    printf("The value of key is : %d \r\n",key_value);
+    default:
+        break;
+    }
+    if( icon_select >= 2 )
+    {
+        icon_select = 0;
+    }
 }
 
-void key2_press( uint8_t key_value )
+void key2_press()
 {
-
-    printf("The value of key is : %d \r\n",key_value);
+    gui.fan_statu = 1;
+    gui.beat_select = FAN_ICON;
+    gui.beat_switch = DIS_ON;
 }
 
-void key3_press( uint8_t key_value )
+void key3_press()
 {
-
-    printf("The value of key is : %d \r\n",key_value);
+    gui.beat_switch = DIS_OFF;
 }
 
-void key4_press( uint8_t key_value )
+void key4_press()
 {
-
-    printf("The value of key is : %d \r\n",key_value);
+    gui.led_statu = 0;
+    gui.beat_select = LED_ICON;
+    gui.beat_switch = DIS_ON;
 }
+

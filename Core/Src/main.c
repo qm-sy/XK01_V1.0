@@ -34,6 +34,7 @@
 #include "modbus_rtu.h"
 #include "POWER_CRL.h"
 #include "KEY_CRL.h"
+#include "GUI.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -81,37 +82,36 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  uint8_t value = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+	SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
-  MX_USART1_UART_Init();
-  MX_ADC1_Init();
-  MX_USART2_UART_Init();
-  MX_TIM4_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
-  MX_TIM6_Init();
-  MX_TIM7_Init();
-  MX_TIM5_Init();
+	MX_GPIO_Init();
+	MX_DMA_Init();
+	MX_USART1_UART_Init();
+	MX_ADC1_Init();
+	MX_USART2_UART_Init();
+	MX_TIM4_Init();
+	MX_SPI1_Init();
+	MX_SPI2_Init();
+	MX_TIM6_Init();
+	MX_TIM7_Init();
+	MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 	HAL_ADCEx_Calibration_Start(&hadc1);      //ADC校准
 	HAL_TIM_Base_Start_IT(&htim5);			      //TIM5使能
@@ -120,7 +120,7 @@ int main(void)
   
   
 	RS485_TX;
-  rs485.reflag = 0;
+	rs485.reflag = 0;
 	rs485.recount = 0;
 	HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
 	LCD_Init();
@@ -134,6 +134,7 @@ int main(void)
 	//printf("========= code start ========= \r\n");
 	
   slave_statu_query_modify(0X04,0X02,3,0xFF);
+  screen_test();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -145,6 +146,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
     //Modbus_Event();
 		//ST7789_test();
+	icon_beat(gui.beat_select,gui.beat_switch);
+
     // HAL_UART_Transmit(&huart2,send_buf,5,1000);
     // HAL_Delay(100); +
     //value = HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_6);

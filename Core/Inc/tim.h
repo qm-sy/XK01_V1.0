@@ -33,6 +33,7 @@ extern "C" {
 #include "modbus_rtu.h"
 #include "KEY_CRL.h"
 #include "Communication.h"
+#include "GUI.h"
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim4;
