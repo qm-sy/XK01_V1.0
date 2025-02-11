@@ -48,7 +48,7 @@ I (../BSP/Inc/PWM_CRL.h)(0x67A5F8CF)
 I (../BSP/Inc/communication.h)(0x67A9E532)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
 I (../Core/Inc/gpio.h)(0x67810811)
 I (../Emembed/Inc/temp.h)(0x67810811)
@@ -246,7 +246,7 @@ I (../BSP/Inc/PWM_CRL.h)(0x67A5F8CF)
 I (../BSP/Inc/communication.h)(0x67A9E532)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
 F (../Core/Src/usart.c)(0x6785086B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\usart.o --omf_browse ..\output\usart.crf --depend ..\output\usart.d)
 I (../Core/Inc/usart.h)(0x67A60130)
@@ -916,8 +916,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x67696AC0)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x67696AC0)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x67696AC0)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x67696AC0)
-F (..\BSP\Src\GUI.c)(0x67AB68D4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\gui.o --omf_browse ..\output\gui.crf --depend ..\output\gui.d)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+F (..\BSP\Src\GUI.c)(0x67AB6D30)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\gui.o --omf_browse ..\output\gui.crf --depend ..\output\gui.d)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../SYSTEM/sys.h)(0x67A4E351)
 I (D:\APP\Keil_STM32\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (D:\APP\Keil_STM32\ARM\ARMCC\include\stdio.h)(0x60252374)
@@ -1081,7 +1081,7 @@ I (../Core/Inc/usart.h)(0x67A60130)
 I (../BSP/Inc/communication.h)(0x67A9E532)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
 F (..\BSP\Src\SPI_Flash_w25q64.c)(0x67A9E532)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\spi_flash_w25q64.o --omf_browse ..\output\spi_flash_w25q64.crf --depend ..\output\spi_flash_w25q64.d)
 I (../BSP/Inc/SPI_Flash_w25q64.h)(0x6787D0B0)
@@ -1164,9 +1164,9 @@ I (../BSP/Inc/PWM_CRL.h)(0x67A5F8CF)
 I (../BSP/Inc/communication.h)(0x67A9E532)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
-F (..\BSP\Src\KEY_CRL.c)(0x67AB68A2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\key_crl.o --omf_browse ..\output\key_crl.crf --depend ..\output\key_crl.d)
+F (..\BSP\Src\KEY_CRL.c)(0x67AB6F0D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\key_crl.o --omf_browse ..\output\key_crl.crf --depend ..\output\key_crl.d)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
 I (../Core/Inc/main.h)(0x67A9E532)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x67696AC0)
@@ -1204,7 +1204,7 @@ I (D:\APP\Keil_STM32\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (D:\APP\Keil_STM32\ARM\ARMCC\include\stdlib.h)(0x60252374)
 I (D:\APP\Keil_STM32\ARM\ARMCC\include\string.h)(0x6025237E)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
 F (..\BSP\Src\Communication.c)(0x67A9E532)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../SYSTEM -I ../BSP/Inc -I ../Emembed/Inc-I.\RTE\_XK01_V1.0-ID:\APP\Keil_STM32\ARM\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include-ID:\APP\Keil_STM32\ARM\Packs\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F10X_HD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xE-o ..\output\communication.o --omf_browse ..\output\communication.crf --depend ..\output\communication.d)
 I (../BSP/Inc/communication.h)(0x67A9E532)
@@ -1327,7 +1327,7 @@ I (../Core/Inc/tim.h)(0x67A9F372)
 I (../BSP/Inc/POWER_CRL.h)(0x67A9E52A)
 I (../BSP/Inc/KEY_CRL.h)(0x67AB6797)
 I (../SYSTEM/delay.h)(0x67A4C0ED)
-I (../BSP/Inc/GUI.h)(0x67AB6214)
+I (../BSP/Inc/GUI.h)(0x67AB6CCB)
 I (../BSP/Inc/ST7789V2.h)(0x67AB6397)
 I (../BSP/Inc/Communication.h)(0x67A9E532)
 F (..\SYSTEM\sys.h)(0x67A4E351)()

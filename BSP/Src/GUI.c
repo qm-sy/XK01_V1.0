@@ -163,7 +163,7 @@ void gui_init( void )
 
     gui_beat.beat_allow_flag        = 0;
     gui_beat.beat_start_flag        = 0;
-    gui_beat.beat_select            = 12;
+    gui_beat.beat_select            = 6;
     gui_beat.beat_switch            = BEAT_OFF;
     gui_beat.beat_full              = 0;
 }
@@ -189,6 +189,7 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
 
             case NTC_TEMP1_STR:
                 LCD_Show_Image_Internal_Flash(250,56,32,32,gImage_temp_set,2048);
+                LCD_ShowNum(179,65,444,3,24,POINT_COLOR,BACK_COLOR);
                 ntc_temp1_beat();
                 break;
 
@@ -203,7 +204,7 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
                 break;
 
             case AC220_SWITCH_ICON:
-                LCD_ShowNum(179,65,444,3,24,POINT_COLOR,BACK_COLOR);
+                LCD_Show_Image_Internal_Flash(250,56,32,32,gImage_temp_set,2048);
                 ac220_switch();
                 break;
 
@@ -223,7 +224,7 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
                 break;
 
             case BAKE_ICON:
-                LCD_ShowNum(135,165,6,1,32,POINT_COLOR,BACK_COLOR);           
+                LCD_Show_Image_Internal_Flash(94,166,32,32,gImage_fan_on,2048);           
                 bake_beat();
                 break;
 

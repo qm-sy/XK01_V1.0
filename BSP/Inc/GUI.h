@@ -14,17 +14,17 @@
 
 /*      需要跳动显示的内容   */
 #define AC220_SET_ICON      1
-#define NTC_TEMP1_STR       2
-#define NTC_TEMP2_STR       3
-#define NTC_TEMP3_STR       4
-#define AC220_SWITCH_ICON   5
-#define LED_ICON            6
-#define FAN_ICON            7
-#define FAN_LEVEL_STR       8
-#define BAKE_ICON           9
-#define BAKE_POWER_STR      10
-#define BAKE_WIND_STR       11
-#define KONG                12
+#define NTC_TEMP1_STR       11
+#define NTC_TEMP2_STR       12
+#define NTC_TEMP3_STR       13
+#define AC220_SWITCH_ICON   2
+#define LED_ICON            3
+#define FAN_ICON            4
+#define FAN_LEVEL_STR       41
+#define BAKE_ICON           5
+#define BAKE_POWER_STR      51
+#define BAKE_WIND_STR       52
+#define KONG                6
 
 
 typedef struct  

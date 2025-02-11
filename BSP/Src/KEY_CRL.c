@@ -66,13 +66,37 @@ void key1_press()
     printf("key1 press \r\n");
     if( key.key1_cycle_flag == 1)
     {
-        key.key1_press_cnt++;
-        gui_beat.beat_select = key.key1_press_cnt;
-        gui_beat.beat_switch = BEAT_ON;
         if( key.key1_press_cnt == KONG ) 
         {
             key.key1_press_cnt = 0;
         }
+
+        if( gui_beat.beat_select == NTC_TEMP1_STR )
+        {
+            gui_beat.beat_select = NTC_TEMP2_STR;
+        }
+        else if( gui_beat.beat_select == NTC_TEMP2_STR )
+        {
+            gui_beat.beat_select = NTC_TEMP3_STR;
+        }
+        else if( gui_beat.beat_select == NTC_TEMP3_STR )
+        {
+            gui_beat.beat_select = NTC_TEMP1_STR;
+        }
+        else if ( gui_beat.beat_select == BAKE_POWER_STR )
+        {
+            gui_beat.beat_select = BAKE_WIND_STR;
+        }
+        else if ( gui_beat.beat_select == BAKE_WIND_STR )
+        {
+            gui_beat.beat_select = BAKE_POWER_STR;
+        }else
+        {
+            key.key1_press_cnt++;
+            gui_beat.beat_select = key.key1_press_cnt;
+            gui_beat.beat_switch = BEAT_ON;
+        }
+
     }
     key.gui_key4_allow_flag = 1;
 }
@@ -151,12 +175,20 @@ void key3_press()
 
 void key4_press()
 {
+    key.key4_press_cnt += 1;
+    if( key.key4_press_cnt == 2)
+    {
+        key.key4_press_cnt = 0;
+        key.key1_press_cnt = 0;
+        gui_beat.beat_switch = 0;
+        gui_beat.beat_select = KONG;
+    }
     if(key.gui_key4_allow_flag == 1)
     {
         switch (gui_beat.beat_select)
         {
             case AC220_SET_ICON:
-            
+                gui_beat.beat_select = NTC_TEMP1_STR;
                 break;
 
             case NTC_TEMP1_STR:
@@ -208,12 +240,6 @@ void key4_press()
                 break;
         }
     }
-    if( key.key4_press_cnt == 1)
-    {
-        key.key4_press_cnt = 0;
-        key.key1_press_cnt = 0;
-        gui_beat.beat_switch = 0;
-    }
-    key.key4_press_cnt += 1;
+    
 }
 
