@@ -703,7 +703,7 @@ void LCD_ShowString(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uin
 void LCD_Show_Image_Internal_Flash(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint8_t *pic, uint16_t pic_size)
 {
     
-    //uint8_t buf[240];
+    //uint8_t buf[240];v 
     //HAL_StatusTypeDef status ;
     if(x + width > LCD_Width || y + height > LCD_Height)
     {

@@ -58,20 +58,20 @@ void key1_press()
     check_icon(icon_select);
     switch (icon_select)
     {
-    case 1:
-        gui.led_statu = 1;
-        gui.beat_select = LED_ICON;
-        gui.beat_switch = DIS_ON;
-        break;
-    
-    case 2:
-        gui.fan_statu = 1;
-        gui.beat_select = FAN_ICON;
-        gui.beat_switch = DIS_ON;
-        break;
+        case 1:
+            gui.led_statu = 1;
+            gui.beat_select = LED_ICON;
+            gui.beat_switch = DIS_ON;
+            break;
+        
+        case 2:
+            gui.fan_statu = 1;
+            gui.beat_select = FAN_ICON;
+            gui.beat_switch = DIS_ON;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
     if( icon_select >= 2 )
     {

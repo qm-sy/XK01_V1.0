@@ -137,36 +137,36 @@ void dis_fan( uint8_t on_off )
 
 void dis_bake_power( uint8_t on_off )
 {
-    if( on_off == DIS_ON )
-    {
-        LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
-    }else
-    {
-        LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
-    }  
+    // if( on_off == DIS_ON )
+    // {
+    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
+    // }else
+    // {
+    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
+    // }  
 }
 
 void dis_bake_windspeed( uint8_t on_off )
 {
-    if( on_off == DIS_ON )
-    {
-        LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
-    }else
-    {
-        LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
-    }  
+    // if( on_off == DIS_ON )
+    // {
+    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
+    // }else
+    // {
+    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
+    // }  
 }
 
 void check_icon( uint8_t icon_select )
 {
-    if( icon_select == 1)
-    {
-        LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_on,1922);
-    }else
-    {
+    // if( icon_select == 1)
+    // {
+    //     LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_on,1922);
+    // }else
+    // {
         
-        LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
-    }
+    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
+    // }
 }
 
 void screen_test( void )
@@ -179,19 +179,31 @@ void screen_test( void )
 	// LCD_DrawLine(0,0,200,66,RED);
     // LCD_DrawLine(0,0,200,99,RED);
 	// LCD_DrawRectangle(0,0,200,200,RED);
-    LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
-
-    LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_off,1922);
-
-    LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
-
-    LCD_Show_Image_Internal_Flash(240,80,66,39,gImage_hot_on,5148);
-
-    LCD_Show_Image_Internal_Flash(250,180,31,31,gImage_temp_on,1922);
+    /*              connect icon                */
+    LCD_Show_Image_Internal_Flash(15,3,29,30,gImage_connect_on,1740);
+    //LCD_Show_Image_Internal_Flash(5,3,30,30,gImage_connect_on,1800);
+    /*              sync icon                */
+    LCD_Show_Image_Internal_Flash(45,3,30,30,gImage_sync,1800);
+    /*              temp icon                */
+    LCD_Show_Image_Internal_Flash(46,92,30,30,gImage_temp_stop,1800);
+    LCD_Show_Image_Internal_Flash(120,92,30,30,gImage_temp_stop,1800 );
+    LCD_Show_Image_Internal_Flash(194,92,30,30,gImage_temp_running,1800);
+    LCD_Show_Image_Internal_Flash(250,56,32,32,gImage_temp_set,2048);
+    /*              ac 220 icon                */
+    LCD_Show_Image_Internal_Flash(242,100,66,39,gImage_ac220_off,5148);
+    //LCD_Show_Image_Internal_Flash(240,85,66,39,gImage_ac220_off,5148);
+    /*              led  icon                */
+    LCD_Show_Image_Internal_Flash(32,166,32,32,gImage_led_on,2048);
+    //LCD_Show_Image_Internal_Flash(20,160,32,32,gImage_led_off,2048);
    
-    LCD_Show_Image_Internal_Flash(130,210,29,29,gImage_connect_on,1682);
+    /*              fan  icon                */
+    LCD_Show_Image_Internal_Flash(94,166,32,32,gImage_fan_on,2048);
+    //LCD_Show_Image_Internal_Flash(80,160,32,32,gImage_fan_off,2048);
  
-
+    /*              bake  icon                */
+    LCD_Show_Image_Internal_Flash(180,172,36,21,gImage_bake_on,1512);
+    //LCD_Show_Image_Internal_Flash(140,160,36,21,gImage_bake_off,1512);
+    //LCD_Show_Image_Internal_Flash(80,160,32,32,gImage_fan_off,2048);
     //LCD_ShowString(160,215,56,16,16,"connect",BLACK,WHITE);
     // HAL_Delay(100);
 }

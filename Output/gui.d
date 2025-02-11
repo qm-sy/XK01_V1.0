@@ -1,10 +1,10 @@
 ..\output\gui.o: ..\BSP\Src\GUI.c
 ..\output\gui.o: ../BSP/Inc/GUI.h
 ..\output\gui.o: ../SYSTEM/sys.h
-..\output\gui.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdint.h
-..\output\gui.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdio.h
-..\output\gui.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stdlib.h
-..\output\gui.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\string.h
+..\output\gui.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\gui.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\gui.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\output\gui.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\output\gui.o: ../BSP/Inc/ST7789V2.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\gui.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -19,7 +19,7 @@
 ..\output\gui.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-..\output\gui.o: D:\APP\Keil_STM32\ARM\ARMCC\Bin\..\include\stddef.h
+..\output\gui.o: D:\APP\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 ..\output\gui.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

@@ -146,7 +146,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
     //Modbus_Event();
 		//ST7789_test();
-	icon_beat(gui.beat_select,gui.beat_switch);
+	//icon_beat(gui.beat_select,gui.beat_switch);
 
     // HAL_UART_Transmit(&huart2,send_buf,5,1000);
     // HAL_Delay(100); +
@@ -158,7 +158,9 @@ int main(void)
 	// printf("The value of B3_VAL is : %d \r\n",B3_VAL);
 
 	//printf("The value of value is : %d \r\n",key_value_flag);
-	key_scan();
+	//key_scan();
+	screen_test();
+	delay_ms(100);
 	//delay_ms(100); 
     // LCD_Clear(RED);
     // HAL_Delay(50);
