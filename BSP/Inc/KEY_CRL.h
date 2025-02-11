@@ -5,7 +5,19 @@
 #include "delay.h"
 #include "GUI.h"
 
-extern volatile uint8_t key_value_flag;
+typedef struct 
+{       
+    uint8_t key_value_flag;
+    uint8_t key1_cycle_flag;
+    uint8_t gui_key2_allow_flag;
+    uint8_t gui_key3_allow_flag;
+    uint8_t gui_key4_allow_flag;  
+
+    uint8_t key1_press_cnt;
+    uint8_t key4_press_cnt;
+}KEY;
+
+extern KEY key;
 
 #define B0_VAL HAL_GPIO_ReadPin(D0_B0_GPIO_Port,D0_B0_Pin)
 #define B1_VAL HAL_GPIO_ReadPin(D1_B1_GPIO_Port,D1_B1_Pin)
@@ -13,6 +25,8 @@ extern volatile uint8_t key_value_flag;
 #define B3_VAL HAL_GPIO_ReadPin(D3_B3_GPIO_Port,D3_B3_Pin)
 
 void key_scan( void );
+
+void key_init( void );
 
 void key1_press( void );
 

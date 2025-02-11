@@ -363,23 +363,26 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		key_scan_cnt++;
 		if( key_scan_cnt == 4 )
 		{
-			key_value_flag = 1;
+			key.key_value_flag = 1;
 		}
 
 		if( key_scan_cnt == 5 )
 		{
-			key_value_flag = 0;
+			key.key_value_flag = 0;
 			key_scan_cnt = 0;
 		}
 
-		if( gui.beat_allow_flag == 1 )
+		/* 				beat 				*/
+		if( gui_beat.beat_allow_flag == 1 )
 		{
 			beat_scan_cnt++;
-			if( beat_scan_cnt == 50 )
+
+			/* 				500ms 刷新一次 				*/
+			if( beat_scan_cnt == 30 )
 			{
-				gui.beat_allow_flag = 0;
+				gui_beat.beat_allow_flag = 0;
 				beat_scan_cnt = 0;
-				gui.beat_start_flag = 1;
+				gui_beat.beat_start_flag = 1;
 			}
 		}
 	}

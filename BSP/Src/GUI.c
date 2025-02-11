@@ -1,177 +1,259 @@
 #include "GUI.h"
 #include "pic.h"
 
-GUI gui;
+GUI_INFO gui_info;
+GUI_BEAT gui_beat;
+
+static void ac220_set_beat( void )
+{   
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(250,56,282,87,WHITE);
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(250,56,32,32,gImage_temp_set,2048);
+    }    
+}
+
+static void ntc_temp1_beat( void )
+{  
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(31,65,67,89,WHITE);
+    }else
+    {
+        LCD_ShowNum(31,65,gui_info.ntc1_temp,3,24,POINT_COLOR,BACK_COLOR);
+    }    
+}
+
+static void ntc_temp2_beat( void )
+{
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(105,65,141,89,WHITE);
+    }else
+    {
+        LCD_ShowNum(105,65,555,3,24,POINT_COLOR,BACK_COLOR);
+    }  
+}
+
+static void ntc_temp3_beat( void )
+{  
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(179,65,215,89,WHITE);
+    }else
+    {
+        LCD_ShowNum(179,65,444,3,24,POINT_COLOR,BACK_COLOR);
+    }  
+}
+
+static void ac220_switch( void )
+{
+    if( gui_info.ac220_switch == DIS_ON )
+    {
+        if( gui_beat.beat_full == 1 )
+        {
+            LCD_Fill(242,100,308,139,WHITE);
+        }else
+        {
+            LCD_Show_Image_Internal_Flash(242,100,66,39,gImage_ac220_on,5148);
+        }
+    }else
+    {
+        if( gui_beat.beat_full == 1 )
+        {
+            LCD_Fill(242,100,308,139,WHITE);
+        }else
+        {
+            LCD_Show_Image_Internal_Flash(242,100,66,39,gImage_ac220_off,5148);
+        }
+    }   
+}
+
+
+static void led_beat( void )
+{   
+    if( gui_info.led_switch == DIS_ON )
+    {
+        if( gui_beat.beat_full == 1 )
+        {
+            LCD_Fill(32,166,64,198,WHITE);
+        }else
+        {
+            LCD_Show_Image_Internal_Flash(32,166,32,32,gImage_led_on,2048);
+        }
+    }else
+    {
+        if( gui_beat.beat_full == 1 )
+        {
+            LCD_Fill(32,166,64,198,WHITE);
+        }else
+        {
+            LCD_Show_Image_Internal_Flash(32,166,32,32,gImage_led_off,2048);
+        }
+    }    
+}
+
+static void fan_beat( void )
+{  
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(94,166,126,198,WHITE);
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(94,166,32,32,gImage_fan_on,2048);
+    }  
+}
+
+static void fan_level_beat( void )
+{  
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(135,165,151,197,WHITE);
+    }else
+    {
+        LCD_ShowNum(135,165,6,1,32,POINT_COLOR,BACK_COLOR);
+    }   
+}
+
+static void bake_beat( void )
+{ 
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(180,172,216,193,WHITE);
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(180,172,36,21,gImage_bake_on,1512);
+    }    
+}
+
+static void beat_power( void )
+{    
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(280,168,288,180,WHITE);
+    }else
+    {
+        LCD_ShowNum(280,168,5,1,12,POINT_COLOR,BACK_COLOR);
+    }    
+}
+
+static void beat_wind( void )
+{   
+    if( gui_beat.beat_full == 1 )
+    {
+        LCD_Fill(280,196,288,208,WHITE);
+    }else
+    {
+        LCD_ShowNum(280,196,4,1,12,POINT_COLOR,BACK_COLOR);
+    }
+}
 
 void gui_init( void )
 {
-    gui.ac220_switch_statu = 1;
-    gui.ac220_set_statu    = 1; 
-    gui.led_statu          = 1;
-    gui.fan_statu          = 1;
-    gui.bake_power_statu   = 1;     
-    gui.bake_wind_statu    = 1;
+    gui_info.ac220_switch           = 1;
+    gui_info.led_switch             = 1; 
+    gui_info.fan_level              = 9;
+    gui_info.bake_power_percentage  = 5;
+    gui_info.bake_wind_level        = 4;     
+    gui_info.ntc1_temp              = 55;
+    gui_info.ntc2_temp              = 44;
+    gui_info.ntc3_temp              = 33;
 
-    gui.beat_allow_flag    = 0;
-    gui.beat_start_flag    = 0;
-    gui.beat_select        = 0;
-    gui.beat_switch        = 0;
+    gui_beat.beat_allow_flag        = 0;
+    gui_beat.beat_start_flag        = 0;
+    gui_beat.beat_select            = 12;
+    gui_beat.beat_switch            = BEAT_OFF;
+    gui_beat.beat_full              = 0;
 }
+
 void icon_beat(uint8_t pic_code , uint8_t on_off )
 {
     if( on_off == 1 )
     {
-        gui.beat_allow_flag  = 1;
+        gui_beat.beat_allow_flag  = 1;
     }else
     {
-        gui.beat_allow_flag  = 0;
+        gui_beat.beat_allow_flag  = 0;
     }
 
-    if( gui.beat_start_flag == 1)
+    if( gui_beat.beat_start_flag == 1)
     {
-        printf("get press \r\n");
+        gui_beat.beat_full = 1 -  gui_beat.beat_full;
         switch (pic_code)
         {
-            case AC220_SWITCH_ICON:
-                dis_ac220_switch(gui.ac220_switch_statu);
+            case AC220_SET_ICON:
+                ac220_set_beat();
                 break;
 
-            case AC220_SET_ICON:
-                dis_ac220_set(gui.ac220_set_statu);
+            case NTC_TEMP1_STR:
+                LCD_Show_Image_Internal_Flash(250,56,32,32,gImage_temp_set,2048);
+                ntc_temp1_beat();
+                break;
+
+            case NTC_TEMP2_STR:
+                LCD_ShowNum(31,65,666,3,24,POINT_COLOR,BACK_COLOR);
+                ntc_temp2_beat();
+                break;
+
+            case NTC_TEMP3_STR:
+                LCD_ShowNum(105,65,555,3,24,POINT_COLOR,BACK_COLOR);
+                ntc_temp3_beat();
+                break;
+
+            case AC220_SWITCH_ICON:
+                LCD_ShowNum(179,65,444,3,24,POINT_COLOR,BACK_COLOR);
+                ac220_switch();
                 break;
 
             case LED_ICON:
-                dis_led(gui.led_statu);
+                LCD_Show_Image_Internal_Flash(242,100,66,39,gImage_ac220_on,5148);
+                led_beat();
                 break;
 
             case FAN_ICON:
-                dis_fan(gui.fan_statu);
+                LCD_Show_Image_Internal_Flash(32,166,32,32,gImage_led_on,2048);
+                fan_beat();
                 break;
 
-            case BAKE_POWER_ICON:
-                dis_bake_power(gui.bake_power_statu);
+            case FAN_LEVEL_STR:
+                LCD_Show_Image_Internal_Flash(94,166,32,32,gImage_fan_on,2048);
+                fan_level_beat();
                 break;
 
-            case BAKE_WIND_ICON:
-                dis_bake_windspeed(gui.bake_wind_statu);
+            case BAKE_ICON:
+                LCD_ShowNum(135,165,6,1,32,POINT_COLOR,BACK_COLOR);           
+                bake_beat();
+                break;
+
+            case BAKE_POWER_STR:
+                LCD_Show_Image_Internal_Flash(180,172,36,21,gImage_bake_on,1512);
+                beat_power();
+                break;
+
+            case BAKE_WIND_STR:
+                LCD_ShowNum(280,168,5,1,12,POINT_COLOR,BACK_COLOR);
+                beat_wind();
+                break;
+
+            case KONG:
+                LCD_ShowNum(280,196,4,1,12,POINT_COLOR,BACK_COLOR);
+                //gui_beat.beat_switch = BEAT_OFF;   
                 break;
 
             default:
                 break;
         }
     }
-    gui.beat_start_flag = 0; 
+    /* 				停止刷新，等待500ms后再次刷新 				*/
+    gui_beat.beat_start_flag = 0; 
 }
 
-void dis_ac220_switch( uint8_t on_off )
-{
-    // if( on_off == DIS_ON )
-    // {
-    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
-    // }else
-    // {
-    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
-    // }
-}
-
-void dis_ac220_set( uint8_t on_off )
-{
-    // if( on_off == DIS_ON )
-    // {
-    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
-    // }else
-    // {
-    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
-    // }
-}
-
-void dis_led( uint8_t on_off )
-{
-    static uint8_t now_value = 0;
-    if( on_off == DIS_ON )
-    {
-        if( now_value == 1)
-        {
-            LCD_Fill(40,180,71,211,WHITE);
-        }else
-        {
-            LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
-        }
-    }else
-    {
-        if( now_value == 1)
-        {
-            LCD_Fill(40,180,71,211,WHITE);
-        }else
-        {
-            LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
-        }
-    }
-    now_value = 1 - now_value;
-}
-
-void dis_fan( uint8_t on_off )
-{
-    static uint8_t now_value = 0;
-    if( on_off == DIS_ON )
-    {
-        if( now_value == 1)
-        {
-            LCD_Fill(110,179,141,210,WHITE);
-        }else
-        {
-            LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_on,1922);
-        }
-    }else
-    {
-        if( now_value == 1)
-        {
-            LCD_Fill(110,179,141,210,WHITE);
-        }else
-        {
-            LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_off,1922);
-        }
-    } 
-    now_value = 1 - now_value;
-}
-
-void dis_bake_power( uint8_t on_off )
-{
-    // if( on_off == DIS_ON )
-    // {
-    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
-    // }else
-    // {
-    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_quan_on,1922);
-    // }  
-}
-
-void dis_bake_windspeed( uint8_t on_off )
-{
-    // if( on_off == DIS_ON )
-    // {
-    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
-    // }else
-    // {
-    //     LCD_Show_Image_Internal_Flash(180,180,31,31,gImage_hot_on,1922);
-    // }  
-}
-
-void check_icon( uint8_t icon_select )
-{
-    // if( icon_select == 1)
-    // {
-    //     LCD_Show_Image_Internal_Flash(110,179,31,31,gImage_fan_on,1922);
-    // }else
-    // {
-        
-    //     LCD_Show_Image_Internal_Flash(40,180,31,31,gImage_led_on,1922);
-    // }
-}
 
 void screen_test( void )
 {
-    //LCD_Clear(BLACK);
+//LCD_Clear(BLACK);
     // LCD_DrawLine(0,33,200,33,RED);
     // LCD_DrawLine(0,66,200,66,RED);
 	// LCD_DrawLine(0,99,200,99,RED);
@@ -206,4 +288,29 @@ void screen_test( void )
     //LCD_Show_Image_Internal_Flash(80,160,32,32,gImage_fan_off,2048);
     //LCD_ShowString(160,215,56,16,16,"connect",BLACK,WHITE);
     // HAL_Delay(100);
+    LCD_DrawLine(10,36,310,36,GRAY);
+    LCD_DrawLine(35,154,285,154,BROWN);
+    LCD_DrawLine(10,210,310,210,GRAY);
+
+    LCD_ShowChar(56,50,'F',12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(130,50,'M',12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(204,50,'R',12,POINT_COLOR,BACK_COLOR);
+
+    LCD_ShowNum(31,65,666,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(69,67,21,21,gImage_sheshidu_big,882);
+    LCD_ShowNum(105,65,555,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(143,67,21,21,gImage_sheshidu_big,882);
+    LCD_ShowNum(179,65,444,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(217,67,21,21,gImage_sheshidu_big,882);
+
+    LCD_ShowNum(31,125,666,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(69,127,21,21,gImage_sheshidu_big,882);
+    LCD_ShowNum(105,125,555,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(143,127,21,21,gImage_sheshidu_big,882);
+    LCD_ShowNum(179,125,444,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_Show_Image_Internal_Flash(217,127,21,21,gImage_sheshidu_big,882);
+
+    LCD_ShowNum(135,165,6,1,32,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(280,168,5,1,12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(280,196,4,1,12,POINT_COLOR,BACK_COLOR);
 }

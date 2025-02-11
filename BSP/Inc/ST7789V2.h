@@ -24,7 +24,7 @@ extern volatile uint8_t transmit_complete_flag1;
 #define GREEN         	 0x07E0
 #define CYAN          	 0x7FFF
 #define YELLOW        	 0xFFE0 //黄色
-#define BROWN 			 0XBC40 //棕色
+#define BROWN 			 0x43BF //棕色
 #define BRRED 			 0XFC07 //棕红色
 #define GRAY  			 0X8430 //灰色
 #define DARKBLUE      	 0X01CF	//深蓝色
