@@ -6,6 +6,7 @@
 #include "PWM_CRL.h"
 #include "communication.h"
 #include "delay.h"
+#include "GUI.h"
 
 typedef struct  
 {
@@ -29,7 +30,8 @@ typedef struct
     uint8_t NTC2_alarm_value;       //40004
     uint8_t NTC3_alarm_value;       //40005
 
-    uint8_t update_flag;
+    uint8_t modbus_04_scan_flag;
+    uint8_t modbus_04_scan_allow;
 }MODBUS_INFO;
 
 extern MODBUS_INFO modbus;
@@ -55,6 +57,9 @@ void test_hanshu(void);
 void Modbus_fun03_Master( uint16_t reg_addr,uint16_t reg_num );
 void Modbus_fun04_Master( uint16_t reg_addr,uint16_t reg_num );
 void Modbus_fun06_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val );
-void Modbus_fun16_Master( uint16_t reg_addr,uint16_t reg_num, uint16_t reg_val );
+void write_slave_reg( void );
+void send_param( void );
+void get_slave_init_statu_multifunpower( void );
+void get_slave_current_statu_multifunpower( void );
 
 #endif

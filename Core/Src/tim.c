@@ -358,6 +358,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	static uint8_t key_scan_cnt = 0;
 	static uint8_t beat_scan_cnt = 0;
 	static uint8_t update_cnt = 0;
+  static uint8_t modbus_04_scan_cnt = 0;
 	if( htim->Instance == htim5.Instance ) 			//timer5:T = 10ms
 	{
 		key_scan_cnt++;
@@ -395,6 +396,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 				gui_beat.update_flag = 1;
 			}
 		}
+    
+    
+    if( modbus.modbus_04_scan_flag == 0)
+    {
+      modbus_04_scan_cnt++;
+      if( modbus_04_scan_cnt == 100 )
+      {
+        modbus_04_scan_cnt = 0;
+        modbus.modbus_04_scan_flag = 1;
+      }
+    }
 		// if( key.key_value == 14 )
 		// {
 		// 	key.sycn_keep_cnt++;

@@ -132,10 +132,10 @@ static void beat_power( void )
 {    
     if( gui_beat.beat_full == 1 )
     {
-        LCD_Fill(280,168,288,180,WHITE);
+        LCD_Fill(272,162,308,192,WHITE);
     }else
     {
-        LCD_ShowNum(280,168,gui_info.bake_power_percentage,1,12,POINT_COLOR,BACK_COLOR);
+        LCD_ShowNum(272,162,gui_info.bake_power_percentage,3,16,POINT_COLOR,BACK_COLOR);
     }    
 }
 
@@ -143,10 +143,10 @@ static void beat_wind( void )
 {   
     if( gui_beat.beat_full == 1 )
     {
-        LCD_Fill(280,196,288,208,WHITE);
+        LCD_Fill(280,190,292,220,WHITE);
     }else
     {
-        LCD_ShowNum(280,196,gui_info.bake_wind_level,1,12,POINT_COLOR,BACK_COLOR);
+        LCD_ShowNum(280,190,gui_info.bake_wind_level,1,16,POINT_COLOR,BACK_COLOR);
     }
 }
 
@@ -253,12 +253,12 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
 
             case BAKE_POWER_STR:
                 LCD_Show_Image_Internal_Flash(180,172,36,21,gImage_bake_on,1512);
-                LCD_ShowNum(280,196,gui_info.bake_wind_level,1,12,POINT_COLOR,BACK_COLOR);
+                LCD_ShowNum(280,190,gui_info.bake_wind_level,1,16,POINT_COLOR,BACK_COLOR);
                 beat_power();
                 break;
 
             case BAKE_WIND_STR:
-                LCD_ShowNum(280,168,gui_info.bake_power_percentage,1,12,POINT_COLOR,BACK_COLOR);
+            LCD_ShowNum(272,162,gui_info.bake_power_percentage,3,16,POINT_COLOR,BACK_COLOR);
                 beat_wind();
                 break;
 
@@ -271,7 +271,7 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
                 break;
         }
     }
-    /* 				停止刷新，等待500ms后再次刷新 				*/
+    /* 				停�?�刷新，等待500ms后再次刷�? 				*/
     gui_beat.beat_start_flag = 0; 
 }
 
@@ -287,8 +287,8 @@ void refresh_icon( void )
     LCD_ShowNum(105,65,gui_info.ntc2_temp,3,24,POINT_COLOR,BACK_COLOR);
     LCD_ShowNum(179,65,gui_info.ntc3_temp,3,24,POINT_COLOR,BACK_COLOR);
     LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
-    LCD_ShowNum(280,168,gui_info.bake_power_percentage,1,12,POINT_COLOR,BACK_COLOR);
-    LCD_ShowNum(280,196,gui_info.bake_wind_level,1,12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(272,162,gui_info.bake_power_percentage,3,16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(280,190,gui_info.bake_wind_level,1,16,POINT_COLOR,BACK_COLOR);
 }
 
 void sync_switch( void )
@@ -302,18 +302,27 @@ void sync_switch( void )
         LCD_Fill(45,3,75,33,WHITE);
     }
     switch_on_off = 1 - switch_on_off;
+
+    
 }
 
 void update_fun( void )
 {
-        RS485_TX;
-        delay_ms(5);
-        printf("get here \r\n");
-        LCD_ShowNum(31,125,modbus.NTC1_current_value,3,24,POINT_COLOR,BACK_COLOR);
-        LCD_ShowNum(105,125,modbus.NTC2_current_value,3,24,POINT_COLOR,BACK_COLOR);
-        LCD_ShowNum(179,125,modbus.NTC3_current_value,3,24,POINT_COLOR,BACK_COLOR);
-
-
+    get_slave_current_statu_multifunpower();
+    delay_ms(50);
+    LCD_ShowNum(31,125,modbus.NTC1_current_value,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(105,125,modbus.NTC2_current_value,3,24,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(179,125,modbus.NTC3_current_value,3,24,POINT_COLOR,BACK_COLOR);
+    // LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
+    // LCD_ShowNum(272,162,gui_info.bake_power_percentage,3,16,POINT_COLOR,BACK_COLOR);
+    // LCD_ShowNum(280,190,gui_info.bake_wind_level,1,16,POINT_COLOR,BACK_COLOR);
+    // // LCD_ShowNum(86,224,modbus.I_out1_value,2,12,POINT_COLOR,BACK_COLOR);
+    // LCD_ShowNum(186,224,modbus.I_out2_value,2,12,POINT_COLOR,BACK_COLOR);
+    // LCD_ShowNum(286,224,modbus.I_out3_value,2,12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(262,222,modbus.I_out1_value,2,12,DARKBLUE,BACK_COLOR);
+    LCD_ShowNum(162,222,modbus.I_out2_value,2,12,DARKBLUE,BACK_COLOR);
+    LCD_ShowNum(62,222,modbus.I_out3_value,2,12,DARKBLUE,BACK_COLOR);
+    //ac220_switch_dis();
     //LCD_Show_Image_Internal_Flash(217,127,21,21,gImage_sheshidu_big,882);
 }
 void screen_test( void )
@@ -330,7 +339,7 @@ void screen_test( void )
     LCD_Show_Image_Internal_Flash(15,3,29,30,gImage_connect_on,1740);
     //LCD_Show_Image_Internal_Flash(5,3,30,30,gImage_connect_on,1800);
     /*              sync icon                */
-    LCD_Show_Image_Internal_Flash(45,3,30,30,gImage_sync,1800);
+    //LCD_Show_Image_Internal_Flash(45,3,30,30,gImage_sync,1800);
     /*              temp icon                */
     LCD_Show_Image_Internal_Flash(46,92,30,30,gImage_temp_stop,1800);
     LCD_Show_Image_Internal_Flash(120,92,30,30,gImage_temp_stop,1800 );
@@ -376,6 +385,28 @@ void screen_test( void )
     LCD_Show_Image_Internal_Flash(217,127,21,21,gImage_sheshidu_big,882);
 
     LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
-    LCD_ShowNum(280,168,gui_info.bake_power_percentage,1,12,POINT_COLOR,BACK_COLOR);
-    LCD_ShowNum(280,196,gui_info.bake_wind_level,1,12,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(272,162,gui_info.bake_power_percentage,3,16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(280,190,gui_info.bake_wind_level,1,16,POINT_COLOR,BACK_COLOR);
+    PutChinese_strings(240,162,"����",BACK_COLOR,POINT_COLOR);
+    PutChinese_strings(240,190,"����",BACK_COLOR,POINT_COLOR);
+
+    LCD_ShowNum(20,220,24,2,16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(40,220,'V',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(50,220,':',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(62,222,15,2,12,DARKBLUE,BACK_COLOR);
+    LCD_ShowChar(80,220,'A',16,POINT_COLOR,BACK_COLOR);
+
+    LCD_ShowNum(120,220,36,2,16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(140,220,'V',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(150,220,':',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(162,222,15,2,12,DARKBLUE,BACK_COLOR);
+    LCD_ShowChar(180,220,'A',16,POINT_COLOR,BACK_COLOR);
+
+    LCD_ShowNum(220,220,42,2,16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(240,220,'V',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowChar(250,220,':',16,POINT_COLOR,BACK_COLOR);
+    LCD_ShowNum(262,222,15,2,12,DARKBLUE,BACK_COLOR);
+    LCD_ShowChar(280,220,'A',16,POINT_COLOR,BACK_COLOR);
+
 }
+

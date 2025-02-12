@@ -123,7 +123,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim7);			      //TIM7使能
   
   
-	RS485_TX;
+	RS485_RX;
 	rs485.reflag = 0;
 	rs485.recount = 0;
 	HAL_UART_Receive_IT(&huart2,&rs485.rcvbuf[rs485.recount],1);
@@ -137,11 +137,13 @@ int main(void)
 	LCD_Clear(WHITE);
 	//printf("========= code start ========= \r\n");
 	
-  slave_statu_query_modify(0X04,0X02,3,0xFF);
+  get_slave_init_statu_multifunpower();
+  //slave_statu_query_modify(0X04,0X02,3,0xFF);
   key_init();
   gui_init();
   screen_test();
-  modbus.update_flag = 0;
+  modbus.modbus_04_scan_flag = 0;
+  modbus.modbus_04_scan_allow = 1;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -153,12 +155,12 @@ int main(void)
     /* USER CODE BEGIN 3 */
     Modbus_Event();
 		//ST7789_test();
-	
-    if(modbus.update_flag == 1)
+    if((modbus.modbus_04_scan_flag == 1) && (modbus.modbus_04_scan_allow ==1))
     {
       update_fun();
-      modbus.update_flag = 0;
+      modbus.modbus_04_scan_flag = 0;
     }
+    
 	if(key.sync_allow_flag == 1)
 	{
 		key.sync_allow_flag = 0;

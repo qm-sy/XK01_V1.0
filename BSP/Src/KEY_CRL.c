@@ -65,6 +65,7 @@ void key_scan( void )
 void key1_press()
 {
     printf("key1 press \r\n");
+    RS485_TX;
     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
     buzzer_flag = 1;
     if( key.key1_cycle_flag == 1)
@@ -122,6 +123,7 @@ void key2_press()
     {
         gui_info.fan_level += 1;
         LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
+        write_slave_reg();
     }
     if( key.gui_key2_allow_flag == 1 )
     {
@@ -144,7 +146,7 @@ void key2_press()
                 break;
 
             case BAKE_POWER_STR:
-                gui_info.bake_power_percentage += 1;
+                gui_info.bake_power_percentage += 5;
                 break;
 
             case BAKE_WIND_STR:
@@ -168,6 +170,7 @@ void key3_press()
     {
         gui_info.fan_level -= 1;
         LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
+        write_slave_reg();
     }
     if( key.gui_key3_allow_flag == 1 )
     {
@@ -190,7 +193,7 @@ void key3_press()
                 break;
 
             case BAKE_POWER_STR:
-                gui_info.bake_power_percentage -= 1;
+                gui_info.bake_power_percentage -= 5;
                 break;
 
             case BAKE_WIND_STR:
@@ -223,6 +226,7 @@ void key4_press()
             gui_beat.beat_switch = 0;
             gui_beat.beat_select = KONG;
             key.key_init_flag = 1;
+            write_slave_reg();
         }
         if(key.gui_key4_allow_flag == 1)
         {
@@ -282,3 +286,5 @@ void jump_to_init( void )
 
     key.key_init_flag = 1;
 }
+
+
