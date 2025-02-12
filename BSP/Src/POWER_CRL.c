@@ -8,6 +8,7 @@ volatile uint8_t power_ch3_statu = 0;
 volatile uint8_t power_ch4_statu = 0;
 volatile uint16_t power_phase_delay = 0;
 
+volatile uint8_t buzzer_flag = 0;
 /**
 
   
@@ -38,3 +39,16 @@ void power_crl(uint16_t power_num)
     }  
     
 }
+
+// void buzzer_crl( void )
+// {
+//     if( buzzer_flag == 0)
+//     {
+//         HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
+//     }//else
+//     // {
+//     //     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
+//     // }
+
+
+// }

@@ -4,12 +4,13 @@ KEY key;
 
 void key_init( void )
 {
-    key.key_value_flag = 1;
+    key.key_init_flag = 1;
     key.key1_cycle_flag = 1;
     key.gui_key2_allow_flag = 1;
     key.gui_key3_allow_flag = 1;
     key.gui_key4_allow_flag = 0;  
-
+    key.sync_allow_flag = 0;
+    key.sycn_keep_cnt = 0;
     key.key1_press_cnt = 0;
     key.key4_press_cnt = 0;
 }
@@ -17,7 +18,6 @@ void key_init( void )
 void key_scan( void )
 {
     uint8_t key_value;
-
     if(key.key_value_flag == 1)
 	{
 		key_value = (B0_VAL) | (B1_VAL<<1) | (B2_VAL<<2) | (B3_VAL<<3);
@@ -54,6 +54,7 @@ void key_scan( void )
             {
                 key4_press();
             }
+        
             break;
 
         default:
@@ -64,6 +65,8 @@ void key_scan( void )
 void key1_press()
 {
     printf("key1 press \r\n");
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
+    buzzer_flag = 1;
     if( key.key1_cycle_flag == 1)
     {
         if( key.key1_press_cnt == KONG ) 
@@ -90,19 +93,36 @@ void key1_press()
         else if ( gui_beat.beat_select == BAKE_WIND_STR )
         {
             gui_beat.beat_select = BAKE_POWER_STR;
-        }else
+        }
+        else if( gui_beat.beat_select == FAN_LEVEL_STR)
+        {
+            jump_to_init();
+        }
+        else
         {
             key.key1_press_cnt++;
             gui_beat.beat_select = key.key1_press_cnt;
             gui_beat.beat_switch = BEAT_ON;
+            key.gui_key2_allow_flag = 0;
+            key.gui_key3_allow_flag = 0;
         }
 
     }
     key.gui_key4_allow_flag = 1;
+    delay_ms(150);
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
 }
 
 void key2_press()
 {
+    printf("key2 press \r\n");
+    
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
+    if( gui_beat.beat_switch == 0 )
+    {
+        gui_info.fan_level += 1;
+        LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
+    }
     if( key.gui_key2_allow_flag == 1 )
     {
         switch(gui_beat.beat_select)
@@ -135,10 +155,20 @@ void key2_press()
                 break;
         }
     }
+    delay_ms(150);
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
 }
 
 void key3_press()
 {
+    printf("key3 press \r\n");
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
+    buzzer_flag = 1;
+    if( gui_beat.beat_switch == 0 )
+    {
+        gui_info.fan_level -= 1;
+        LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
+    }
     if( key.gui_key3_allow_flag == 1 )
     {
         switch(gui_beat.beat_select)
@@ -171,75 +201,84 @@ void key3_press()
                 break;
         }
     }
+    delay_ms(150);
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
 }
 
 void key4_press()
 {
-    key.key4_press_cnt += 1;
-    if( key.key4_press_cnt == 2)
+    printf("key4 press \r\n");
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
+    buzzer_flag = 1;
+    if( gui_beat.beat_switch == 0 )
     {
-        key.key4_press_cnt = 0;
-        key.key1_press_cnt = 0;
-        gui_beat.beat_switch = 0;
-        gui_beat.beat_select = KONG;
-    }
-    if(key.gui_key4_allow_flag == 1)
+        key.sync_allow_flag = 1;
+    }else
     {
-        switch (gui_beat.beat_select)
+        key.key4_press_cnt += 1;
+        if( key.key4_press_cnt == 2)
         {
-            case AC220_SET_ICON:
-                gui_beat.beat_select = NTC_TEMP1_STR;
-                break;
-
-            case NTC_TEMP1_STR:
-                key.gui_key2_allow_flag = 1;
-                key.gui_key3_allow_flag = 1;
-                break;
-
-            case NTC_TEMP2_STR:
-
-                break;
-
-            case NTC_TEMP3_STR:
+            key.key4_press_cnt = 0;
+            key.key1_press_cnt = 0;
+            gui_beat.beat_switch = 0;
+            gui_beat.beat_select = KONG;
+            key.key_init_flag = 1;
+        }
+        if(key.gui_key4_allow_flag == 1)
+        {
+            switch (gui_beat.beat_select)
+            {
+                case AC220_SET_ICON:
+                    gui_beat.beat_select = NTC_TEMP1_STR;
+                    key.gui_key2_allow_flag = 1;
+                    key.gui_key3_allow_flag = 1;
+                    break;
     
-                break;
-
-            case AC220_SWITCH_ICON:
-
-                break;
-
-            case LED_ICON:
-
-                break;
-
-            case FAN_ICON:
-
-                break;
-
-            case FAN_LEVEL_STR:
+                case AC220_SWITCH_ICON:
+                    gui_info.ac220_switch = 1 - gui_info.ac220_switch;
+                    jump_to_init();
+                    break;
     
-                break;
-
-            case BAKE_ICON:
-                
-                break;
-
-            case BAKE_POWER_STR:
-                
-                break;
-
-            case BAKE_WIND_STR:
-                
-                break;
-
-            case KONG:
-                
-                break;
-
-            default:
-                break;
+                case LED_ICON:
+                    gui_info.led_switch = 1 - gui_info.led_switch;
+                    jump_to_init();
+                    break;
+    
+                case FAN_ICON:
+                    gui_beat.beat_select = FAN_LEVEL_STR;
+                    key.gui_key2_allow_flag = 1;
+                    key.gui_key3_allow_flag = 1;
+                    break;
+    
+                case BAKE_ICON:
+                    gui_beat.beat_select = BAKE_POWER_STR;
+                    key.gui_key2_allow_flag = 1;
+                    key.gui_key3_allow_flag = 1;
+                    break;
+    
+                case KONG:
+                    
+                    break;
+    
+                default:
+                    break;
+            }
         }
     }
-    
+    delay_ms(150);
+    HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_RESET);
 }
 
+void jump_to_init( void )
+{
+    key.gui_key2_allow_flag = 1;
+    key.gui_key3_allow_flag = 1;
+
+    key.key1_press_cnt = 0;
+    key.key4_press_cnt = 0;
+    
+    gui_beat.beat_switch = 0;
+    gui_beat.beat_select = KONG;
+
+    key.key_init_flag = 1;
+}

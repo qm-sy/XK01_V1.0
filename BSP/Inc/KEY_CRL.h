@@ -4,10 +4,15 @@
 #include "main.h"
 #include "delay.h"
 #include "GUI.h"
+#include "POWER_CRL.h"
 
 typedef struct 
 {       
+    uint8_t key_init_flag;
+    uint8_t sync_allow_flag;
+    uint16_t sycn_keep_cnt;
     uint8_t key_value_flag;
+
     uint8_t key1_cycle_flag;
     uint8_t gui_key2_allow_flag;
     uint8_t gui_key3_allow_flag;
@@ -36,5 +41,6 @@ void key3_press( void );
 
 void key4_press( void );
 
+void jump_to_init( void );
 
 #endif

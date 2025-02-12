@@ -15,7 +15,8 @@ extern volatile uint8_t power_ch2_statu;
 extern volatile uint8_t power_ch3_statu;
 extern volatile uint8_t power_ch4_statu;
 extern volatile uint16_t power_phase_delay;
-
+extern volatile uint8_t buzzer_flag;
 void power_crl(uint16_t power_num);
+void buzzer_crl( void );
 
 #endif

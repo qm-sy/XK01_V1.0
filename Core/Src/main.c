@@ -89,7 +89,7 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 	HAL_Init();
 
-  /* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */                                         
 
   /* USER CODE END Init */
 
@@ -105,6 +105,10 @@ int main(void)
 	MX_DMA_Init();
 	MX_USART1_UART_Init();
 	MX_ADC1_Init();
+    
+    
+    
+    
 	MX_USART2_UART_Init();
 	MX_TIM4_Init();
 	MX_SPI1_Init();
@@ -137,6 +141,7 @@ int main(void)
   key_init();
   gui_init();
   screen_test();
+  modbus.update_flag = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -146,8 +151,25 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    //Modbus_Event();
+    Modbus_Event();
 		//ST7789_test();
+	
+    if(modbus.update_flag == 1)
+    {
+      update_fun();
+      modbus.update_flag = 0;
+    }
+	if(key.sync_allow_flag == 1)
+	{
+		key.sync_allow_flag = 0;
+		sync_switch();
+	}
+	
+	if( key.key_init_flag == 1)
+	{
+		refresh_icon();
+		key.key_init_flag = 0;
+	}
 	icon_beat(gui_beat.beat_select,gui_beat.beat_switch);
 
     // HAL_UART_Transmit(&huart2,send_buf,5,1000);
@@ -161,6 +183,7 @@ int main(void)
 
 	//printf("The value of value is : %d \r\n",key_value_flag);
 	key_scan();
+
 
 	//delay_ms(100); 
     // LCD_Clear(RED);

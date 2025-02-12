@@ -28,6 +28,8 @@ typedef struct
     uint8_t NTC1_alarm_value;       //40004
     uint8_t NTC2_alarm_value;       //40004
     uint8_t NTC3_alarm_value;       //40005
+
+    uint8_t update_flag;
 }MODBUS_INFO;
 
 extern MODBUS_INFO modbus;

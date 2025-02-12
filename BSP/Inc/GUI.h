@@ -3,8 +3,7 @@
 
 #include "sys.h"
 #include "ST7789V2.h"
-
-
+#include "modbus_rtu.h"
 
 #define DIS_ON 			1
 #define DIS_OFF 		0
@@ -37,10 +36,12 @@ typedef struct
     uint8_t  ntc1_temp;
     uint8_t  ntc2_temp;
     uint8_t  ntc3_temp;
+    uint8_t  sync_switch;
 }GUI_INFO;
 
 typedef struct 
 {
+    uint8_t  update_flag;
     uint8_t  beat_allow_flag;
     uint8_t  beat_start_flag;
     uint8_t  beat_select;
@@ -61,6 +62,8 @@ void dis_bake_windspeed( uint8_t on_off );
 void screen_test( void );
 void check_icon( uint8_t icon_select );
 void gui_init( void );
-
+void refresh_icon( void );
+void sync_switch( void );
+void update_fun( void );
 #endif
 

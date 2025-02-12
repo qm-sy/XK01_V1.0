@@ -80,25 +80,15 @@ void Modbus_Event( void )
 
 void Modbus_Fun3()
 {
-	slave_pwm.fan_info = rs485.rcvbuf[4];     
-    if((slave_pwm.fan_info & 0xFE) & 0X01)
-    {
-        slave_pwm.fan_pwm7_statu = 1;
-    }else
-    {
-        slave_pwm.fan_pwm7_statu = 0;
-    }
-
-    if((slave_pwm.fan_info & 0xFD) & 0X02)
-    {
-        slave_pwm.fan_pwm8_statu = 1;
-    }else
-    {
-        slave_pwm.fan_pwm8_statu = 0;
-    }
-
-    slave_pwm.fan_pwm7_level = ((slave_pwm.fan_info>>2) & 0x07) / 184;
-    slave_pwm.fan_pwm8_level = (slave_pwm.fan_info>>5) / 184;
+    modbus.NTC1_current_value = rs485.rcvbuf[2];
+    modbus.NTC2_current_value = rs485.rcvbuf[3];
+    modbus.NTC3_current_value = rs485.rcvbuf[4];
+    modbus.I_out1_value       = rs485.rcvbuf[5];
+    modbus.I_out2_value       = rs485.rcvbuf[6];
+    modbus.I_out3_value       = rs485.rcvbuf[7];
+    modbus.AC220_info         = rs485.rcvbuf[8];
+    modbus.PWM_info           = rs485.rcvbuf[9]; 
+    modbus.update_flag = 1;
 }
 
 void Modbus_Fun4()
