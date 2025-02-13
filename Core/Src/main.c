@@ -137,13 +137,13 @@ int main(void)
 	LCD_Clear(WHITE);
 	//printf("========= code start ========= \r\n");
 	
-  get_slave_init_statu_multifunpower();
-  //slave_statu_query_modify(0X04,0X02,3,0xFF);
-  key_init();
-  gui_init();
-  screen_test();
-  modbus.modbus_04_scan_flag = 0;
-  modbus.modbus_04_scan_allow = 1;
+	get_slave_init_statu_multifunpower();
+	//slave_statu_query_modify(0X04,0X02,3,0xFF);
+	key_init();
+	gui_init();
+	screen_test();
+	modbus.modbus_04_scan_flag = 0;
+	modbus.modbus_04_scan_allow = 1;
   /* USER CODE END 2 */
 
   /* Infinite loop */

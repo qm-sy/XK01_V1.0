@@ -64,7 +64,6 @@ void key_scan( void )
 
 void key1_press()
 {
-    printf("key1 press \r\n");
     RS485_TX;
     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
     buzzer_flag = 1;
@@ -106,6 +105,7 @@ void key1_press()
             gui_beat.beat_switch = BEAT_ON;
             key.gui_key2_allow_flag = 0;
             key.gui_key3_allow_flag = 0;
+            modbus.modbus_04_scan_allow = 0;
         }
 
     }
@@ -116,12 +116,15 @@ void key1_press()
 
 void key2_press()
 {
-    printf("key2 press \r\n");
-    
+
     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
     if( gui_beat.beat_switch == 0 )
     {
         gui_info.fan_level += 1;
+        if( gui_info.fan_level >= 6 )
+        {
+            gui_info.fan_level = 6;
+        }
         LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
         write_slave_reg();
     }
@@ -131,26 +134,50 @@ void key2_press()
         {
             case NTC_TEMP1_STR:
                 gui_info.ntc1_temp += 1;
+                if( gui_info.ntc1_temp >= 120 )
+                {
+                    gui_info.ntc1_temp = 120;
+                }
                 break;
 
             case NTC_TEMP2_STR:
                 gui_info.ntc2_temp += 1;
+                if( gui_info.ntc2_temp >= 120 )
+                {
+                    gui_info.ntc2_temp = 120;
+                }
                 break;
 
             case NTC_TEMP3_STR:
                 gui_info.ntc3_temp += 1;
+                if( gui_info.ntc3_temp >= 120 )
+                {
+                    gui_info.ntc3_temp = 120;
+                }
                 break;
 
             case FAN_LEVEL_STR:
                 gui_info.fan_level += 1;
+                if( gui_info.fan_level >= 6 )
+                {
+                    gui_info.fan_level = 6;
+                }
                 break;
 
             case BAKE_POWER_STR:
                 gui_info.bake_power_percentage += 5;
+                if( gui_info.bake_power_percentage >= 100 )
+                {
+                    gui_info.bake_power_percentage = 100;
+                }
                 break;
 
             case BAKE_WIND_STR:
                 gui_info.bake_wind_level += 1;
+                if( gui_info.bake_wind_level >= 6 )
+                {
+                    gui_info.bake_wind_level = 6;
+                }
                 break;
 
             default:
@@ -163,12 +190,16 @@ void key2_press()
 
 void key3_press()
 {
-    printf("key3 press \r\n");
+
     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
     buzzer_flag = 1;
     if( gui_beat.beat_switch == 0 )
     {
         gui_info.fan_level -= 1;
+        if( gui_info.fan_level <= 0 )
+        {
+            gui_info.fan_level = 0;
+        }
         LCD_ShowNum(135,165,gui_info.fan_level,1,32,POINT_COLOR,BACK_COLOR);
         write_slave_reg();
     }
@@ -178,26 +209,50 @@ void key3_press()
         {
             case NTC_TEMP1_STR:
                 gui_info.ntc1_temp -= 1;
+                if( gui_info.ntc1_temp <= 10 )
+                {
+                    gui_info.ntc1_temp = 10;
+                }
                 break;
 
             case NTC_TEMP2_STR:
                 gui_info.ntc2_temp -= 1;
+                if( gui_info.ntc2_temp <= 10 )
+                {
+                    gui_info.ntc2_temp = 10;
+                }
                 break;
 
             case NTC_TEMP3_STR:
                 gui_info.ntc3_temp -= 1;
+                if( gui_info.ntc3_temp <= 10 )
+                {
+                    gui_info.ntc3_temp = 10;
+                }
                 break;
 
             case FAN_LEVEL_STR:
                 gui_info.fan_level -= 1;
+                if( gui_info.fan_level <= 0 )
+                {
+                    gui_info.fan_level = 0;
+                }
                 break;
 
             case BAKE_POWER_STR:
                 gui_info.bake_power_percentage -= 5;
+                if( gui_info.bake_power_percentage <= 30 )
+                {
+                    gui_info.bake_power_percentage = 30;
+                }
                 break;
 
             case BAKE_WIND_STR:
                 gui_info.bake_wind_level -= 1;
+                if( gui_info.bake_wind_level <= 0 )
+                {
+                    gui_info.bake_wind_level = 0;
+                }
                 break;
 
             default:
@@ -210,7 +265,7 @@ void key3_press()
 
 void key4_press()
 {
-    printf("key4 press \r\n");
+
     HAL_GPIO_WritePin(BUZZER_GPIO_Port,BUZZER_Pin,GPIO_PIN_SET);
     buzzer_flag = 1;
     if( gui_beat.beat_switch == 0 )
@@ -224,8 +279,10 @@ void key4_press()
             key.key4_press_cnt = 0;
             key.key1_press_cnt = 0;
             gui_beat.beat_switch = 0;
+            modbus.modbus_04_scan_allow = 1;
             gui_beat.beat_select = KONG;
             key.key_init_flag = 1;
+            
             write_slave_reg();
         }
         if(key.gui_key4_allow_flag == 1)
@@ -282,6 +339,7 @@ void jump_to_init( void )
     key.key4_press_cnt = 0;
     
     gui_beat.beat_switch = 0;
+    modbus.modbus_04_scan_allow = 1;
     gui_beat.beat_select = KONG;
 
     key.key_init_flag = 1;

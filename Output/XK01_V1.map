@@ -750,9 +750,12 @@ Section Cross References
     gui.o(i.update_fun) refers to modbus_rtu.o(i.get_slave_current_statu_multifunpower) for get_slave_current_statu_multifunpower
     gui.o(i.update_fun) refers to delay.o(i.delay_ms) for delay_ms
     gui.o(i.update_fun) refers to st7789v2.o(i.LCD_ShowNum) for LCD_ShowNum
+    gui.o(i.update_fun) refers to st7789v2.o(i.LCD_Show_Image_Internal_Flash) for LCD_Show_Image_Internal_Flash
     gui.o(i.update_fun) refers to st7789v2.o(.data) for BACK_COLOR
     gui.o(i.update_fun) refers to st7789v2.o(.data) for POINT_COLOR
     gui.o(i.update_fun) refers to modbus_rtu.o(.bss) for modbus
+    gui.o(i.update_fun) refers to gui.o(.bss) for .bss
+    gui.o(i.update_fun) refers to gui.o(.constdata) for .constdata
     st7789v2.o(i.HAL_SPI_TxCpltCallback) refers to st7789v2.o(.data) for .data
     st7789v2.o(i.LCD_Address_Set) refers to st7789v2.o(i.LCD_Write_Cmd) for LCD_Write_Cmd
     st7789v2.o(i.LCD_Address_Set) refers to st7789v2.o(i.LCD_Write_Data_16bit) for LCD_Write_Data_16bit
@@ -850,14 +853,14 @@ Section Cross References
     power_crl.o(i.power_crl) refers to power_crl.o(.data) for .data
     key_crl.o(i.jump_to_init) refers to key_crl.o(.bss) for .bss
     key_crl.o(i.jump_to_init) refers to gui.o(.data) for gui_beat
-    key_crl.o(i.key1_press) refers to printfb.o(i.__0printf$bare) for __2printf
+    key_crl.o(i.jump_to_init) refers to modbus_rtu.o(.bss) for modbus
     key_crl.o(i.key1_press) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
     key_crl.o(i.key1_press) refers to delay.o(i.delay_ms) for delay_ms
     key_crl.o(i.key1_press) refers to key_crl.o(i.jump_to_init) for jump_to_init
     key_crl.o(i.key1_press) refers to power_crl.o(.data) for buzzer_flag
     key_crl.o(i.key1_press) refers to key_crl.o(.bss) for .bss
     key_crl.o(i.key1_press) refers to gui.o(.data) for gui_beat
-    key_crl.o(i.key2_press) refers to printfb.o(i.__0printf$bare) for __2printf
+    key_crl.o(i.key1_press) refers to modbus_rtu.o(.bss) for modbus
     key_crl.o(i.key2_press) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
     key_crl.o(i.key2_press) refers to st7789v2.o(i.LCD_ShowNum) for LCD_ShowNum
     key_crl.o(i.key2_press) refers to modbus_rtu.o(i.write_slave_reg) for write_slave_reg
@@ -867,7 +870,6 @@ Section Cross References
     key_crl.o(i.key2_press) refers to st7789v2.o(.data) for BACK_COLOR
     key_crl.o(i.key2_press) refers to st7789v2.o(.data) for POINT_COLOR
     key_crl.o(i.key2_press) refers to key_crl.o(.bss) for .bss
-    key_crl.o(i.key3_press) refers to printfb.o(i.__0printf$bare) for __2printf
     key_crl.o(i.key3_press) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
     key_crl.o(i.key3_press) refers to st7789v2.o(i.LCD_ShowNum) for LCD_ShowNum
     key_crl.o(i.key3_press) refers to modbus_rtu.o(i.write_slave_reg) for write_slave_reg
@@ -878,7 +880,6 @@ Section Cross References
     key_crl.o(i.key3_press) refers to st7789v2.o(.data) for BACK_COLOR
     key_crl.o(i.key3_press) refers to st7789v2.o(.data) for POINT_COLOR
     key_crl.o(i.key3_press) refers to key_crl.o(.bss) for .bss
-    key_crl.o(i.key4_press) refers to printfb.o(i.__0printf$bare) for __2printf
     key_crl.o(i.key4_press) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
     key_crl.o(i.key4_press) refers to modbus_rtu.o(i.write_slave_reg) for write_slave_reg
     key_crl.o(i.key4_press) refers to key_crl.o(i.jump_to_init) for jump_to_init
@@ -886,6 +887,7 @@ Section Cross References
     key_crl.o(i.key4_press) refers to power_crl.o(.data) for buzzer_flag
     key_crl.o(i.key4_press) refers to gui.o(.data) for gui_beat
     key_crl.o(i.key4_press) refers to key_crl.o(.bss) for .bss
+    key_crl.o(i.key4_press) refers to modbus_rtu.o(.bss) for modbus
     key_crl.o(i.key4_press) refers to gui.o(.bss) for gui_info
     key_crl.o(i.key_init) refers to key_crl.o(.bss) for .bss
     key_crl.o(i.key_scan) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_ReadPin) for HAL_GPIO_ReadPin
@@ -1204,6 +1206,7 @@ Removing Unused input sections from the image.
     Removing main.o(.revsh_text), (4 bytes).
     Removing main.o(.rrx_text), (6 bytes).
     Removing main.o(i.fgetc), (32 bytes).
+    Removing main.o(i.fputc), (24 bytes).
     Removing gpio.o(.rev16_text), (4 bytes).
     Removing gpio.o(.revsh_text), (4 bytes).
     Removing gpio.o(.rrx_text), (6 bytes).
@@ -1723,7 +1726,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (48 bytes).
     Removing depilogue.o(.text), (186 bytes).
 
-523 unused section(s) (total 41236 bytes) removed from the image.
+524 unused section(s) (total 41260 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1760,40 +1763,40 @@ Image Symbol Table
     ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c 0x00000000   Number         0  stm32f1xx_hal_tim.o ABSOLUTE
     ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c 0x00000000   Number         0  stm32f1xx_hal_tim_ex.o ABSOLUTE
     ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c 0x00000000   Number         0  stm32f1xx_hal_uart.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry12b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
     ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdout.o ABSOLUTE
-    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
     ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
@@ -2053,51 +2056,47 @@ Image Symbol Table
     i.USART2_IRQHandler                      0x08003e44   Section        0  stm32f1xx_it.o(i.USART2_IRQHandler)
     i.UsageFault_Handler                     0x08003e50   Section        0  stm32f1xx_it.o(i.UsageFault_Handler)
     i.W25Q64_Test                            0x08003e52   Section        0  spi_flash_w25q64.o(i.W25Q64_Test)
-    i.__0printf$bare                         0x08003e54   Section        0  printfb.o(i.__0printf$bare)
-    i.__NVIC_SetPriority                     0x08003e64   Section        0  stm32f1xx_hal_cortex.o(i.__NVIC_SetPriority)
-    __NVIC_SetPriority                       0x08003e65   Thumb Code    32  stm32f1xx_hal_cortex.o(i.__NVIC_SetPriority)
-    i.__scatterload_copy                     0x08003e84   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08003e92   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08003e94   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i._printf_core                           0x08003ea2   Section        0  printfb.o(i._printf_core)
-    _printf_core                             0x08003ea3   Thumb Code    34  printfb.o(i._printf_core)
-    i.ac220_switch                           0x08003ec4   Section        0  gui.o(i.ac220_switch)
-    ac220_switch                             0x08003ec5   Thumb Code    72  gui.o(i.ac220_switch)
-    i.delay_ms                               0x08003f1c   Section        0  delay.o(i.delay_ms)
-    i.fputc                                  0x08003f40   Section        0  main.o(i.fputc)
-    i.get_slave_current_statu_multifunpower  0x08003f58   Section        0  modbus_rtu.o(i.get_slave_current_statu_multifunpower)
-    i.get_slave_init_statu_multifunpower     0x08003f9c   Section        0  modbus_rtu.o(i.get_slave_init_statu_multifunpower)
-    i.gui_init                               0x08003fe0   Section        0  gui.o(i.gui_init)
-    i.icon_beat                              0x0800401c   Section        0  gui.o(i.icon_beat)
-    i.jump_to_init                           0x08004314   Section        0  key_crl.o(i.jump_to_init)
-    i.key1_press                             0x08004338   Section        0  key_crl.o(i.key1_press)
-    i.key2_press                             0x080043f0   Section        0  key_crl.o(i.key2_press)
-    i.key3_press                             0x080044c8   Section        0  key_crl.o(i.key3_press)
-    i.key4_press                             0x080045a8   Section        0  key_crl.o(i.key4_press)
-    i.key_init                               0x0800466c   Section        0  key_crl.o(i.key_init)
-    i.key_scan                               0x0800468c   Section        0  key_crl.o(i.key_scan)
-    i.led_beat                               0x0800471c   Section        0  gui.o(i.led_beat)
-    led_beat                                 0x0800471d   Thumb Code    70  gui.o(i.led_beat)
-    i.main                                   0x08004774   Section        0  main.o(i.main)
-    i.modbus_send_data                       0x0800488c   Section        0  modbus_rtu.o(i.modbus_send_data)
-    i.power_crl                              0x080048b0   Section        0  power_crl.o(i.power_crl)
-    i.pwm_crl                                0x080048e0   Section        0  pwm_crl.o(i.pwm_crl)
-    i.refresh_icon                           0x0800491c   Section        0  gui.o(i.refresh_icon)
-    i.screen_test                            0x08004a58   Section        0  gui.o(i.screen_test)
-    i.sync_switch                            0x08004e78   Section        0  gui.o(i.sync_switch)
-    i.update_fun                             0x08004ec0   Section        0  gui.o(i.update_fun)
-    i.wait_spi1_dma_transmit                 0x08004f6c   Section        0  st7789v2.o(i.wait_spi1_dma_transmit)
-    i.write_slave_reg                        0x08004f80   Section        0  modbus_rtu.o(i.write_slave_reg)
-    .constdata                               0x0800504c   Section       18  stm32f1xx_hal_rcc.o(.constdata)
-    aPredivFactorTable                       0x0800504c   Data           2  stm32f1xx_hal_rcc.o(.constdata)
-    aPLLMULFactorTable                       0x0800504e   Data          16  stm32f1xx_hal_rcc.o(.constdata)
-    .constdata                               0x0800505e   Section       18  stm32f1xx_hal_rcc_ex.o(.constdata)
-    aPredivFactorTable                       0x0800505e   Data           2  stm32f1xx_hal_rcc_ex.o(.constdata)
-    aPLLMULFactorTable                       0x08005060   Data          16  stm32f1xx_hal_rcc_ex.o(.constdata)
-    .constdata                               0x08005070   Section       16  system_stm32f1xx.o(.constdata)
-    .constdata                               0x08005080   Section        8  system_stm32f1xx.o(.constdata)
-    .constdata                               0x08005088   Section    28022  gui.o(.constdata)
-    .constdata                               0x0800bdfe   Section    19652  st7789v2.o(.constdata)
+    i.__NVIC_SetPriority                     0x08003e54   Section        0  stm32f1xx_hal_cortex.o(i.__NVIC_SetPriority)
+    __NVIC_SetPriority                       0x08003e55   Thumb Code    32  stm32f1xx_hal_cortex.o(i.__NVIC_SetPriority)
+    i.__scatterload_copy                     0x08003e74   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08003e82   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08003e84   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.ac220_switch                           0x08003e94   Section        0  gui.o(i.ac220_switch)
+    ac220_switch                             0x08003e95   Thumb Code    72  gui.o(i.ac220_switch)
+    i.delay_ms                               0x08003eec   Section        0  delay.o(i.delay_ms)
+    i.get_slave_current_statu_multifunpower  0x08003f10   Section        0  modbus_rtu.o(i.get_slave_current_statu_multifunpower)
+    i.get_slave_init_statu_multifunpower     0x08003f54   Section        0  modbus_rtu.o(i.get_slave_init_statu_multifunpower)
+    i.gui_init                               0x08003f98   Section        0  gui.o(i.gui_init)
+    i.icon_beat                              0x08003fd4   Section        0  gui.o(i.icon_beat)
+    i.jump_to_init                           0x080042cc   Section        0  key_crl.o(i.jump_to_init)
+    i.key1_press                             0x080042f8   Section        0  key_crl.o(i.key1_press)
+    i.key2_press                             0x080043a4   Section        0  key_crl.o(i.key2_press)
+    i.key3_press                             0x080044a8   Section        0  key_crl.o(i.key3_press)
+    i.key4_press                             0x080045b8   Section        0  key_crl.o(i.key4_press)
+    i.key_init                               0x08004670   Section        0  key_crl.o(i.key_init)
+    i.key_scan                               0x08004690   Section        0  key_crl.o(i.key_scan)
+    i.led_beat                               0x08004720   Section        0  gui.o(i.led_beat)
+    led_beat                                 0x08004721   Thumb Code    70  gui.o(i.led_beat)
+    i.main                                   0x08004778   Section        0  main.o(i.main)
+    i.modbus_send_data                       0x08004890   Section        0  modbus_rtu.o(i.modbus_send_data)
+    i.power_crl                              0x080048b4   Section        0  power_crl.o(i.power_crl)
+    i.pwm_crl                                0x080048e4   Section        0  pwm_crl.o(i.pwm_crl)
+    i.refresh_icon                           0x08004920   Section        0  gui.o(i.refresh_icon)
+    i.screen_test                            0x08004a5c   Section        0  gui.o(i.screen_test)
+    i.sync_switch                            0x08004e7c   Section        0  gui.o(i.sync_switch)
+    i.update_fun                             0x08004ec4   Section        0  gui.o(i.update_fun)
+    i.wait_spi1_dma_transmit                 0x08005000   Section        0  st7789v2.o(i.wait_spi1_dma_transmit)
+    i.write_slave_reg                        0x08005014   Section        0  modbus_rtu.o(i.write_slave_reg)
+    .constdata                               0x080050e0   Section       18  stm32f1xx_hal_rcc.o(.constdata)
+    aPredivFactorTable                       0x080050e0   Data           2  stm32f1xx_hal_rcc.o(.constdata)
+    aPLLMULFactorTable                       0x080050e2   Data          16  stm32f1xx_hal_rcc.o(.constdata)
+    .constdata                               0x080050f2   Section       18  stm32f1xx_hal_rcc_ex.o(.constdata)
+    aPredivFactorTable                       0x080050f2   Data           2  stm32f1xx_hal_rcc_ex.o(.constdata)
+    aPLLMULFactorTable                       0x080050f4   Data          16  stm32f1xx_hal_rcc_ex.o(.constdata)
+    .constdata                               0x08005104   Section       16  system_stm32f1xx.o(.constdata)
+    .constdata                               0x08005114   Section        8  system_stm32f1xx.o(.constdata)
+    .constdata                               0x0800511c   Section    28022  gui.o(.constdata)
+    .constdata                               0x0800be92   Section    19652  st7789v2.o(.constdata)
     .data                                    0x20000000   Section        8  tim.o(.data)
     switch_flag                              0x20000000   Data           1  tim.o(.data)
     phase_flag                               0x20000001   Data           1  tim.o(.data)
@@ -2115,17 +2114,16 @@ Image Symbol Table
     .data                                    0x20000026   Section        4  power_crl.o(.data)
     .data                                    0x2000002a   Section        1  power_crl.o(.data)
     .data                                    0x2000002b   Section        1  power_crl.o(.data)
-    .data                                    0x2000002c   Section        4  stdout.o(.data)
-    .bss                                     0x20000030   Section       48  adc.o(.bss)
-    .bss                                     0x20000060   Section      380  spi.o(.bss)
-    .bss                                     0x200001dc   Section      288  tim.o(.bss)
-    .bss                                     0x200002fc   Section      280  usart.o(.bss)
-    .bss                                     0x20000414   Section        9  gui.o(.bss)
-    .bss                                     0x2000041d   Section     1536  st7789v2.o(.bss)
-    lcd_buf                                  0x2000041d   Data        1536  st7789v2.o(.bss)
-    .bss                                     0x20000a1e   Section       12  key_crl.o(.bss)
-    .bss                                     0x20000a2a   Section      204  communication.o(.bss)
-    .bss                                     0x20000af6   Section      113  modbus_rtu.o(.bss)
+    .bss                                     0x2000002c   Section       48  adc.o(.bss)
+    .bss                                     0x2000005c   Section      380  spi.o(.bss)
+    .bss                                     0x200001d8   Section      288  tim.o(.bss)
+    .bss                                     0x200002f8   Section      280  usart.o(.bss)
+    .bss                                     0x20000410   Section        9  gui.o(.bss)
+    .bss                                     0x20000419   Section     1536  st7789v2.o(.bss)
+    lcd_buf                                  0x20000419   Data        1536  st7789v2.o(.bss)
+    .bss                                     0x20000a1a   Section       12  key_crl.o(.bss)
+    .bss                                     0x20000a26   Section      204  communication.o(.bss)
+    .bss                                     0x20000af2   Section      113  modbus_rtu.o(.bss)
     STACK                                    0x20000b68   Section     1024  startup_stm32f103xe.o(STACK)
 
     Global Symbols
@@ -2347,56 +2345,52 @@ Image Symbol Table
     USART2_IRQHandler                        0x08003e45   Thumb Code     6  stm32f1xx_it.o(i.USART2_IRQHandler)
     UsageFault_Handler                       0x08003e51   Thumb Code     2  stm32f1xx_it.o(i.UsageFault_Handler)
     W25Q64_Test                              0x08003e53   Thumb Code     2  spi_flash_w25q64.o(i.W25Q64_Test)
-    __0printf$bare                           0x08003e55   Thumb Code     8  printfb.o(i.__0printf$bare)
-    __1printf$bare                           0x08003e55   Thumb Code     0  printfb.o(i.__0printf$bare)
-    __2printf                                0x08003e55   Thumb Code     0  printfb.o(i.__0printf$bare)
-    __scatterload_copy                       0x08003e85   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08003e93   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08003e95   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    delay_ms                                 0x08003f1d   Thumb Code    36  delay.o(i.delay_ms)
-    fputc                                    0x08003f41   Thumb Code    20  main.o(i.fputc)
-    get_slave_current_statu_multifunpower    0x08003f59   Thumb Code    52  modbus_rtu.o(i.get_slave_current_statu_multifunpower)
-    get_slave_init_statu_multifunpower       0x08003f9d   Thumb Code    52  modbus_rtu.o(i.get_slave_init_statu_multifunpower)
-    gui_init                                 0x08003fe1   Thumb Code    50  gui.o(i.gui_init)
-    icon_beat                                0x0800401d   Thumb Code   732  gui.o(i.icon_beat)
-    jump_to_init                             0x08004315   Thumb Code    26  key_crl.o(i.jump_to_init)
-    key1_press                               0x08004339   Thumb Code   150  key_crl.o(i.key1_press)
-    key2_press                               0x080043f1   Thumb Code   174  key_crl.o(i.key2_press)
-    key3_press                               0x080044c9   Thumb Code   180  key_crl.o(i.key3_press)
-    key4_press                               0x080045a9   Thumb Code   160  key_crl.o(i.key4_press)
-    key_init                                 0x0800466d   Thumb Code    26  key_crl.o(i.key_init)
-    key_scan                                 0x0800468d   Thumb Code   134  key_crl.o(i.key_scan)
-    main                                     0x08004775   Thumb Code   238  main.o(i.main)
-    modbus_send_data                         0x0800488d   Thumb Code    30  modbus_rtu.o(i.modbus_send_data)
-    power_crl                                0x080048b1   Thumb Code    40  power_crl.o(i.power_crl)
-    pwm_crl                                  0x080048e1   Thumb Code    50  pwm_crl.o(i.pwm_crl)
-    refresh_icon                             0x0800491d   Thumb Code   276  gui.o(i.refresh_icon)
-    screen_test                              0x08004a59   Thumb Code  1056  gui.o(i.screen_test)
-    sync_switch                              0x08004e79   Thumb Code    62  gui.o(i.sync_switch)
-    update_fun                               0x08004ec1   Thumb Code   158  gui.o(i.update_fun)
-    wait_spi1_dma_transmit                   0x08004f6d   Thumb Code    14  st7789v2.o(i.wait_spi1_dma_transmit)
-    write_slave_reg                          0x08004f81   Thumb Code   190  modbus_rtu.o(i.write_slave_reg)
-    AHBPrescTable                            0x08005070   Data          16  system_stm32f1xx.o(.constdata)
-    APBPrescTable                            0x08005080   Data           8  system_stm32f1xx.o(.constdata)
-    gImage_connect_on                        0x08005088   Data        1740  gui.o(.constdata)
-    gImage_sync                              0x08005754   Data        1800  gui.o(.constdata)
-    gImage_temp_stop                         0x08005e5c   Data        1800  gui.o(.constdata)
-    gImage_temp_running                      0x08006564   Data        1800  gui.o(.constdata)
-    gImage_temp_set                          0x08006c6c   Data        2048  gui.o(.constdata)
-    gImage_ac220_on                          0x0800746c   Data        5148  gui.o(.constdata)
-    gImage_ac220_off                         0x08008888   Data        5148  gui.o(.constdata)
-    gImage_led_on                            0x08009ca4   Data        2048  gui.o(.constdata)
-    gImage_led_off                           0x0800a4a4   Data        2048  gui.o(.constdata)
-    gImage_fan_on                            0x0800aca4   Data        2048  gui.o(.constdata)
-    gImage_bake_on                           0x0800b4a4   Data        1512  gui.o(.constdata)
-    gImage_sheshidu_big                      0x0800ba8c   Data         882  gui.o(.constdata)
-    asc2_1206                                0x0800bdfe   Data        1140  st7789v2.o(.constdata)
-    asc2_1608                                0x0800c272   Data        1520  st7789v2.o(.constdata)
-    asc2_2412                                0x0800c862   Data        4560  st7789v2.o(.constdata)
-    asc2_3216                                0x0800da32   Data       12160  st7789v2.o(.constdata)
-    tfont16                                  0x080109b2   Data         272  st7789v2.o(.constdata)
-    Region$$Table$$Base                      0x08010ac4   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08010ae4   Number         0  anon$$obj.o(Region$$Table)
+    __scatterload_copy                       0x08003e75   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08003e83   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08003e85   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    delay_ms                                 0x08003eed   Thumb Code    36  delay.o(i.delay_ms)
+    get_slave_current_statu_multifunpower    0x08003f11   Thumb Code    52  modbus_rtu.o(i.get_slave_current_statu_multifunpower)
+    get_slave_init_statu_multifunpower       0x08003f55   Thumb Code    52  modbus_rtu.o(i.get_slave_init_statu_multifunpower)
+    gui_init                                 0x08003f99   Thumb Code    50  gui.o(i.gui_init)
+    icon_beat                                0x08003fd5   Thumb Code   732  gui.o(i.icon_beat)
+    jump_to_init                             0x080042cd   Thumb Code    32  key_crl.o(i.jump_to_init)
+    key1_press                               0x080042f9   Thumb Code   150  key_crl.o(i.key1_press)
+    key2_press                               0x080043a5   Thumb Code   236  key_crl.o(i.key2_press)
+    key3_press                               0x080044a9   Thumb Code   242  key_crl.o(i.key3_press)
+    key4_press                               0x080045b9   Thumb Code   160  key_crl.o(i.key4_press)
+    key_init                                 0x08004671   Thumb Code    26  key_crl.o(i.key_init)
+    key_scan                                 0x08004691   Thumb Code   134  key_crl.o(i.key_scan)
+    main                                     0x08004779   Thumb Code   238  main.o(i.main)
+    modbus_send_data                         0x08004891   Thumb Code    30  modbus_rtu.o(i.modbus_send_data)
+    power_crl                                0x080048b5   Thumb Code    40  power_crl.o(i.power_crl)
+    pwm_crl                                  0x080048e5   Thumb Code    50  pwm_crl.o(i.pwm_crl)
+    refresh_icon                             0x08004921   Thumb Code   276  gui.o(i.refresh_icon)
+    screen_test                              0x08004a5d   Thumb Code  1056  gui.o(i.screen_test)
+    sync_switch                              0x08004e7d   Thumb Code    62  gui.o(i.sync_switch)
+    update_fun                               0x08004ec5   Thumb Code   296  gui.o(i.update_fun)
+    wait_spi1_dma_transmit                   0x08005001   Thumb Code    14  st7789v2.o(i.wait_spi1_dma_transmit)
+    write_slave_reg                          0x08005015   Thumb Code   190  modbus_rtu.o(i.write_slave_reg)
+    AHBPrescTable                            0x08005104   Data          16  system_stm32f1xx.o(.constdata)
+    APBPrescTable                            0x08005114   Data           8  system_stm32f1xx.o(.constdata)
+    gImage_connect_on                        0x0800511c   Data        1740  gui.o(.constdata)
+    gImage_sync                              0x080057e8   Data        1800  gui.o(.constdata)
+    gImage_temp_stop                         0x08005ef0   Data        1800  gui.o(.constdata)
+    gImage_temp_running                      0x080065f8   Data        1800  gui.o(.constdata)
+    gImage_temp_set                          0x08006d00   Data        2048  gui.o(.constdata)
+    gImage_ac220_on                          0x08007500   Data        5148  gui.o(.constdata)
+    gImage_ac220_off                         0x0800891c   Data        5148  gui.o(.constdata)
+    gImage_led_on                            0x08009d38   Data        2048  gui.o(.constdata)
+    gImage_led_off                           0x0800a538   Data        2048  gui.o(.constdata)
+    gImage_fan_on                            0x0800ad38   Data        2048  gui.o(.constdata)
+    gImage_bake_on                           0x0800b538   Data        1512  gui.o(.constdata)
+    gImage_sheshidu_big                      0x0800bb20   Data         882  gui.o(.constdata)
+    asc2_1206                                0x0800be92   Data        1140  st7789v2.o(.constdata)
+    asc2_1608                                0x0800c306   Data        1520  st7789v2.o(.constdata)
+    asc2_2412                                0x0800c8f6   Data        4560  st7789v2.o(.constdata)
+    asc2_3216                                0x0800dac6   Data       12160  st7789v2.o(.constdata)
+    tfont16                                  0x08010a46   Data         272  st7789v2.o(.constdata)
+    Region$$Table$$Base                      0x08010b58   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08010b78   Number         0  anon$$obj.o(Region$$Table)
     uwTickFreq                               0x20000008   Data           1  stm32f1xx_hal.o(.data)
     uwTickPrio                               0x2000000c   Data           4  stm32f1xx_hal.o(.data)
     uwTick                                   0x20000010   Data           4  stm32f1xx_hal.o(.data)
@@ -2409,25 +2403,24 @@ Image Symbol Table
     power_phase_delay                        0x20000028   Data           2  power_crl.o(.data)
     power_ch1_statu                          0x2000002a   Data           1  power_crl.o(.data)
     buzzer_flag                              0x2000002b   Data           1  power_crl.o(.data)
-    __stdout                                 0x2000002c   Data           4  stdout.o(.data)
-    hadc1                                    0x20000030   Data          48  adc.o(.bss)
-    hspi1                                    0x20000060   Data          88  spi.o(.bss)
-    hspi2                                    0x200000b8   Data          88  spi.o(.bss)
-    hdma_spi1_tx                             0x20000110   Data          68  spi.o(.bss)
-    hdma_spi2_rx                             0x20000154   Data          68  spi.o(.bss)
-    hdma_spi2_tx                             0x20000198   Data          68  spi.o(.bss)
-    htim4                                    0x200001dc   Data          72  tim.o(.bss)
-    htim5                                    0x20000224   Data          72  tim.o(.bss)
-    htim6                                    0x2000026c   Data          72  tim.o(.bss)
-    htim7                                    0x200002b4   Data          72  tim.o(.bss)
-    huart1                                   0x200002fc   Data          72  usart.o(.bss)
-    huart2                                   0x20000344   Data          72  usart.o(.bss)
-    hdma_usart2_rx                           0x2000038c   Data          68  usart.o(.bss)
-    hdma_usart2_tx                           0x200003d0   Data          68  usart.o(.bss)
-    gui_info                                 0x20000414   Data           9  gui.o(.bss)
-    key                                      0x20000a1e   Data          12  key_crl.o(.bss)
-    rs485                                    0x20000a2a   Data         204  communication.o(.bss)
-    modbus                                   0x20000af6   Data         113  modbus_rtu.o(.bss)
+    hadc1                                    0x2000002c   Data          48  adc.o(.bss)
+    hspi1                                    0x2000005c   Data          88  spi.o(.bss)
+    hspi2                                    0x200000b4   Data          88  spi.o(.bss)
+    hdma_spi1_tx                             0x2000010c   Data          68  spi.o(.bss)
+    hdma_spi2_rx                             0x20000150   Data          68  spi.o(.bss)
+    hdma_spi2_tx                             0x20000194   Data          68  spi.o(.bss)
+    htim4                                    0x200001d8   Data          72  tim.o(.bss)
+    htim5                                    0x20000220   Data          72  tim.o(.bss)
+    htim6                                    0x20000268   Data          72  tim.o(.bss)
+    htim7                                    0x200002b0   Data          72  tim.o(.bss)
+    huart1                                   0x200002f8   Data          72  usart.o(.bss)
+    huart2                                   0x20000340   Data          72  usart.o(.bss)
+    hdma_usart2_rx                           0x20000388   Data          68  usart.o(.bss)
+    hdma_usart2_tx                           0x200003cc   Data          68  usart.o(.bss)
+    gui_info                                 0x20000410   Data           9  gui.o(.bss)
+    key                                      0x20000a1a   Data          12  key_crl.o(.bss)
+    rs485                                    0x20000a26   Data         204  communication.o(.bss)
+    modbus                                   0x20000af2   Data         113  modbus_rtu.o(.bss)
     __initial_sp                             0x20000f68   Data           0  startup_stm32f103xe.o(STACK)
 
 
@@ -2438,9 +2431,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000131
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00010b14, Max: 0x00040000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00010ba4, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00010ae4, Max: 0x00040000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00010b78, Max: 0x00040000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2640,73 +2633,70 @@ Memory Map of the image
     0x08003e44   0x08003e44   0x0000000c   Code   RO          547    i.USART2_IRQHandler  stm32f1xx_it.o
     0x08003e50   0x08003e50   0x00000002   Code   RO          548    i.UsageFault_Handler  stm32f1xx_it.o
     0x08003e52   0x08003e52   0x00000002   Code   RO         4043    i.W25Q64_Test       spi_flash_w25q64.o
-    0x08003e54   0x08003e54   0x00000010   Code   RO         4410    i.__0printf$bare    mc_w.l(printfb.o)
-    0x08003e64   0x08003e64   0x00000020   Code   RO         1512    i.__NVIC_SetPriority  stm32f1xx_hal_cortex.o
-    0x08003e84   0x08003e84   0x0000000e   Code   RO         4711    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08003e92   0x08003e92   0x00000002   Code   RO         4712    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08003e94   0x08003e94   0x0000000e   Code   RO         4713    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08003ea2   0x08003ea2   0x00000022   Code   RO         4417    i._printf_core      mc_w.l(printfb.o)
-    0x08003ec4   0x08003ec4   0x00000058   Code   RO         3695    i.ac220_switch      gui.o
-    0x08003f1c   0x08003f1c   0x00000024   Code   RO         4368    i.delay_ms          delay.o
-    0x08003f40   0x08003f40   0x00000018   Code   RO           16    i.fputc             main.o
-    0x08003f58   0x08003f58   0x00000044   Code   RO         4286    i.get_slave_current_statu_multifunpower  modbus_rtu.o
-    0x08003f9c   0x08003f9c   0x00000044   Code   RO         4287    i.get_slave_init_statu_multifunpower  modbus_rtu.o
-    0x08003fe0   0x08003fe0   0x0000003c   Code   RO         3696    i.gui_init          gui.o
-    0x0800401c   0x0800401c   0x000002f8   Code   RO         3697    i.icon_beat         gui.o
-    0x08004314   0x08004314   0x00000024   Code   RO         4157    i.jump_to_init      key_crl.o
-    0x08004338   0x08004338   0x000000b8   Code   RO         4158    i.key1_press        key_crl.o
-    0x080043f0   0x080043f0   0x000000d8   Code   RO         4159    i.key2_press        key_crl.o
-    0x080044c8   0x080044c8   0x000000e0   Code   RO         4160    i.key3_press        key_crl.o
-    0x080045a8   0x080045a8   0x000000c4   Code   RO         4161    i.key4_press        key_crl.o
-    0x0800466c   0x0800466c   0x00000020   Code   RO         4162    i.key_init          key_crl.o
-    0x0800468c   0x0800468c   0x00000090   Code   RO         4163    i.key_scan          key_crl.o
-    0x0800471c   0x0800471c   0x00000058   Code   RO         3698    i.led_beat          gui.o
-    0x08004774   0x08004774   0x00000118   Code   RO           17    i.main              main.o
-    0x0800488c   0x0800488c   0x00000024   Code   RO         4288    i.modbus_send_data  modbus_rtu.o
-    0x080048b0   0x080048b0   0x00000030   Code   RO         4117    i.power_crl         power_crl.o
-    0x080048e0   0x080048e0   0x0000003c   Code   RO         4010    i.pwm_crl           pwm_crl.o
-    0x0800491c   0x0800491c   0x0000013c   Code   RO         3699    i.refresh_icon      gui.o
-    0x08004a58   0x08004a58   0x00000420   Code   RO         3700    i.screen_test       gui.o
-    0x08004e78   0x08004e78   0x00000048   Code   RO         3701    i.sync_switch       gui.o
-    0x08004ec0   0x08004ec0   0x000000ac   Code   RO         3702    i.update_fun        gui.o
-    0x08004f6c   0x08004f6c   0x00000014   Code   RO         3816    i.wait_spi1_dma_transmit  st7789v2.o
-    0x08004f80   0x08004f80   0x000000cc   Code   RO         4290    i.write_slave_reg   modbus_rtu.o
-    0x0800504c   0x0800504c   0x00000012   Data   RO         1210    .constdata          stm32f1xx_hal_rcc.o
-    0x0800505e   0x0800505e   0x00000012   Data   RO         1302    .constdata          stm32f1xx_hal_rcc_ex.o
-    0x08005070   0x08005070   0x00000010   Data   RO         3659    .constdata          system_stm32f1xx.o
-    0x08005080   0x08005080   0x00000008   Data   RO         3660    .constdata          system_stm32f1xx.o
-    0x08005088   0x08005088   0x00006d76   Data   RO         3705    .constdata          gui.o
-    0x0800bdfe   0x0800bdfe   0x00004cc4   Data   RO         3818    .constdata          st7789v2.o
-    0x08010ac2   0x08010ac2   0x00000002   PAD
-    0x08010ac4   0x08010ac4   0x00000020   Data   RO         4709    Region$$Table       anon$$obj.o
+    0x08003e54   0x08003e54   0x00000020   Code   RO         1512    i.__NVIC_SetPriority  stm32f1xx_hal_cortex.o
+    0x08003e74   0x08003e74   0x0000000e   Code   RO         4711    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08003e82   0x08003e82   0x00000002   Code   RO         4712    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08003e84   0x08003e84   0x0000000e   Code   RO         4713    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08003e92   0x08003e92   0x00000002   PAD
+    0x08003e94   0x08003e94   0x00000058   Code   RO         3695    i.ac220_switch      gui.o
+    0x08003eec   0x08003eec   0x00000024   Code   RO         4368    i.delay_ms          delay.o
+    0x08003f10   0x08003f10   0x00000044   Code   RO         4286    i.get_slave_current_statu_multifunpower  modbus_rtu.o
+    0x08003f54   0x08003f54   0x00000044   Code   RO         4287    i.get_slave_init_statu_multifunpower  modbus_rtu.o
+    0x08003f98   0x08003f98   0x0000003c   Code   RO         3696    i.gui_init          gui.o
+    0x08003fd4   0x08003fd4   0x000002f8   Code   RO         3697    i.icon_beat         gui.o
+    0x080042cc   0x080042cc   0x0000002c   Code   RO         4157    i.jump_to_init      key_crl.o
+    0x080042f8   0x080042f8   0x000000ac   Code   RO         4158    i.key1_press        key_crl.o
+    0x080043a4   0x080043a4   0x00000104   Code   RO         4159    i.key2_press        key_crl.o
+    0x080044a8   0x080044a8   0x00000110   Code   RO         4160    i.key3_press        key_crl.o
+    0x080045b8   0x080045b8   0x000000b8   Code   RO         4161    i.key4_press        key_crl.o
+    0x08004670   0x08004670   0x00000020   Code   RO         4162    i.key_init          key_crl.o
+    0x08004690   0x08004690   0x00000090   Code   RO         4163    i.key_scan          key_crl.o
+    0x08004720   0x08004720   0x00000058   Code   RO         3698    i.led_beat          gui.o
+    0x08004778   0x08004778   0x00000118   Code   RO           17    i.main              main.o
+    0x08004890   0x08004890   0x00000024   Code   RO         4288    i.modbus_send_data  modbus_rtu.o
+    0x080048b4   0x080048b4   0x00000030   Code   RO         4117    i.power_crl         power_crl.o
+    0x080048e4   0x080048e4   0x0000003c   Code   RO         4010    i.pwm_crl           pwm_crl.o
+    0x08004920   0x08004920   0x0000013c   Code   RO         3699    i.refresh_icon      gui.o
+    0x08004a5c   0x08004a5c   0x00000420   Code   RO         3700    i.screen_test       gui.o
+    0x08004e7c   0x08004e7c   0x00000048   Code   RO         3701    i.sync_switch       gui.o
+    0x08004ec4   0x08004ec4   0x0000013c   Code   RO         3702    i.update_fun        gui.o
+    0x08005000   0x08005000   0x00000014   Code   RO         3816    i.wait_spi1_dma_transmit  st7789v2.o
+    0x08005014   0x08005014   0x000000cc   Code   RO         4290    i.write_slave_reg   modbus_rtu.o
+    0x080050e0   0x080050e0   0x00000012   Data   RO         1210    .constdata          stm32f1xx_hal_rcc.o
+    0x080050f2   0x080050f2   0x00000012   Data   RO         1302    .constdata          stm32f1xx_hal_rcc_ex.o
+    0x08005104   0x08005104   0x00000010   Data   RO         3659    .constdata          system_stm32f1xx.o
+    0x08005114   0x08005114   0x00000008   Data   RO         3660    .constdata          system_stm32f1xx.o
+    0x0800511c   0x0800511c   0x00006d76   Data   RO         3705    .constdata          gui.o
+    0x0800be92   0x0800be92   0x00004cc4   Data   RO         3818    .constdata          st7789v2.o
+    0x08010b56   0x08010b56   0x00000002   PAD
+    0x08010b58   0x08010b58   0x00000020   Data   RO         4709    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08010ae4, Size: 0x00000f68, Max: 0x0000c000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08010b78, Size: 0x00000f68, Max: 0x0000c000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08010ae4   0x00000008   Data   RW          411    .data               tim.o
-    0x20000008   0x08010aec   0x0000000c   Data   RW         1047    .data               stm32f1xx_hal.o
-    0x20000014   0x08010af8   0x00000004   Data   RW         3661    .data               system_stm32f1xx.o
-    0x20000018   0x08010afc   0x00000007   Data   RW         3708    .data               gui.o
-    0x2000001f   0x08010b03   0x00000001   PAD
-    0x20000020   0x08010b04   0x00000004   Data   RW         3819    .data               st7789v2.o
-    0x20000024   0x08010b08   0x00000002   Data   RW         3820    .data               st7789v2.o
-    0x20000026   0x08010b0a   0x00000004   Data   RW         4118    .data               power_crl.o
-    0x2000002a   0x08010b0e   0x00000001   Data   RW         4119    .data               power_crl.o
-    0x2000002b   0x08010b0f   0x00000001   Data   RW         4123    .data               power_crl.o
-    0x2000002c   0x08010b10   0x00000004   Data   RW         4685    .data               mc_w.l(stdout.o)
-    0x20000030        -       0x00000030   Zero   RW          265    .bss                adc.o
-    0x20000060        -       0x0000017c   Zero   RW          343    .bss                spi.o
-    0x200001dc        -       0x00000120   Zero   RW          410    .bss                tim.o
-    0x200002fc        -       0x00000118   Zero   RW          482    .bss                usart.o
-    0x20000414        -       0x00000009   Zero   RW         3703    .bss                gui.o
-    0x2000041d        -       0x00000600   Zero   RW         3817    .bss                st7789v2.o
-    0x20000a1d   0x08010b14   0x00000001   PAD
-    0x20000a1e        -       0x0000000c   Zero   RW         4164    .bss                key_crl.o
-    0x20000a2a        -       0x000000cc   Zero   RW         4224    .bss                communication.o
-    0x20000af6        -       0x00000071   Zero   RW         4291    .bss                modbus_rtu.o
-    0x20000b67   0x08010b14   0x00000001   PAD
+    0x20000000   0x08010b78   0x00000008   Data   RW          411    .data               tim.o
+    0x20000008   0x08010b80   0x0000000c   Data   RW         1047    .data               stm32f1xx_hal.o
+    0x20000014   0x08010b8c   0x00000004   Data   RW         3661    .data               system_stm32f1xx.o
+    0x20000018   0x08010b90   0x00000007   Data   RW         3708    .data               gui.o
+    0x2000001f   0x08010b97   0x00000001   PAD
+    0x20000020   0x08010b98   0x00000004   Data   RW         3819    .data               st7789v2.o
+    0x20000024   0x08010b9c   0x00000002   Data   RW         3820    .data               st7789v2.o
+    0x20000026   0x08010b9e   0x00000004   Data   RW         4118    .data               power_crl.o
+    0x2000002a   0x08010ba2   0x00000001   Data   RW         4119    .data               power_crl.o
+    0x2000002b   0x08010ba3   0x00000001   Data   RW         4123    .data               power_crl.o
+    0x2000002c        -       0x00000030   Zero   RW          265    .bss                adc.o
+    0x2000005c        -       0x0000017c   Zero   RW          343    .bss                spi.o
+    0x200001d8        -       0x00000120   Zero   RW          410    .bss                tim.o
+    0x200002f8        -       0x00000118   Zero   RW          482    .bss                usart.o
+    0x20000410        -       0x00000009   Zero   RW         3703    .bss                gui.o
+    0x20000419        -       0x00000600   Zero   RW         3817    .bss                st7789v2.o
+    0x20000a19   0x08010ba4   0x00000001   PAD
+    0x20000a1a        -       0x0000000c   Zero   RW         4164    .bss                key_crl.o
+    0x20000a26        -       0x000000cc   Zero   RW         4224    .bss                communication.o
+    0x20000af2        -       0x00000071   Zero   RW         4291    .bss                modbus_rtu.o
+    0x20000b63   0x08010ba4   0x00000005   PAD
     0x20000b68        -       0x00000400   Zero   RW            1    STACK               startup_stm32f103xe.o
 
 
@@ -2722,20 +2712,20 @@ Image component sizes
         36          0          0          0          0        467   delay.o
        108          4          0          0          0        730   dma.o
        364         24          0          0          0        983   gpio.o
-      2612        200      28022          7          9       7339   gui.o
-      1032        188          0          0         12       4627   key_crl.o
-       430         46          0          0          0     519572   main.o
+      2756        206      28022          7          9       7443   gui.o
+      1108        134          0          0         12       4799   key_crl.o
+       406         42          0          0          0     517856   main.o
        798        104          0          0        113       6658   modbus_rtu.o
         64         12          0          6          0       1735   power_crl.o
         60         10          0          0          0        606   pwm_crl.o
        516         58          0          0        380       3427   spi.o
          2          0          0          0          0        402   spi_flash_w25q64.o
-      1806         82      19652          6       1536      14498   st7789v2.o
+      1806         82      19652          6       1536      14490   st7789v2.o
         36          8        304          0       1024        772   startup_stm32f103xe.o
        164         28          0         12          0       6273   stm32f1xx_hal.o
        974         38          0          0          0       5776   stm32f1xx_hal_adc.o
        218          6          0          0          0       1887   stm32f1xx_hal_adc_ex.o
-       198         14          0          0          0      28775   stm32f1xx_hal_cortex.o
+       198         14          0          0          0      28771   stm32f1xx_hal_cortex.o
       1236         52          0          0          0       4914   stm32f1xx_hal_dma.o
        548         48          0          0          0       3978   stm32f1xx_hal_gpio.o
         60          8          0          0          0        814   stm32f1xx_hal_msp.o
@@ -2751,9 +2741,9 @@ Image component sizes
        416         40          0          0        280       2409   usart.o
 
     ----------------------------------------------------------------------
-     20040       1464      48072         44       3896     680669   Object Totals
+     20236       1412      48072         44       3900     679217   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        46          0          2          1          2          0   (incl. Padding)
+        46          0          2          1          6          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2772,21 +2762,19 @@ Image component sizes
         36          8          0          0          0         68   init.o
         36          0          0          0          0         68   memcpya.o
         36          0          0          0          0        108   memseta.o
-        50          8          0          0          0        152   printfb.o
-         0          0          0          4          0          0   stdout.o
 
     ----------------------------------------------------------------------
-       212         24          0          4          0        396   Library Totals
-         0          0          0          0          0          0   (incl. Padding)
+       164         16          0          0          0        244   Library Totals
+         2          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
-       212         24          0          4          0        396   mc_w.l
+       162         16          0          0          0        244   mc_w.l
 
     ----------------------------------------------------------------------
-       212         24          0          4          0        396   Library Totals
+       164         16          0          0          0        244   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -2795,15 +2783,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     20252       1488      48072         48       3896     671753   Grand Totals
-     20252       1488      48072         48       3896     671753   ELF Image Totals
-     20252       1488      48072         48          0          0   ROM Totals
+     20400       1428      48072         44       3900     670305   Grand Totals
+     20400       1428      48072         44       3900     670305   ELF Image Totals
+     20400       1428      48072         44          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                68324 (  66.72kB)
+    Total RO  Size (Code + RO Data)                68472 (  66.87kB)
     Total RW  Size (RW Data + ZI Data)              3944 (   3.85kB)
-    Total ROM Size (Code + RO Data + RW Data)      68372 (  66.77kB)
+    Total ROM Size (Code + RO Data + RW Data)      68516 (  66.91kB)
 
 ==============================================================================
 

@@ -271,7 +271,7 @@ void icon_beat(uint8_t pic_code , uint8_t on_off )
                 break;
         }
     }
-    /* 				停�?�刷新，等待500ms后再次刷�? 				*/
+    /* 				停�?�刷新，等待500ms后再次刷�?? 				*/
     gui_beat.beat_start_flag = 0; 
 }
 
@@ -309,7 +309,7 @@ void sync_switch( void )
 void update_fun( void )
 {
     get_slave_current_statu_multifunpower();
-    delay_ms(50);
+    delay_ms(5);
     LCD_ShowNum(31,125,modbus.NTC1_current_value,3,24,POINT_COLOR,BACK_COLOR);
     LCD_ShowNum(105,125,modbus.NTC2_current_value,3,24,POINT_COLOR,BACK_COLOR);
     LCD_ShowNum(179,125,modbus.NTC3_current_value,3,24,POINT_COLOR,BACK_COLOR);
@@ -322,6 +322,29 @@ void update_fun( void )
     LCD_ShowNum(262,222,modbus.I_out1_value,2,12,DARKBLUE,BACK_COLOR);
     LCD_ShowNum(162,222,modbus.I_out2_value,2,12,DARKBLUE,BACK_COLOR);
     LCD_ShowNum(62,222,modbus.I_out3_value,2,12,DARKBLUE,BACK_COLOR);
+    if(modbus.NTC1_current_value >= gui_info.ntc1_temp)
+    {
+        LCD_Show_Image_Internal_Flash(46,92,30,30,gImage_temp_stop,1800);
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(46,92,30,30,gImage_temp_running,1800);
+    }
+
+    if(modbus.NTC2_current_value >= gui_info.ntc2_temp)
+    {
+        LCD_Show_Image_Internal_Flash(120,92,30,30,gImage_temp_stop,1800 );
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(120,92,30,30,gImage_temp_running,1800 );
+    }
+
+    if(modbus.NTC3_current_value >= gui_info.ntc3_temp)
+    {
+        LCD_Show_Image_Internal_Flash(194,92,30,30,gImage_temp_stop,1800);
+    }else
+    {
+        LCD_Show_Image_Internal_Flash(194,92,30,30,gImage_temp_running,1800);
+    }
     //ac220_switch_dis();
     //LCD_Show_Image_Internal_Flash(217,127,21,21,gImage_sheshidu_big,882);
 }
