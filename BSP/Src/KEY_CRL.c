@@ -297,11 +297,21 @@ void key4_press()
     
                 case AC220_SWITCH_ICON:
                     gui_info.ac220_switch = 1 - gui_info.ac220_switch;
+                    write_slave_reg();
                     jump_to_init();
                     break;
     
                 case LED_ICON:
                     gui_info.led_switch = 1 - gui_info.led_switch;
+                    write_slave_reg();
+                    if(gui_info.led_switch == 0)
+                    {
+                        HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_RESET);
+                    }else
+                    {
+                        HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,GPIO_PIN_SET);
+                    }
+                    
                     jump_to_init();
                     break;
     

@@ -132,7 +132,8 @@ int main(void)
 
 
 	W25Q64_Test(); 
-	pwm_crl(100,75,75,200);
+	pwm_crl(50,75,75,200);
+	
 	power_crl(70);
 	LCD_Clear(WHITE);
 	//printf("========= code start ========= \r\n");
@@ -156,7 +157,8 @@ int main(void)
     Modbus_Event();
 		//ST7789_test();
     if((modbus.modbus_04_scan_flag == 1) && (modbus.modbus_04_scan_allow ==1))
-    {
+    {+23
+        
       update_fun();
       modbus.modbus_04_scan_flag = 0;
     }

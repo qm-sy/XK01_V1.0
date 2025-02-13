@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\Output\XK01_V1.0]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\Output\XK01_V1.0</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Feb 13 10:01:33 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Feb 13 16:30:32 2025
 <BR><P>
 <H3>Maximum Stack Usage =        312 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1445,7 +1445,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ea]"></a>gui_init</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, gui.o(i.gui_init))
+<P><STRONG><a name="[ea]"></a>gui_init</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, gui.o(i.gui_init))
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1499,8 +1499,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_scan
 </UL>
 
-<P><STRONG><a name="[e2]"></a>key4_press</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, key_crl.o(i.key4_press))
-<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = key4_press &rArr; write_slave_reg &rArr; modbus_send_data &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[e2]"></a>key4_press</STRONG> (Thumb, 200 bytes, Stack size 32 bytes, key_crl.o(i.key4_press))
+<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = key4_press &rArr; write_slave_reg &rArr; modbus_send_data &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms

@@ -175,13 +175,13 @@ static void led_switch_dis( void)
 void gui_init( void )
 {
     gui_info.ac220_switch           = 1;
-    gui_info.led_switch             = 1; 
-    gui_info.fan_level              = 9;
-    gui_info.bake_power_percentage  = 5;
-    gui_info.bake_wind_level        = 4;     
-    gui_info.ntc1_temp              = 55;
-    gui_info.ntc2_temp              = 44;
-    gui_info.ntc3_temp              = 33;
+    gui_info.led_switch             = 0; 
+    gui_info.fan_level              = 3;
+    gui_info.bake_power_percentage  = 50;
+    gui_info.bake_wind_level        = 3;     
+    gui_info.ntc1_temp              = 80;
+    gui_info.ntc2_temp              = 80;
+    gui_info.ntc3_temp              = 80;
 
     gui_beat.beat_allow_flag        = 0;
     gui_beat.beat_start_flag        = 0;
